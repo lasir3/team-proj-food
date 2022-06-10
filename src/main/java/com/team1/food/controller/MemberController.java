@@ -1,7 +1,10 @@
 package com.team1.food.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -75,6 +78,19 @@ public class MemberController {
             rttr.addFlashAttribute("member", member);           
             return "redirect:/member/signup";
         }
+    }
+    
+    @GetMapping("memberlist")
+    public void list(Model model) {
+        List<MemberDto> list = service.listMember();
+        model.addAttribute("memberList", list);
+
+    }
+    
+    @GetMapping("memberget")
+    public void getMember(String id, Model model) {
+        MemberDto member = service.getMemberById(id);
+        model.addAttribute("member", member);       
     }
 
 }
