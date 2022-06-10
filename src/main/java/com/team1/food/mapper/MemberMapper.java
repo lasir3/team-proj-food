@@ -11,4 +11,7 @@ public interface MemberMapper {
 	int countMemberEmail(String email);
 
 	int countMemberNickName(String nickName);
+	
 }
+
+

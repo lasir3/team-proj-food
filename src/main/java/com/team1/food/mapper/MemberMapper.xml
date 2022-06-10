@@ -19,10 +19,9 @@
         FROM Member 
         WHERE email = #{email}
     </select>
-    
-    <select id="countMemberNickName" resultType="int">
+   	<select id="countMemberNickName" resultType="int">
 		SELECT COUNT(nickName) 
 		FROM Member 
 		WHERE nickName = #{nickName}
-	</select>
+	</select>    
 </mapper>

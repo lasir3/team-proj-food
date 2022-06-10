@@ -21,36 +21,32 @@ public class MemberController {
 	public void signupForm() {
 		
 	}
-    @PostMapping("signup")
-    public void signProcess(MemberDto member) {
-        boolean success = service.addMember(member);     
 
-        if(success) {
-
-        } else {
-
-        }
-  }
-    @GetMapping(path = "check", params = "id")
+    
+    @GetMapping(path="check", params="id")
     @ResponseBody
-    public String idCheck(String id) {
-        boolean exist = service.hasMemberId(id);        
-        if (exist) {
-            return "notOk";
-        } else {
-            return "ok";
+    public String idcheck(String id) {        
+        boolean exist = service.hasMemberId(id);   
+        
+        if (exist) {            
+        	return "notOk";
+        } else {           
+        	return "ok";
         }
+
     }
     
     @GetMapping(path = "check", params = "email")
     @ResponseBody
-    public String emailCheck(String email) {       
-        boolean exist = service.hasMemberEmail(email);      
+    public String emailCheck(String email) {        
+        boolean exist = service.hasMemberEmail(email);
+        
         if (exist) {
             return "notOk";
         } else {
             return "ok";
         }
+
     }
     
 	@GetMapping(path = "check", params = "nickName")
@@ -67,21 +63,18 @@ public class MemberController {
 	}
 	
     @PostMapping("signup")
-
     public String signupProcess(MemberDto member, RedirectAttributes rttr) {
         boolean success = service.addMember(member);
         
         if (success) {
             rttr.addFlashAttribute("message", "회원가입이 완료되었습니다.");
-            return "redirect:/board/list";
+            return "redirect:/member/signup";
 
         } else {
             rttr.addFlashAttribute("message", "회원가입이 실패하였습니다.");
-            rttr.addFlashAttribute("member", member);
-           
+            rttr.addFlashAttribute("member", member);           
             return "redirect:/member/signup";
-
         }
-
     }
+
 }

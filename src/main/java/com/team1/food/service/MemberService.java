@@ -19,16 +19,18 @@ public class MemberService {
     }
 
 	public boolean hasMemberId(String id) {
-		
-		 return mapper.countMemberId(id) > 0;
+		return mapper.countMemberId(id) > 0;
 	}
 
 	public boolean hasMemberEmail(String email) {
 		
-		return mapper.countMemberEmail(email) > 0;
+		 return mapper.countMemberEmail(email) > 0;
 	}
 
 	public boolean hasMemberNickName(String nickName) {
+		
 		return mapper.countMemberNickName(nickName) > 0;
 	}
+
+
 }
