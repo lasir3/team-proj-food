@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team1.food.mapper.AdminBoardMapper">
+
+	<select id="selectNoticeBoardAll" resultType="com.team1.food.domain.AdminNoticeBoardDto">
+	SELECT id, title, inserted
+	FROM Notice
+	ORDER BY id DESC
+	</select>
+	
+	<select id="selectNoticeBoardById" resultType="com.team1.food.domain.AdminNoticeBoardDto">
+	SELECT 	id,
+		 	title, 
+		 	content, 
+		 	memberId, 
+		 	inserted
+	FROM Notice
+	WHERE id = #{id}
+	</select>
+	
+	<insert id="insertNoticeBoard">
+	INSERT INTO Notice (title, content, memberId)
+	VALUES (#{title}, #{content}, #{memberId})
+	</insert>
+	
+	
+</mapper>
