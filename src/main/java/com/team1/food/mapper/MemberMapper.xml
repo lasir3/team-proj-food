@@ -19,6 +19,7 @@
         FROM Member 
         WHERE email = #{email}
     </select>
+    
    	<select id="countMemberNickName" resultType="int">
 		SELECT COUNT(nickName) 
 		FROM Member 
@@ -34,6 +35,7 @@
         FROM   Member
         ORDER BY inserted DESC
     </select>
+    
     <select id="selectMemberById" resultType="com.team1.food.domain.MemberDto">
         SELECT id,
                password,
@@ -42,6 +44,31 @@
                inserted
         FROM   Member
         WHERE id = #{id}
-
     </select>    
+    
+    <delete id="deleteMemberById">
+    	DELETE FROM Member
+    	WHERE id = #{id}
+    </delete>
+    
+    <update id="updateMember">
+        UPDATE Member
+        SET password = #{password},
+            email = #{email},
+            nickName = #{nickName}
+        WHERE id = #{id}
+    </update>
+        <insert id="insertAuth">
+        INSERT INTO Auth (memberId, role)
+        VALUES (#{id}, #{auth})
+    </insert>
+    
+    <delete id="deleteAuthById">
+        DELETE FROM Auth
+        WHERE memberId = #{id}
+    </delete>
 </mapper>
+
+
+
+
