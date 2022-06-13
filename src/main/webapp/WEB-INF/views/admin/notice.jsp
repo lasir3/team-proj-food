@@ -13,15 +13,21 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>공지사항</h1>
 	
 	<div class="container">
 		<div class="row">
 			<div class="col">
+				<h1>공지사항</h1>
 				
-				<c:if test="${not empty message }">
+				<c:if test="${not empty updateMessage }">
 					<div class="alert alert-primary">
-						${message }
+						${updateMessage }
+					</div>
+				</c:if>
+				
+				<c:if test="${not empty deleteMessage }">
+					<div class="alert alert-primary">
+						${deleteMessage }
 					</div>
 				</c:if>
 			
@@ -34,22 +40,22 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${noticeList }" var="notice">
+						<c:forEach items="${boardList }" var="board">
 							<tr>
 								<!-- 글번호  -->
-								<td>${notice.id }</td>	
+								<td>${board.id }</td>	
 								
 								<!--  제목 -->	
 								<td>
 									<c:url value="/admin/getNotice" var="getNoticeUrl">
-										<c:param name="id" value="${notice.id }"></c:param>
+										<c:param name="id" value="${board.id }"></c:param>
 									</c:url>
 									
-									<a href="${getNoticeUrl }">${notice.title }</a>
+									<a href="${getNoticeUrl }">${board.title }</a>
 								</td>		
 								
 								<!-- 작성시간 -->	
-								<td>${notice.inserted }</td>					
+								<td>${board.prettyInserted }</td>					
 							</tr>
 						</c:forEach>
 						

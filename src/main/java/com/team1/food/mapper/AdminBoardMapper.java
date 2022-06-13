@@ -2,14 +2,18 @@ package com.team1.food.mapper;
 
 import java.util.List;
 
-import com.team1.food.domain.AdminNoticeBoardDto;
+import com.team1.food.domain.AdminBoardDto;
 
 public interface AdminBoardMapper {
 
-	List<AdminNoticeBoardDto> selectNoticeBoardAll();
+	List<AdminBoardDto> selectNoticeBoardAll();
 
-	int insertNoticeBoard(AdminNoticeBoardDto dto);
+	int insertNoticeBoard(AdminBoardDto dto);
 
-	AdminNoticeBoardDto selectNoticeBoardById(int id);
+	AdminBoardDto selectNoticeBoardById(int id);
+
+	int updateNoticeBoard(AdminBoardDto dto);
+
+	int deleteNoticeBoardById(int id);
 	
 }
