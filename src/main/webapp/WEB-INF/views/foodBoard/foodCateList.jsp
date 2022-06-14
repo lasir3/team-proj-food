@@ -1,3 +1,4 @@
+<%@ page import="java.net.URLEncoder"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -27,11 +28,18 @@
 
 	<div class="container">
 		<h1>카테고리 목록</h1>
-		<div class="row" >
+		<div class="row">
+
 			<c:forEach items="${foodCateList }" var="cateList">
+<%-- 				<%
+				String file = (String) pageContext.getAttribute("cateList.fileName");
+				String encodedFileName = URLEncoder.encode(file, "utf-8");
+				pageContext.setAttribute("encodedFileName", encodedFileName);
+				%> --%>
 				<div class="col-sm-4">
 					<div class="card text-center mb-5">
-						<img src="https://bucket0207-230491.s3.ap-northeast-2.amazonaws.com/foodWikiFile/CateFiles/pic1.png" class="card-img-top" alt="...">
+						<img
+							src="${imageUrl }/foodWikiFile/CateFiles/${cateList.cateIndex }/${cateList.fileName }" class="card-img-top" alt="...">
 						<div class="card-body">
 							<h5 class="card-title">${cateList.cateName }</h5>
 							<a href="#" class="btn btn-primary">카테고리로 이동</a>

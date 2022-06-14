@@ -5,7 +5,12 @@
 <mapper namespace="com.team1.food.mapper.RecipeMapper">
 
 	<select id="selectCateList"  resultType="com.team1.food.domain.FoodCateDto">
-		SELECT cateIndex, cateName, memberId, authRole FROM FoodCateTable
+		SELECT cateIndex, 
+			   cateName, 
+			   memberId, 
+			   authRole,
+			   F.fileName fileName
+		FROM FoodCateTable C LEFT JOIN FileTable F ON C.cateIndex = F.cateId
 	</select>
 	
 </mapper>
