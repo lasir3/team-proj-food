@@ -2,7 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.*"%>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%request.setCharacterEncoding("utf-8");%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,12 +17,15 @@
 		color: black;
 	}
 	a{
+		color: black;
 		text-decoration: none;
 	}
 </style>
 <title>Insert title here</title>
 </head>
 <body>
+	
+	<my:navBar></my:navBar>
 	
 	<!-- 보여줄 게시글 개수 -->
 	<c:set var="numOfView" value="7"></c:set>

@@ -1,5 +1,6 @@
 package com.team1.food.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,9 +56,10 @@ public class AdminBoardController {
 	// 공지 글 작성 완료
 	@PostMapping("insertNotice")
 	public String insertNotice(AdminBoardDto dto,
-			RedirectAttributes rttr) {
+			RedirectAttributes rttr,
+			Principal principal) {
 		
-		dto.setMemberId("1"); // null이면 오류가 발생하기 때문에 임시로 넣어줌
+		dto.setMemberId(principal.getName()); 
 		
 		boolean success = service.insertNoticeBoard(dto);
 		
@@ -132,9 +134,10 @@ public class AdminBoardController {
 	
 	@PostMapping("insertRestArea")
 	public String insertRestArea(AdminBoardDto dto,
-			RedirectAttributes rttr) {
+			RedirectAttributes rttr,
+			Principal principal) {
 		
-		dto.setMemberId("1"); // null이면 오류가 발생하기 때문에 임시로 넣어줌
+		dto.setMemberId(principal.getName());
 		
 		boolean success = service.insertRestAreaBoard(dto);
 		
@@ -209,9 +212,10 @@ public class AdminBoardController {
 	
 	@PostMapping("insertAsk")
 	public String insertAsk(AdminBoardDto dto,
-			RedirectAttributes rttr) {
+			RedirectAttributes rttr,
+			Principal principal) {
 		
-		dto.setMemberId("1"); // null이면 오류가 발생하기 때문에 임시로 넣어줌
+		dto.setMemberId(principal.getName()); 
 		
 		boolean success = service.insertAskBoard(dto);
 		
@@ -287,9 +291,10 @@ public class AdminBoardController {
 	
 	@PostMapping("insertReport")
 	public String insertReport(AdminBoardDto dto,
-			RedirectAttributes rttr) {
+			RedirectAttributes rttr,
+			Principal principal) {
 		
-		dto.setMemberId("1"); // null이면 오류가 발생하기 때문에 임시로 넣어줌
+		dto.setMemberId(principal.getName()); 
 		
 		boolean success = service.insertReportBoard(dto);
 		
