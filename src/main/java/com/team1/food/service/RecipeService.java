@@ -16,13 +16,11 @@ public class RecipeService {
 	private RecipeMapper mapper;
 
 	public List<FoodCateDto> foodCateList() {
-		
 		return mapper.selectCateList();
 	}
-	
-	public List<FoodDto> foodBoard() {
-		
-		return null;
+
+	public List<FoodDto> foodList(String cateName) {
+		return mapper.selectFoodList(cateName);
 	}
 
 }

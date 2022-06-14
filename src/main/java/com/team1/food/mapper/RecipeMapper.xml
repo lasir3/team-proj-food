@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.team1.food.mapper.RecipeMapper">
 
-	<select id="selectCateList"  resultType="com.team1.food.domain.FoodCateDto">
+	<select id="selectCateList" resultType="com.team1.food.domain.FoodCateDto">
 		SELECT cateIndex, 
 			   cateName, 
 			   memberId, 
@@ -13,4 +13,7 @@
 		FROM FoodCateTable C LEFT JOIN FileTable F ON C.cateIndex = F.cateId
 	</select>
 	
+	<select id="selectFoodList" resultType="com.team1.food.domain.FoodDto">
+		SELECT foodName FROM FoodTable WHERE cateName = #{cateName}
+	</select>
 </mapper>
