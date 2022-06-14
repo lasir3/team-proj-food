@@ -11,8 +11,8 @@
 <c:url value="/logout" var="logoutUrl"></c:url>
 <c:url value="/admin/main" var="adminUrl"></c:url>
 
-<nav class="navbar navbar-expand-md navbar-light bg-light mb-3"  >
-	<div class="container">
+<nav class="navbar sticky-top navbar-expand-md navbar-light bg-light mb-3"  >
+	<div class="container-fluid">
 		<a class="navbar-brand" href="${signupUrl }">
 			<i class="fa-solid fa-house"></i>
 		</a>
