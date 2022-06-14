@@ -10,7 +10,7 @@
 	<bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
     <security:http>
         <security:csrf disabled="true" />
-        <security:form-login always-use-default-target="true" login-page="/member/login" default-target-url="/member/signup"/>
+        <security:form-login always-use-default-target="true" login-page="/member/login" default-target-url="/foodBoard/foodCateList"/>
         <security:logout logout-success-url="/member/login" />
         <security:remember-me/>
         
