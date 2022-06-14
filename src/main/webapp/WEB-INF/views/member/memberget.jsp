@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -176,7 +177,7 @@
 </script>
 </head>
 <body>
-	<my:navBar current="memberInfo"></my:navBar>
+	<my:navBar current="memberget"></my:navBar>
 	<div class="container">
 	
 		
