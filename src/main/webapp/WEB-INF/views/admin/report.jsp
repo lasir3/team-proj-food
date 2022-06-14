@@ -17,7 +17,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col">
-				<h1>공지사항</h1>
+				<h1>신고 게시판</h1>
 				
 				<c:if test="${not empty updateMessage }">
 					<div class="alert alert-primary">
@@ -47,11 +47,11 @@
 								
 								<!--  제목 -->	
 								<td>
-									<c:url value="/admin/getNotice" var="getNoticeUrl">
+									<c:url value="/admin/getReport" var="getReportUrl">
 										<c:param name="id" value="${board.id }"></c:param>
 									</c:url>
 									
-									<a href="${getNoticeUrl }" class="text-decoration-none text-body">
+									<a href="${getReportUrl }" class="text-decoration-none text-body">
 										<div style="height:100%; width:100%">
 											${board.title }
 										</div>
@@ -66,7 +66,7 @@
 					</tbody>
 				</table>
 				
-				<a href="${appRoot }/admin/insertNotice">글 쓰기</a>
+				<a href="${appRoot }/admin/insertReport">글 쓰기</a>
 				
 			</div>
 		</div>

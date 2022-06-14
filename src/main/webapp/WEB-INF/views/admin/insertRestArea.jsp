@@ -17,8 +17,8 @@
 		<div class="row">
 			<div class="col">
 			
-				<h1>공지 글 작성</h1>
-				<form action="${appRoot }/admin/insertNotice" method="post">
+				<h1>쉼터 글 작성</h1>
+				<form action="${appRoot }/admin/insertRestArea" method="post">
 				
 					<div>
 						<label class="form-label" for="input1" >제목</label>

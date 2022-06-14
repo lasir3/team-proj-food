@@ -28,7 +28,7 @@ $(document).ready(function(){
 		
 		if(confirm("삭제하시겠습니까?")){
 			let form1 = $("#form1");
-			let actionAttr = "${appRoot}/admin/deleteNotice";
+			let actionAttr = "${appRoot}/admin/deleteAsk";
 			form1.attr("action", actionAttr);
 			form1.submit();
 		}
@@ -52,7 +52,7 @@ $(document).ready(function(){
 				
 				<!-- 제목, 본문  -->
 				
-				<form id="form1" action="${appRoot }/admin/updateNotice" method="post">
+				<form id="form1" action="${appRoot }/admin/updateAsk" method="post">
 					<input type="hidden" name="id" value="${board.id }"/>
 					
 					<div>
