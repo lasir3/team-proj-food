@@ -31,5 +31,6 @@ public class RecipeController {
 	public void getCateFoodList(@RequestParam (name = "cateName", defaultValue = "") String cateName, Model model) {
 		List<FoodDto> list = foodService.foodList(cateName);
 		model.addAttribute("foodList", list);
+		model.addAttribute("categoryName", cateName);
 	}
 }

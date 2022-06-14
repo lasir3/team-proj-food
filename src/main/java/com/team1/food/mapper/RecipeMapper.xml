@@ -14,6 +14,6 @@
 	</select>
 	
 	<select id="selectFoodList" resultType="com.team1.food.domain.FoodDto">
-		SELECT foodName FROM FoodTable WHERE cateName = #{cateName}
+		SELECT foodName, cateName FROM FoodTable WHERE cateName = #{cateName}
 	</select>
 </mapper>

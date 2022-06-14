@@ -36,10 +36,9 @@
 			<h1 class="mb-4">요리위키에 오신것을 환영합니다!!</h1>
 			<div class="mb-5">이 위키는 요리에 관한 위키입니다.</div>
 			<h2 class="mb-4">카테고리 목록</h2>
-			<!-- <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4" >
-				<button class="btn btn-warning me-md-10 mb-1"  id="CateEdit-Button1">카테고리 추가</button>
-				<button class="btn btn-warning me-md-10 mb-1"  id="CateEdit-Button1">카테고리 편집</button>
-			</div> -->
+			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4" >
+				<button class="btn btn-primary me-md-10 mb-1" id="CateAdd-Button1">카테고리 추가</button>
+			</div>
 
 			<c:forEach items="${foodCateList }" var="cateList">
 				<%
@@ -49,8 +48,7 @@
 				%>
 				<div class="col-sm-4">
 					<div class="card text-center mb-5 shadow bg-body rounded">
-						<img
-							src="${imageUrl }/foodWikiFile/CateFiles/${cateList.cateIndex }/${cateList.fileName }"
+						<img src="${imageUrl }/foodWikiFile/CateFiles/${cateList.cateIndex }/${cateList.fileName }"
 							class="card-img-top" alt="...">
 						<div class="card-body">
 							<h5 class="card-title">${cateList.cateName }</h5>
