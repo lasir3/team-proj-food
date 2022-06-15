@@ -2,18 +2,27 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.team1.food.mapper.RecipeMapper">
+<mapper namespace="com.team1.food.mapper.CategoryMapper">
 
 	<select id="selectCateList" resultType="com.team1.food.domain.FoodCateDto">
 		SELECT cateIndex, 
 			   cateName, 
 			   memberId, 
-			   authRole,
 			   F.fileName fileName
-		FROM FoodCateTable C LEFT JOIN FileTable F ON C.cateIndex = F.cateId
+		FROM FoodCateTable C LEFT JOIN CateFileTable F ON C.cateIndex = F.cateId
 	</select>
 	
 	<select id="selectFoodList" resultType="com.team1.food.domain.FoodDto">
 		SELECT foodName, cateName FROM FoodTable WHERE cateName = #{cateName}
 	</select>
+	
+	<insert id="insertCate" useGeneratedKeys="true" keyColumn="cateIndex" keyProperty="cateIndex">
+		INSERT INTO FoodCateTable (cateName, memberId) 
+		VALUES (#{cateName}, #{memberId})
+	</insert>
+	
+	<insert id="insertCateFile">
+		INSERT INTO CateFileTable (cateId, fileName)
+		VALUES (#{cateId}, #{fileName})
+	</insert>
 </mapper>

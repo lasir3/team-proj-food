@@ -68,7 +68,7 @@
 							<div class="modal-body">
 								<div class="mb-3">
 									<label for="category-name" class="col-form-label">카테고리명:</label>
-									<input type="text" class="form-control" id="category-name">
+									<input type="text" class="form-control" id="category-name" name="cateName" />
 								</div>
 								<div class="mb-3">
 									<label for="file-text" class="col-form-label">배경이미지:</label>
@@ -84,16 +84,11 @@
 				</div>
 			</form>
 
-			<c:forEach items="${foodCateList }" var="cateList">
-				<%
-				FoodCateDto dto = (FoodCateDto) pageContext.getAttribute("cateList");
-				String encodedFileName = URLEncoder.encode(dto.getFileName(), "utf-8");
-				pageContext.setAttribute("encodedFileName", encodedFileName);
-				%>
+			<c:forEach items="${foodCateList }" var="cateList" varStatus="indexNum">
 				<div class="col-sm-4">
 					<div class="card text-center mb-5 shadow bg-body rounded">
 						<img
-							src="${imageUrl }/foodWikiFile/CateFiles/${cateList.cateIndex }/${cateList.fileName }"
+							src="${imageUrl }/foodWikiFile/FoodCateTable/${cateList.cateIndex }/${cateList.fileName }"
 							class="card-img-top" alt="...">
 						<div class="card-body">
 							<h5 class="card-title">${cateList.cateName }</h5>
