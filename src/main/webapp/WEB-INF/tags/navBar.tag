@@ -10,10 +10,11 @@
 <c:url value="/member/login" var="loginUrl"></c:url>
 <c:url value="/logout" var="logoutUrl"></c:url>
 <c:url value="/admin/main" var="adminUrl"></c:url>
+<c:url value="/foodBoard/foodCateList" var="foodCateListUrl"></c:url>
 
-<nav class="navbar navbar-expand-md navbar-light bg-light mb-3"  >
-	<div class="container">
-		<a class="navbar-brand" href="${signupUrl }">
+<nav class="navbar sticky-top navbar-expand-md navbar-light bg-light mb-3"  >
+	<div class="container-fluid">
+		<a class="navbar-brand" href="${foodCateListUrl }">
 			<i class="fa-solid fa-house"></i>
 		</a>
 
@@ -21,12 +22,12 @@
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#"
+					<a class="nav-link dropdown-toggle" href="${foodCateListUrl }"
 						id="navbarDropdownMenuLink" role="button"
 						data-bs-toggle="dropdown" aria-expanded="false"> 카테고리 </a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 						<li>
-							<a class="dropdown-item" href="#">나라별</a>
+							<a class="dropdown-item" href="${foodCateListUrl }">나라별</a>
 						</li>
 						<li>
 							<a class="dropdown-item" href="#">재료별</a>

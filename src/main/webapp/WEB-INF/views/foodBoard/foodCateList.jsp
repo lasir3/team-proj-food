@@ -3,6 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,6 +32,7 @@
 
 </head>
 <body>
+<my:navBar current="foodCateList"></my:navBar>
 	<div class="container mt-5">
 		<div class="row">
 			<h1 class="mb-4">요리위키에 오신것을 환영합니다!!</h1>
