@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.team1.food.domain.AdminBoardDto;
+import com.team1.food.domain.AdminBoardPageDto;
 import com.team1.food.mapper.AdminBoardMapper;
 
 @Service
@@ -17,11 +18,17 @@ public class AdminBoardService {
 	@Autowired
 	private AdminBoardMapper mapper;
 	
-	/*** 공지 ***/
+	/*** 공지  ***/
 	
 	// 공지 글 리스트
-	public List<AdminBoardDto> noticeList() {
-		return mapper.selectNoticeBoardAll();
+	public List<AdminBoardDto> noticeList(int page, int rowPerPage) {
+		// 몇번째 레코드부터 가져올 것인지?
+		int startFrom = (page - 1) * rowPerPage;
+		// 예를 들어 page=1, rowPerPage = 5의 경우. 
+		// 0번째부터 5개의 데이터를 가져와야함. (LIMIT 0, 5)
+		// >> startFrom = (1 - 1) * 5 = 0
+		
+		return mapper.selectNoticeBoardAll(startFrom, rowPerPage);
 	}
 
 	// 공지 글 작성
@@ -46,7 +53,11 @@ public class AdminBoardService {
 	public boolean deleteNoticeBoardById(int id) {
 		return mapper.deleteNoticeBoardById(id) == 1;
 	}
-
+	
+	// 공지 레코즈 개수
+	public int noticeBoardCount() {
+		return mapper.selectNoticeBoardCount();
+	}
 	
 	/*** 쉼터 ***/
 	

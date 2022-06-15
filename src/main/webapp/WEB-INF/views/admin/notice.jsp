@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
-
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,6 +39,7 @@
 						<tr>
 							<th>글 번호</th>
 							<th>제목</th>
+							<th>작성자</th>
 							<th>작성시간</th>
 						</tr>
 					</thead>
@@ -61,6 +62,9 @@
 									</a>
 								</td>		
 								
+								<!-- 작성자 -->
+								<td>${board.writerNickName }</td>
+								
 								<!-- 작성시간 -->	
 								<td>${board.prettyInserted }</td>					
 							</tr>
@@ -69,12 +73,14 @@
 					</tbody>
 				</table>
 				
-				<a href="${appRoot }/admin/insertNotice">글 쓰기</a>
+				<sec:authorize access="hasRole('ADMIN')">
+					<a href="${appRoot }/admin/insertNotice">글 쓰기</a>
+				</sec:authorize>
 				
-			</div>
-		</div>
-	</div>
+			</div> <!-- end of .col -->
+		</div> <!-- end of .row -->
+	</div> <!-- end of .container -->
 	
-	
+	<my:adminBoardPagination path="/admin/notice"></my:adminBoardPagination>
 </body>
 </html>

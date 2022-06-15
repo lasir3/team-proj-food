@@ -3,15 +3,19 @@ package com.team1.food.controller;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.jsp.tagext.PageData;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.team1.food.domain.AdminBoardDto;
+import com.team1.food.domain.AdminBoardPageDto;
 import com.team1.food.service.AdminBoardService;
 
 @Controller
@@ -24,7 +28,7 @@ public class AdminBoardController {
 	/*** 메인 ***/
 	@GetMapping("main")
 	public void home(Model model) {
-		List<AdminBoardDto> noticeList = service.noticeList();
+		List<AdminBoardDto> noticeList = service.noticeList(1,7);
 		model.addAttribute("noticeBoardList", noticeList);
 		
 		List<AdminBoardDto> restAreaList = service.restAreaList();
@@ -42,11 +46,28 @@ public class AdminBoardController {
 	
 	// 공지 글 리스트
 	@GetMapping("notice")
-	public void notice(Model model) {
-		List<AdminBoardDto> list = service.noticeList();
+	public void notice(@RequestParam(name = "keyword", defaultValue = "") String keyword,
+						@RequestParam(name = "type", defaultValue = "") String type,
+						@RequestParam(name = "page", defaultValue = "1") int page,
+						Model model) {
+		
+		//한 페이지에 보여질 게시글 개수
+		int rowPerPage = 5;
+		//DB에 있는 총 레코즈 개수
+		int totalRow = service.noticeBoardCount();
+		
+		AdminBoardPageDto pageDto = new AdminBoardPageDto();
+		pageDto.setPage(page);
+		pageDto.setTotalRow(totalRow);
+		pageDto.setRowPerPage(rowPerPage);
+				
+		model.addAttribute("pageInfo", pageDto);
+		
+		List<AdminBoardDto> list = service.noticeList(page, rowPerPage);
 		model.addAttribute("boardList", list);
+		
 	}
-	
+
 	// 공지 글 작성 시작
 	@GetMapping("insertNotice")
 	public void insertNotice() {
@@ -118,7 +139,9 @@ public class AdminBoardController {
 	// 쉼터 글 리스트
 	
 	@GetMapping("restArea")
-	public void restArea(Model model) {
+	public void restArea(@RequestParam(name = "page", defaultValue = "1") int page,
+						Model model) {
+		
 		List<AdminBoardDto> list = service.restAreaList();
 		model.addAttribute("boardList", list);
 	}
@@ -196,7 +219,9 @@ public class AdminBoardController {
 	// 문의 글 리스트
 	
 	@GetMapping("ask")
-	public void ask(Model model) {
+	public void ask(@RequestParam(name = "page", defaultValue = "1") int page,
+					Model model) {
+		
 		List<AdminBoardDto> list = service.askList();
 		model.addAttribute("boardList", list);
 	}
@@ -275,7 +300,9 @@ public class AdminBoardController {
 	// 신고 글 리스트
 	
 	@GetMapping("report")
-	public void report(Model model) {
+	public void report(@RequestParam(name = "page", defaultValue = "1") int page,
+						Model model) {
+		
 		List<AdminBoardDto> list = service.reportList();
 		model.addAttribute("boardList", list);
 	}

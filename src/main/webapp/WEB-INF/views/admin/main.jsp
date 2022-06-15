@@ -27,7 +27,7 @@
 	
 	<my:navBar></my:navBar>
 	
-	<!-- 보여줄 게시글 개수 -->
+	<!-- 각 구역이 보여줄 게시글 개수 -->
 	<c:set var="numOfView" value="7"></c:set>
 	
 	<div class="container">
@@ -42,7 +42,7 @@
 				</a>
 
 				<ul class="list-group">		
-					<c:forEach items="${noticeBoardList }" var="board" begin="0" end="${numOfView }">
+					<c:forEach items="${noticeBoardList }" var="board" begin="1" end="${numOfView }">
 						
 						
 						<c:url value="/admin/getNotice" var="getNoticeUrl">
@@ -50,10 +50,16 @@
 						</c:url>
 						
 						<li class="list-group-item">
-							<span>${board.shortInserted }</span>					
+							<a href="${getNoticeUrl }">
+								<div>
+									<span>${board.shortInserted }</span>
+									<span>${board.title }</span>
+								</div>
+							</a>
+							<%-- <span>${board.shortInserted }</span>					
 							<a href="${getNoticeUrl }">
 								${board.title }
-							</a>
+							</a> --%>
 						</li>
 						
 					</c:forEach>
@@ -77,9 +83,13 @@
 							<c:param name="id" value="${board.id }"></c:param>
 						</c:url>
 						
-						<li class="list-group-item">	
-							<span>${board.shortInserted }</span>				
-							<a href="${getRestAreaUrl }">${board.title }</a>
+						<li class="list-group-item">
+							<a href="${getRestAreaUrl }">
+								<div>
+									<span>${board.shortInserted }</span>
+									<span>${board.title }</span>
+								</div>
+							</a>
 						</li>
 						
 					</c:forEach>
@@ -103,9 +113,13 @@
 							<c:param name="id" value="${board.id }"></c:param>
 						</c:url>
 						
-						<li class="list-group-item">	
-							<span>${board.shortInserted }</span>				
-							<a href="${getAskUrl }">${board.title }</a>
+						<li class="list-group-item">
+							<a href="${getAskUrl }">
+								<div>
+									<span>${board.shortInserted }</span>
+									<span>${board.title }</span>
+								</div>
+							</a>
 						</li>
 						
 					</c:forEach>
@@ -129,9 +143,14 @@
 							<c:param name="id" value="${board.id }"></c:param>
 						</c:url>
 						
-						<li class="list-group-item">	
-							<span>${board.shortInserted }</span>				
-							<a href="${getReportUrl }">${board.title }</a>
+
+						<li class="list-group-item">
+							<a href="${getReportUrl }">
+								<div>
+									<span>${board.shortInserted }</span>
+									<span>${board.title }</span>
+								</div>
+							</a>
 						</li>
 						
 					</c:forEach>

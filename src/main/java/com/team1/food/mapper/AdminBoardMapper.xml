@@ -7,9 +7,13 @@
 	<!-- 공지 -->
 	
 	<select id="selectNoticeBoardAll" resultType="com.team1.food.domain.AdminBoardDto">
-	SELECT id, title, inserted
-	FROM Notice
-	ORDER BY id DESC
+	SELECT  n.id, 
+			n.title, 
+			n.inserted,
+			m.nickName writerNickName
+	FROM Notice n JOIN Member m ON n.memberId = m.id
+	ORDER BY n.id DESC
+	LIMIT #{startFrom}, #{rowPerPage}
 	</select>
 	
 	<select id="selectNoticeBoardById" resultType="com.team1.food.domain.AdminBoardDto">
@@ -39,12 +43,20 @@
 	WHERE id = #{id}
 	</delete>
 	
+	<select id="selectNoticeBoardCount" resultType="int">
+	SELECT COUNT(id)
+	FROM Notice
+	</select>
+	
 	<!-- 쉼터  -->
 	
 	<select id="selectRestAreaBoardAll" resultType="com.team1.food.domain.AdminBoardDto">
-	SELECT id, title, inserted
-	FROM RestArea
-	ORDER BY id DESC
+	SELECT  r.id, 
+			r.title, 
+			r.inserted,
+			m.nickName writerNickName
+	FROM RestArea r JOIN Member m ON r.memberId = m.id
+	ORDER BY r.id DESC
 	</select>
 	
 	<select id="selectRestAreaBoardById" resultType="com.team1.food.domain.AdminBoardDto">
@@ -78,9 +90,12 @@
 	<!-- 문의  -->
 	
 	<select id="selectAskBoardAll" resultType="com.team1.food.domain.AdminBoardDto">
-	SELECT id, title, inserted
-	FROM Ask
-	ORDER BY id DESC
+	SELECT  a.id, 
+			a.title, 
+			a.inserted,
+			m.nickName writerNickName
+	FROM Ask a JOIN Member m ON a.memberId = m.id
+	ORDER BY a.id DESC
 	</select>
 	
 	<select id="selectAskBoardById" resultType="com.team1.food.domain.AdminBoardDto">
@@ -113,9 +128,12 @@
 	<!-- 신고  -->
 	
 	<select id="selectReportBoardAll" resultType="com.team1.food.domain.AdminBoardDto">
-	SELECT id, title, inserted
-	FROM Report
-	ORDER BY id DESC
+	SELECT  r.id, 
+			r.title, 
+			r.inserted,
+			m.nickName writerNickName
+	FROM Report r JOIN Member m ON r.memberId = m.id
+	ORDER BY r.id DESC
 	</select>
 	
 	<select id="selectReportBoardById" resultType="com.team1.food.domain.AdminBoardDto">
@@ -144,4 +162,5 @@
 	DELETE FROM Report
 	WHERE id = #{id}
 	</delete>
+	
 </mapper>

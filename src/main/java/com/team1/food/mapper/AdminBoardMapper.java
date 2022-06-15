@@ -2,13 +2,17 @@ package com.team1.food.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.team1.food.domain.AdminBoardDto;
 
 public interface AdminBoardMapper {
 
 	/* 공지 */
 	
-	List<AdminBoardDto> selectNoticeBoardAll();
+	List<AdminBoardDto> selectNoticeBoardAll(
+			@Param("startFrom") int startFrom, 
+			@Param("rowPerPage") int rowPerPage);
 
 	int insertNoticeBoard(AdminBoardDto dto);
 
@@ -17,6 +21,8 @@ public interface AdminBoardMapper {
 	int updateNoticeBoard(AdminBoardDto dto);
 
 	int deleteNoticeBoardById(int id);
+	
+	int selectNoticeBoardCount();
 	
 	/* 쉼터 */
 	
