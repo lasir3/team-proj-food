@@ -82,6 +82,7 @@
 		</div>
 	</div>
 	
+	<my:adminBoardPagination path="/admin/ask"></my:adminBoardPagination>
 	
 </body>
 </html>

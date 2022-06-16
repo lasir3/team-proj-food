@@ -82,5 +82,6 @@
 	</div> <!-- end of .container -->
 	
 	<my:adminBoardPagination path="/admin/notice"></my:adminBoardPagination>
+
 </body>
 </html>

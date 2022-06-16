@@ -3,6 +3,7 @@ package com.team1.food.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import com.team1.food.domain.AdminBoardDto;
 
@@ -22,11 +23,13 @@ public interface AdminBoardMapper {
 
 	int deleteNoticeBoardById(int id);
 	
-	int selectNoticeBoardCount();
+//	int selectNoticeBoardCount();
 	
 	/* 쉼터 */
 	
-	List<AdminBoardDto> selectRestAreaBoardAll();
+	List<AdminBoardDto> selectRestAreaBoardAll(
+			@Param("startFrom") int startFrom, 
+			@Param("rowPerPage") int rowPerPage);
 	
 	int insertRestAreaBoard(AdminBoardDto dto);
 
@@ -38,7 +41,9 @@ public interface AdminBoardMapper {
 	
 	/* 문의 */
 	
-	List<AdminBoardDto> selectAskBoardAll();
+	List<AdminBoardDto> selectAskBoardAll(
+			@Param("startFrom") int startFrom, 
+			@Param("rowPerPage") int rowPerPage);
 	
 	int insertAskBoard(AdminBoardDto dto);
 
@@ -50,7 +55,9 @@ public interface AdminBoardMapper {
 	
 	/* 신고 */
 	
-	List<AdminBoardDto> selectReportBoardAll();
+	List<AdminBoardDto> selectReportBoardAll(
+			@Param("startFrom") int startFrom, 
+			@Param("rowPerPage") int rowPerPage);
 	
 	int insertReportBoard(AdminBoardDto dto);
 
@@ -60,4 +67,9 @@ public interface AdminBoardMapper {
 
 	int deleteReportBoardById(int id);
 	
+	/* 공용 */
+	
+	int selectBoardCount(
+			@Param("tableName")String tableName);
+
 }

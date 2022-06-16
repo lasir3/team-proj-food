@@ -25,19 +25,25 @@ public class AdminBoardController {
 	@Autowired
 	private AdminBoardService service;
 	
+	// 한 화면에 보여줄 게시글 개수
+	int rowPerPage = 10;
+	
 	/*** 메인 ***/
 	@GetMapping("main")
 	public void home(Model model) {
-		List<AdminBoardDto> noticeList = service.noticeList(1,7);
+		// 메인화면에서 각 게시판 별 보여질 글의 개수
+		int row = 7;
+		
+		List<AdminBoardDto> noticeList = service.noticeList(1,row);
 		model.addAttribute("noticeBoardList", noticeList);
 		
-		List<AdminBoardDto> restAreaList = service.restAreaList();
+		List<AdminBoardDto> restAreaList = service.restAreaList(1,row);
 		model.addAttribute("restAreaBoardList", restAreaList);
 		
-		List<AdminBoardDto> askList = service.askList();
+		List<AdminBoardDto> askList = service.askList(1,row);
 		model.addAttribute("askBoardList", askList);
 		
-		List<AdminBoardDto> reportList = service.reportList();
+		List<AdminBoardDto> reportList = service.reportList(1,row);
 		model.addAttribute("reportBoardList", reportList);
 		
 	}
@@ -46,24 +52,18 @@ public class AdminBoardController {
 	
 	// 공지 글 리스트
 	@GetMapping("notice")
-	public void notice(@RequestParam(name = "keyword", defaultValue = "") String keyword,
-						@RequestParam(name = "type", defaultValue = "") String type,
+	public void notice(
 						@RequestParam(name = "page", defaultValue = "1") int page,
-						Model model) {
+						Model model) {		
 		
-		//한 페이지에 보여질 게시글 개수
-		int rowPerPage = 5;
-		//DB에 있는 총 레코즈 개수
-		int totalRow = service.noticeBoardCount();
-		
-		AdminBoardPageDto pageDto = new AdminBoardPageDto();
-		pageDto.setPage(page);
-		pageDto.setTotalRow(totalRow);
-		pageDto.setRowPerPage(rowPerPage);
-				
-		model.addAttribute("pageInfo", pageDto);
-		
+		// 테이블에 맞는 값이 세팅된 pageDto 가져오기 
+		// 파라미터 : (page, DB테이블명)
+//		AdminBoardPageDto pageDto = getPageDto(page, "Notice");		
+//		List<AdminBoardDto> list = service.noticeList(page, rowPerPage);
+		AdminBoardPageDto pageDto = getPageDto(page, "Notice");		
 		List<AdminBoardDto> list = service.noticeList(page, rowPerPage);
+		
+		model.addAttribute("pageInfo", pageDto);
 		model.addAttribute("boardList", list);
 		
 	}
@@ -142,7 +142,10 @@ public class AdminBoardController {
 	public void restArea(@RequestParam(name = "page", defaultValue = "1") int page,
 						Model model) {
 		
-		List<AdminBoardDto> list = service.restAreaList();
+		AdminBoardPageDto pageDto = getPageDto(page, "RestArea");		
+		List<AdminBoardDto> list = service.restAreaList(page, rowPerPage);
+		
+		model.addAttribute("pageInfo", pageDto);
 		model.addAttribute("boardList", list);
 	}
 	
@@ -222,7 +225,10 @@ public class AdminBoardController {
 	public void ask(@RequestParam(name = "page", defaultValue = "1") int page,
 					Model model) {
 		
-		List<AdminBoardDto> list = service.askList();
+		AdminBoardPageDto pageDto = getPageDto(page, "Ask");
+		List<AdminBoardDto> list = service.askList(page, rowPerPage);
+		
+		model.addAttribute("pageInfo", pageDto);
 		model.addAttribute("boardList", list);
 	}
 	
@@ -303,7 +309,10 @@ public class AdminBoardController {
 	public void report(@RequestParam(name = "page", defaultValue = "1") int page,
 						Model model) {
 		
-		List<AdminBoardDto> list = service.reportList();
+		AdminBoardPageDto pageDto = getPageDto(page, "Report");
+		List<AdminBoardDto> list = service.reportList(page, rowPerPage);
+		
+		model.addAttribute("pageInfo", pageDto);
 		model.addAttribute("boardList", list);
 	}
 	
@@ -373,5 +382,18 @@ public class AdminBoardController {
 		}
 		
 		return "redirect:/admin/report";
+	}
+	
+	/*** 공용 ***/
+	
+	// 값이 세팅된 pageDto 가져오기
+	private AdminBoardPageDto getPageDto(int page, 
+										String tableName) {
+		AdminBoardPageDto dto = new AdminBoardPageDto();
+		dto.setPage(page);
+		dto.setRowPerPage(rowPerPage);
+		int totalRow = service.boardCount(tableName);
+		dto.setTotalRow(totalRow);
+		return dto;
 	}
 }

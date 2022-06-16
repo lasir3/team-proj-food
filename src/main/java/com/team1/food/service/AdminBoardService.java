@@ -18,7 +18,9 @@ public class AdminBoardService {
 	@Autowired
 	private AdminBoardMapper mapper;
 	
-	/*** 공지  ***/
+	/*** 공지  
+	 * @param keyword 
+	 * @param type ***/
 	
 	// 공지 글 리스트
 	public List<AdminBoardDto> noticeList(int page, int rowPerPage) {
@@ -55,15 +57,19 @@ public class AdminBoardService {
 	}
 	
 	// 공지 레코즈 개수
-	public int noticeBoardCount() {
-		return mapper.selectNoticeBoardCount();
-	}
+//	public int noticeBoardCount() {
+//		return mapper.selectNoticeBoardCount();
+//	}
 	
-	/*** 쉼터 ***/
+	/*** 쉼터 
+	 * @param rowPerPage 
+	 * @param page ***/
 	
 	// 쉼터 글 리스트
-	public List<AdminBoardDto> restAreaList() {
-		return mapper.selectRestAreaBoardAll();
+	public List<AdminBoardDto> restAreaList(int page, int rowPerPage) {
+		int startFrom = (page - 1) * rowPerPage;
+		
+		return mapper.selectRestAreaBoardAll(startFrom, rowPerPage);
 	} 
 	
 	// 쉼터 글 작성
@@ -89,11 +95,14 @@ public class AdminBoardService {
 		return mapper.deleteRestAreaBoardById(id) == 1;
 	}
 	
-	/*** 문의 ***/
+	/*** 문의 
+	 * @param rowPerPage 
+	 * @param page ***/
 	
 	// 문의 글 리스트
-	public List<AdminBoardDto> askList() {
-		return mapper.selectAskBoardAll();
+	public List<AdminBoardDto> askList(int page, int rowPerPage) {
+		int startFrom = (page - 1) * rowPerPage;
+		return mapper.selectAskBoardAll(startFrom, rowPerPage);
 	} 
 	
 	// 문의 글 작성
@@ -119,11 +128,14 @@ public class AdminBoardService {
 		return mapper.deleteAskBoardById(id) == 1;
 	}
 	
-	/*** 신고 ***/
+	/*** 신고 
+	 * @param rowPerPage 
+	 * @param page ***/
 	
 	// 신고 글 리스트
-	public List<AdminBoardDto> reportList() {
-		return mapper.selectReportBoardAll();
+	public List<AdminBoardDto> reportList(int page, int rowPerPage) {
+		int startFrom = (page - 1) * rowPerPage;
+		return mapper.selectReportBoardAll(startFrom, rowPerPage);
 	} 
 	
 	// 신고 글 작성
@@ -147,6 +159,12 @@ public class AdminBoardService {
 	@Transactional
 	public boolean deleteReportBoardById(int id) {
 		return mapper.deleteReportBoardById(id) == 1;
+	}
+
+	
+	// 공용
+	public int boardCount(String tableName) {
+		return mapper.selectBoardCount(tableName);
 	}
 		
 }

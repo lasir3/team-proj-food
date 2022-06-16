@@ -14,6 +14,7 @@
 	FROM Notice n JOIN Member m ON n.memberId = m.id
 	ORDER BY n.id DESC
 	LIMIT #{startFrom}, #{rowPerPage}
+	
 	</select>
 	
 	<select id="selectNoticeBoardById" resultType="com.team1.food.domain.AdminBoardDto">
@@ -43,10 +44,12 @@
 	WHERE id = #{id}
 	</delete>
 	
+	<!-- 	
 	<select id="selectNoticeBoardCount" resultType="int">
 	SELECT COUNT(id)
 	FROM Notice
 	</select>
+	 -->
 	
 	<!-- 쉼터  -->
 	
@@ -57,6 +60,7 @@
 			m.nickName writerNickName
 	FROM RestArea r JOIN Member m ON r.memberId = m.id
 	ORDER BY r.id DESC
+	LIMIT #{startFrom}, #{rowPerPage}
 	</select>
 	
 	<select id="selectRestAreaBoardById" resultType="com.team1.food.domain.AdminBoardDto">
@@ -96,6 +100,7 @@
 			m.nickName writerNickName
 	FROM Ask a JOIN Member m ON a.memberId = m.id
 	ORDER BY a.id DESC
+	LIMIT #{startFrom}, #{rowPerPage}
 	</select>
 	
 	<select id="selectAskBoardById" resultType="com.team1.food.domain.AdminBoardDto">
@@ -134,6 +139,7 @@
 			m.nickName writerNickName
 	FROM Report r JOIN Member m ON r.memberId = m.id
 	ORDER BY r.id DESC
+	LIMIT #{startFrom}, #{rowPerPage}
 	</select>
 	
 	<select id="selectReportBoardById" resultType="com.team1.food.domain.AdminBoardDto">
@@ -162,5 +168,11 @@
 	DELETE FROM Report
 	WHERE id = #{id}
 	</delete>
+	
+	<!-- 공용 -->
+	<select id="selectBoardCount" resultType="int">
+	SELECT COUNT(id)
+	FROM ${tableName}
+	</select>
 	
 </mapper>

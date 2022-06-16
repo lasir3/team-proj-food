@@ -35,6 +35,36 @@ $(document).ready(function(){
 		}
 	});
 	
+	//댓글입력(#addReplySubmitButton1) 버튼 클릭시 ajax 댓글 추가 요청
+	$("#addReplySubmitButton1").click(function(e) {
+		e.preventDefault();
+		
+		const data = $("#insertReplyForm1").serialize();
+		console.log(data);
+		$.ajax({
+			url:"${appRoot }/adminReply/insertNoticeReply",
+			type: "post",
+			data: data,
+			success: function(data){
+				//  새 댓글 등록 메시지 출력
+				$("#replyMessage1").show().text(data).fadeOut(3000);
+				
+				// text input 초기화
+				$("#insertReplyContentInput1").val("");
+				// 모든 댓글 가져오는 ajax 요청
+				// listReply();
+			},
+			error: function(){
+				$("#replyMessage1").show().text("댓글을 작성할 수 없습니다").fadeOut(3000);
+				console.log("문제 발생");
+			},
+			complete: function(){
+				console.log("요청 완료");
+			}
+			
+		});
+	});
+	
 });
 </script>
 </head>
@@ -55,8 +85,10 @@ $(document).ready(function(){
 				
 				<!-- 제목, 본문  -->
 				
+				
 				<form id="form1" action="${appRoot }/admin/updateNotice" method="post">
 					<input type="hidden" name="id" value="${board.id }"/>
+					
 					
 					<div>
 						<label class="form-label" for="input1">제목</label>
@@ -89,6 +121,24 @@ $(document).ready(function(){
 				</form>
 				
 			</div>
+		</div>
+	</div>
+	
+	<%-- 댓글 추가 form --%>
+	<div class="container mt-3">
+		<div class="row">
+			<div class="col">
+				<form id="insertReplyForm1">
+					<div class="input-group">
+						<input type="hidden" name="noticeId" value="${board.id }" />
+						<input id="insertReplyContentInput1" class="form-control" type="text" name="content" required /> 
+						<button id="addReplySubmitButton1" class="btn btn-outline-secondary"><i class="fa-solid fa-comment-dots"></i></button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="alert alert-primary" style="display:none;" id="replyMessage1"></div>
 		</div>
 	</div>
 	

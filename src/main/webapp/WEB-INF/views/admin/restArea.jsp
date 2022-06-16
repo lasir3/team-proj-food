@@ -82,6 +82,6 @@
 		</div>
 	</div>
 	
-	
+	<my:adminBoardPagination path="/admin/restArea"></my:adminBoardPagination>
 </body>
 </html>
