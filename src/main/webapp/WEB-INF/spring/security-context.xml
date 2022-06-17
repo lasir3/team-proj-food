@@ -11,7 +11,11 @@
 	<security:http>
 		<security:csrf disabled="true"/>
 		<security:form-login/>
-	</security:http>
 	
+	<security:intercept-url pattern="/debate/insert" access="isAuthenticated()"/>
+		<security:intercept-url pattern="/debate/modify" access="isAuthenticated()"/>
+		<security:intercept-url pattern="/debate/remove" access="isAuthenticated()"/>
+		
+	</security:http>
 	<security:authentication-manager></security:authentication-manager>
 </beans>
