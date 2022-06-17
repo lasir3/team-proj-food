@@ -54,6 +54,7 @@
 								<div>
 									<span>${board.shortInserted }</span>
 									<span>${board.title }</span>
+									<span>[${board.numOfReply }]</span>
 								</div>
 							</a>
 							<%-- <span>${board.shortInserted }</span>					
@@ -88,6 +89,7 @@
 								<div>
 									<span>${board.shortInserted }</span>
 									<span>${board.title }</span>
+									<span>[${board.numOfReply }]</span>
 								</div>
 							</a>
 						</li>
@@ -118,6 +120,7 @@
 								<div>
 									<span>${board.shortInserted }</span>
 									<span>${board.title }</span>
+									<span>[${board.numOfReply }]</span>
 								</div>
 							</a>
 						</li>
@@ -149,6 +152,7 @@
 								<div>
 									<span>${board.shortInserted }</span>
 									<span>${board.title }</span>
+									<span>[${board.numOfReply }]</span>
 								</div>
 							</a>
 						</li>

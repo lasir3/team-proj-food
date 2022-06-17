@@ -11,6 +11,7 @@ public class AdminReplyDto {
 	private String memberId;
 	private LocalDateTime inserted;
 	private String writerNickName;
+	private boolean own;
 	
 	private int noticeId;
 	private int restAreaId;

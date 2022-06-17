@@ -10,8 +10,11 @@
 	SELECT  n.id, 
 			n.title, 
 			n.inserted,
-			m.nickName writerNickName
+			m.nickName writerNickName,
+			COUNT(r.noticeId) numOfReply
 	FROM Notice n JOIN Member m ON n.memberId = m.id
+				LEFT JOIN Reply r ON n.id = r.noticeId 
+	GROUP BY n.id
 	ORDER BY n.id DESC
 	LIMIT #{startFrom}, #{rowPerPage}
 	

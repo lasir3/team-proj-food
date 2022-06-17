@@ -1,5 +1,6 @@
 package com.team1.food.controller;
 
+import java.beans.Transient;
 import java.security.Principal;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import javax.servlet.jsp.tagext.PageData;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.team1.food.domain.AdminBoardDto;
 import com.team1.food.domain.AdminBoardPageDto;
 import com.team1.food.service.AdminBoardService;
+import com.team1.food.service.AdminReplyService;
 
 @Controller
 @RequestMapping("admin")
@@ -24,6 +27,9 @@ public class AdminBoardController {
 	
 	@Autowired
 	private AdminBoardService service;
+	
+	@Autowired
+	private AdminReplyService replyService;
 	
 	// 한 화면에 보여줄 게시글 개수
 	int rowPerPage = 10;
@@ -118,13 +124,15 @@ public class AdminBoardController {
 	}
 	
 	//공지 글 삭제
-	
+	@Transactional
 	@PostMapping("deleteNotice")
 	public String deleteNotice(AdminBoardDto dto,
 			RedirectAttributes rttr) {
-		boolean success = service.deleteNoticeBoardById(dto.getId());
+		// 두번째 파라미터는 noticeId, restAreaId, askId, reportId
+		boolean success1 = replyService.deleteReplyByBoardId(dto.getId(), "noticeId");
+		boolean success2 = service.deleteNoticeBoardById(dto.getId());
 		
-		if(success) {
+		if(success1 && success2) {
 			rttr.addFlashAttribute("deleteMessage", "글이 삭제되었습니다.");
 		}else {
 			rttr.addFlashAttribute("deleteMessage", "글이 삭제되지 않았습니다.");
@@ -206,9 +214,11 @@ public class AdminBoardController {
 	@PostMapping("deleteRestArea")
 	public String deleteRestArea(AdminBoardDto dto,
 			RedirectAttributes rttr) {
-		boolean success = service.deleteRestAreaBoardById(dto.getId());
 		
-		if(success) {
+		boolean success1 = replyService.deleteReplyByBoardId(dto.getId(), "restAreaId");
+		boolean success2 = service.deleteRestAreaBoardById(dto.getId());
+		
+		if(success1 && success2) {
 			rttr.addFlashAttribute("deleteMessage", "글이 삭제되었습니다.");
 		}else {
 			rttr.addFlashAttribute("deleteMessage", "글이 삭제되지 않았습니다.");
@@ -289,9 +299,11 @@ public class AdminBoardController {
 	@PostMapping("deleteAsk")
 	public String deleteAsk(AdminBoardDto dto,
 			RedirectAttributes rttr) {
-		boolean success = service.deleteAskBoardById(dto.getId());
 		
-		if(success) {
+		boolean success1 = replyService.deleteReplyByBoardId(dto.getId(), "askId");
+		boolean success2 = service.deleteAskBoardById(dto.getId());
+		
+		if(success2) {
 			rttr.addFlashAttribute("deleteMessage", "글이 삭제되었습니다.");
 		}else {
 			rttr.addFlashAttribute("deleteMessage", "글이 삭제되지 않았습니다.");
@@ -373,9 +385,11 @@ public class AdminBoardController {
 	@PostMapping("deleteReport")
 	public String deleteReport(AdminBoardDto dto,
 			RedirectAttributes rttr) {
-		boolean success = service.deleteReportBoardById(dto.getId());
 		
-		if(success) {
+		boolean success1 = replyService.deleteReplyByBoardId(dto.getId(), "reportId");
+		boolean success2 = service.deleteReportBoardById(dto.getId());
+		
+		if(success2) {
 			rttr.addFlashAttribute("deleteMessage", "글이 삭제되었습니다.");
 		}else {
 			rttr.addFlashAttribute("deleteMessage", "글이 삭제되지 않았습니다.");

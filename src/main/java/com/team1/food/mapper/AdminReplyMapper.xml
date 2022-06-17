@@ -7,5 +7,43 @@
 	INSERT INTO Reply (noticeId, memberId, content)
 	VALUES (#{noticeId}, #{memberId}, #{content})
 	</insert>
-
+	
+	<select id="selectAllReplyByBoardId" resultType="com.team1.food.domain.AdminReplyDto">
+	SELECT r.id, 
+			r.content, 
+			r.memberId,
+			r.inserted,
+			m.nickName writerNickName
+	FROM Reply r JOIN Member m ON r.memberId = m.id
+	WHERE ${columnName} = #{boardId}
+	ORDER BY id DESC
+	</select>
+	
+	<select id="selectAllReplyWithOwnByBoardId" resultType="com.team1.food.domain.AdminReplyDto">
+	SELECT r.id, 
+			r.content, 
+			r.memberId,
+			r.inserted,
+			m.nickName writerNickName,
+			IF (m.id = #{memberId}, 1, 0) own
+	FROM Reply r JOIN Member m ON r.memberId = m.id
+	WHERE ${columnName} = #{boardId}
+	ORDER BY id DESC
+	</select>
+	
+	<update id="updateReply">
+	UPDATE Reply
+	SET content = #{content}
+	WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteReplyById">
+	DELETE FROM Reply
+	WHERE id = #{id}
+	</delete>
+	
+	<delete id="deleteReplyByBoardId">
+	DELETE FROM Reply
+	WHERE ${columnName} = #{boardId}
+	</delete>
 </mapper>

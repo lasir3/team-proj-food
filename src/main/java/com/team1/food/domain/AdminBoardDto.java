@@ -15,6 +15,7 @@ public class AdminBoardDto {
 	private String memberId;
 	private LocalDateTime inserted;
 	private String writerNickName;
+	private int numOfReply;
 	
 	public String getPrettyInserted() {
 		// 24시간 이내면 "시간:분:초"
