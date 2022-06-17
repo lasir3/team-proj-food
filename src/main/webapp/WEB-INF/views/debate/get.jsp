@@ -361,10 +361,10 @@ $(document).ready(function() {
 							<a href="#" style="text-decoration-line : none">${debate.title }</a>${debate.prettyInserted}
 						</label>
 					</div>
-					<span id="add-goodRp-btn" class="btn btn-outline">
+					<%-- <span id="add-goodRp-btn" class="btn btn-outline">
 													좋아요👍
 					<span class="add-goodRp ml-2">${foundArticle.goodReactionPoint}</span>
-					</span>
+					</span> --%>
 						<%-- <input class="form-control mb-3" type="text" name="title" required
 							id="input1" value="${debate.title }" readonly /> --%>
 						<div>

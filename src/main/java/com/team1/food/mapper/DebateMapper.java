@@ -26,6 +26,12 @@ public interface DebateMapper {
 	
 	List<DebateDto> selectDebateBoard();
 
+	List<DebateDto> CloseDebate();
+
+	List<DebateDto> listCloseDebatePage(@Param("from")int from, @Param("row")int rowPerPage);
+
+	int countCloseDebate();
+
 
 
 }

@@ -67,18 +67,21 @@ public class DebateService {
 		return mapper.listDebatePage(from, rowPerPage);
 	}
 
-//	public String getForPrintArticle(int id) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	public boolean isArticleExists(int id) {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
-//
-//	public void isAlreadyAddGoodRp(int id) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	public List<DebateDto> listCloseDebate() {
+		// TODO Auto-generated method stub
+		return mapper.CloseDebate();
+	}
+
+	public List<DebateDto> listCloseDebatePage(int page, int rowPerPage) {
+		// TODO Auto-generated method stub
+		int from = (page - 1) * rowPerPage;
+		
+		return mapper.listCloseDebatePage(from, rowPerPage);
+	}
+
+	public int countCloseDebate() {
+		// TODO Auto-generated method stub
+		return mapper.countCloseDebate();
+	}
+
 }

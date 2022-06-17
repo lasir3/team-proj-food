@@ -12,14 +12,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
+
 <title>Insert title here</title>
 </head>
 <body>
-	<my:navBar current="list" />
-	<div class="container">
+<div class="container">
 		<div class="row">
 			<div class="col">
-				<h5>열린 토론<a class="btn btn-link" href="close" role="button">닫힌 토론</a></h5> 
+				<h5>닫힌 토론</h5>
 				<%-- <c:url value="/debate/write" var="writeLink" />
 				<h3><a href="${writeLink }">글 작성</a></h3> --%>
 				<c:if test="${not empty message }">
@@ -43,9 +43,9 @@
 								<td>${debate.id }</td>
 								<td>
 													
-									<c:url value="/debate/get" var="getUrl">
+									 <c:url value="/debate/get" var="getUrl">
 										<c:param name="id" value="${debate.id }"></c:param>
-									</c:url>
+									</c:url> 
 									
 									<a href="${getUrl }">
 										<c:out value="${debate.title }" />
@@ -55,7 +55,7 @@
 									<!-- 댓글 -->
 									<c:if test="${debate.numOfReply > 0 }">
 										<span class="badge rounded-pill bg-light text-dark">
-											<i class="fa-solid fa-comment-dots"></i>
+											<i class="fa-solid fa-comment-dots" ></i>
 											${debate.numOfReply }
 										</span>
 									</c:if>
@@ -71,6 +71,5 @@
 			</div>
 		</div>
 	</div>
-	
 </body>
 </html>

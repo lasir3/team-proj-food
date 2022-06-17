@@ -51,6 +51,24 @@ public class DebateController {
 		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("debateList", list);
 	}
+	@RequestMapping("close")
+	public void listCloseDebate(Model model,
+			@RequestParam(name = "page", defaultValue = "1") int page) {
+			
+				int rowPerPage = 8;
+				
+				int totalRecords = service.countCloseDebate();
+				int end = (totalRecords - 1) / rowPerPage + 1;
+				
+				PageInfoDto pageInfo = new PageInfoDto();
+				pageInfo.setCurrent(page);
+				pageInfo.setEnd(end);
+			
+			List<DebateDto> list = service.listCloseDebatePage(page, rowPerPage);
+
+		model.addAttribute("debateList", list);
+		model.addAttribute("pageInfo", pageInfo);
+	}
 	
 
 	@GetMapping("write")

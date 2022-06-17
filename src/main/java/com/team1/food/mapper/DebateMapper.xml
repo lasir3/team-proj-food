@@ -14,6 +14,17 @@
   	ORDER BY id DESC
  
  </select> 
+ <select id="CloseDebate" resultType="com.team1.food.domain.DebateDto">
+ 		SELECT d.id        id, 
+  	       d.title     title, 
+  	       d.inserted  inserted,
+  	       COUNT(r.id) numOfReply
+  	FROM Debate d LEFT JOIN BigReply r ON d.id = r.id
+  	GROUP BY d.id
+  	ORDER BY id
+ 	LIMIT #{from},#{row}
+ </select> 
+ 
   
 <insert id="writeDebate" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
 		INSERT INTO Debate (title,body, memberId)
@@ -29,7 +40,9 @@
 		FROM Debate b LEFT JOIN BigReply r ON b.id = r.debateId
 		WHERE b.id = #{id}
 	</select>
-	
+	<select id="countCloseDebate" resultType="int">
+		SELECT COUNT(id) FROM Debate
+	</select>
 <!-- 	<select id="getBoard" resultType="com.team1.food.domain.DebateDto">
   	SELECT id, title, body, inserted
   	FROM Debate
