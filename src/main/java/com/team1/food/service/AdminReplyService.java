@@ -19,6 +19,10 @@ public class AdminReplyService {
 		return mapper.insertNoticeReply(dto) == 1;
 	}
 	
+	/*** 쉼터 ***/
+	public boolean insertRestAreaReply(AdminReplyDto dto) {
+		return mapper.insertRestAreaReply(dto) == 1;
+	}
 	
 	/*** 공용 ***/
 
@@ -41,4 +45,15 @@ public class AdminReplyService {
 	public boolean deleteReplyByBoardId(int boardId, String columnName) {
 		return mapper.deleteReplyByBoardId(boardId, columnName);
 	}
+
+	public boolean insertAskReply(AdminReplyDto dto) {
+		return mapper.insertAskReply(dto);
+	}
+	
+	public boolean insertReportReply(AdminReplyDto dto) {
+		return mapper.insertReportReply(dto);
+	}
+
+
+	
 }

@@ -60,8 +60,11 @@
 	SELECT  r.id, 
 			r.title, 
 			r.inserted,
-			m.nickName writerNickName
+			m.nickName writerNickName,
+			COUNT(Reply.restAreaId) numOfReply
 	FROM RestArea r JOIN Member m ON r.memberId = m.id
+				LEFT JOIN Reply ON r.id = Reply.restAreaId
+	GROUP BY r.id
 	ORDER BY r.id DESC
 	LIMIT #{startFrom}, #{rowPerPage}
 	</select>
@@ -100,8 +103,11 @@
 	SELECT  a.id, 
 			a.title, 
 			a.inserted,
-			m.nickName writerNickName
+			m.nickName writerNickName,
+			COUNT(r.askId) numOfReply
 	FROM Ask a JOIN Member m ON a.memberId = m.id
+			LEFT JOIN Reply r ON a.id = r.askId
+	GROUP BY a.id
 	ORDER BY a.id DESC
 	LIMIT #{startFrom}, #{rowPerPage}
 	</select>
@@ -139,8 +145,11 @@
 	SELECT  r.id, 
 			r.title, 
 			r.inserted,
-			m.nickName writerNickName
+			m.nickName writerNickName,
+			COUNT(Reply.reportId) numOfReply
 	FROM Report r JOIN Member m ON r.memberId = m.id
+			LEFT JOIN Reply ON r.id = Reply.reportId
+	GROUP BY r.id
 	ORDER BY r.id DESC
 	LIMIT #{startFrom}, #{rowPerPage}
 	</select>

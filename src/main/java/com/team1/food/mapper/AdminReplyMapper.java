@@ -27,6 +27,12 @@ public interface AdminReplyMapper {
 			@Param("boardId")int boardId, 
 			@Param("columnName")String columnName);
 
+	int insertRestAreaReply(AdminReplyDto dto);
+
+	boolean insertAskReply(AdminReplyDto dto);
+	
+	boolean insertReportReply(AdminReplyDto dto);
+
 	
 
 }

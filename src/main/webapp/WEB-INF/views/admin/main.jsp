@@ -42,7 +42,7 @@
 				</a>
 
 				<ul class="list-group">		
-					<c:forEach items="${noticeBoardList }" var="board" begin="1" end="${numOfView }">
+					<c:forEach items="${noticeBoardList }" var="board" begin="0" end="${numOfView }">
 						
 						
 						<c:url value="/admin/getNotice" var="getNoticeUrl">

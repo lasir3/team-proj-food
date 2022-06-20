@@ -8,6 +8,21 @@
 	VALUES (#{noticeId}, #{memberId}, #{content})
 	</insert>
 	
+	<insert id="insertRestAreaReply">
+	INSERT INTO Reply (restAreaId, memberId, content)
+	VALUES (#{restAreaId}, #{memberId}, #{content})
+	</insert>
+
+	<insert id="insertAskReply">
+	INSERT INTO Reply (askId, memberId, content)
+	VALUES (#{askId}, #{memberId}, #{content})
+	</insert>
+	
+	<insert id="insertReportReply">
+	INSERT INTO Reply (reportId, memberId, content)
+	VALUES (#{reportId}, #{memberId}, #{content})
+	</insert>
+	
 	<select id="selectAllReplyByBoardId" resultType="com.team1.food.domain.AdminReplyDto">
 	SELECT r.id, 
 			r.content, 
@@ -46,4 +61,7 @@
 	DELETE FROM Reply
 	WHERE ${columnName} = #{boardId}
 	</delete>
+	
+	
+	
 </mapper>
