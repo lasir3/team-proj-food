@@ -14,10 +14,12 @@
 <title>Insert title here</title>
 <script type="text/javascript">
 $(document).ready(function(){
-	$("#fixed").change(function(){
-		if($(this).is(":checked")){
-			$(this).
-		}
+	
+	let fixed = false;
+	console.log(fixed);
+	$("#isFixed").change(function(){
+		fixed = $(this).is(":checked");
+		$("#fixed").val(fixed);
 	});
 }); 
 </script>				
@@ -45,8 +47,10 @@ $(document).ready(function(){
 					</div>
 					
 					<button class="btn btn-primary">작성</button>
-					<input type="checkbox" id="fixed" name="fixed" />
-					<!-- <label for="fixed">게시글 상단 고정</label> -->
+					<input type="checkbox" id="isFixed" name="isFixed"/>
+					<input type="hidden" id="fixed" name="fixed" />
+					<label for="isFixed">게시글 상단 고정</label>
+					
 				</form>
 				
 			</div>
