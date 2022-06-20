@@ -38,23 +38,44 @@ public class CategoryController {
 	}
 
 	@PostMapping("addCate")
-	public String addCategory(FoodCateDto dto, @RequestParam("addFileList") MultipartFile file, /* Principal principal, */ RedirectAttributes rttr) {
-		// 카테고리 이미지 파일 추가
-		if (file != null) {
-			dto.setFileName(file.getOriginalFilename());
-		}
-
-		// 작성 맴버 추가
-//		dto.setMemberId(principal.getName());
-		dto.setMemberId("admin");
+	public String addCategory(FoodCateDto dto, 
+						      @RequestParam(name = "cateName") String cateName, 
+							  @RequestParam(name = "addFileList") MultipartFile file, /* Principal principal, */ 
+							  RedirectAttributes rttr) {
 		
-		boolean success = cateService.addCate(dto, file);
-		if(success ) {
-			System.out.println("카테고리 추가 성공");
+		System.out.println("카테고리명 " + cateName);
+		System.out.println("파일명 " + file);
+		
+		if (cateName != null && !cateName.isEmpty() && file.getSize() > 0) {
+			// 카테고리 이미지 파일 추가
+			if (file != null) {
+				dto.setFileName(file.getOriginalFilename());
+			}
+			
+			// 작성 맴버 추가
+			// dto.setMemberId(principal.getName());
+			dto.setMemberId("admin");
+			
+			boolean success = cateService.addCate(dto, file);
+			if(success) {
+				rttr.addFlashAttribute("cateSuccess", "카테고리 등록 성공했습니다.");
+			} else {
+				rttr.addFlashAttribute("cateFail", "카테고리 등록 실패했습니다.");
+			}
 		} else {
-			System.out.println("카테고리 추가 실패");
+			rttr.addFlashAttribute("cateFail", "카테고리명과 이미지를 등록해주세요.");
 		}
 
 		return "redirect:/foodBoard/foodCateList";
+	}
+	
+	@PostMapping("modifyCate")
+	public String modifyCategory(FoodCateDto dto, 
+						      @RequestParam(name = "cateName") String cateName, 
+							  @RequestParam(name = "addFileList") MultipartFile file, /* Principal principal, */ 
+							  RedirectAttributes rttr) {
+
+		
+		return "redirect:foodList?cateName=" + cateName;
 	}
 }

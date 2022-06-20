@@ -19,6 +19,7 @@ import com.team1.food.mapper.CategoryMapper;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
@@ -61,14 +62,23 @@ public class CategoryService {
 		// 파일 등록
 		if (file != null) {
 			mapper.insertCateFile(dto.getCateIndex(), file.getOriginalFilename());
-			System.out.println(dto.getCateIndex());
-			System.out.println(file.getOriginalFilename());
 			saveFileAwsS3(dto.getCateIndex(), file); // s3에 업로드
 			System.out.println("파일등록 성공");
 		}
 		return cnt == 1;
 	}
+	
 
+	// AwsS3 파일 삭제
+	private void deleteFromAwsS3(int id, MultipartFile file) {
+		String key = "board/" + id + "/" + file;
+		
+		DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
+				.bucket(bucketName)
+				.key(key)
+				.build();
+		s3.deleteObject(deleteObjectRequest);
+	}
 //	// 파일 등록 메소드 추출
 //	public void addFiles(int id, MultipartFile files, String tableName) {
 //		if (files != null) {
@@ -101,4 +111,6 @@ public class CategoryService {
 			throw new RuntimeException(e); // Transactional 어노테이션에 대한 exception 설정
 		}
 	}
+
+
 }

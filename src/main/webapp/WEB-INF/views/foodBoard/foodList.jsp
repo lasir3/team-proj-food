@@ -31,11 +31,48 @@
 		<div class="row">
 			<h1>${categoryName }</h1>
 			<div class="mb-5"> - 이 위키는 ${categoryName }에 해당하는 요리에 관한 페이지입니다.</div>
-			<h2 class="mb-4">요리 목록</h2>
-			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4" >
-				<button class="btn btn-warning me-md-10 mb-1"  id="CateEdit-Button1">카테고리 편집</button>
+			
+			<!-- 카테고리 수정, 삭제 버튼 -->
+			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
+				<button type="button" class="btn btn-warning me-md-0 mb-1"
+					id="CateAdd-Button1" data-bs-toggle="modal"
+					data-bs-target="#exampleModal" 
+					data-bs-whatever="@mdo">카테고리 수정</button>
 				<button class="btn btn-danger me-md-10 mb-1"  id="CateDelete-Button1">카테고리 삭제</button>
 			</div>
+		
+			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4" >
+				<form id="form1" action="${appRoot }/foodBoard/modifyCate" method="post" enctype="multipart/form-data">
+					<div class="modal fade" id="exampleModal" tabindex="-1"
+						aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">카테고리 수정</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<div class="mb-3">
+										<label for="category-name" class="col-form-label">카테고리명:</label>
+										<input type="text" class="form-control" id="category-name" name="cateName" value="${categoryName }"/>
+									</div>
+									<div class="mb-3">
+										<label for="file-text" class="col-form-label">배경이미지:</label>
+										<input type="file" accept="image/*" name="addFileList" id="file-text"/>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"	data-bs-dismiss="modal">취소</button>
+									<button type="submit" class="btn btn-primary" id="add-submit1">수정</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			
+			
+			<h2 class="mb-4">요리 목록</h2>
 
 			<div class="col">
 				<c:forEach items="${foodList }" var="food" varStatus="status">

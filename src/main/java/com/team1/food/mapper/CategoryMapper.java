@@ -19,4 +19,8 @@ public interface CategoryMapper {
 
 	void insertCateFile(@Param("cateId") int id, @Param("fileName") String filename);
 
+	FoodCateDto selectCateByIndex(int cateIndex);
+
+	String selectFileNameByCateIndex(int cateIndex);
+
 }
