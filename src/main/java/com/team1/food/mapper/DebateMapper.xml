@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.team1.food.mapper.DebateMapper">
+  
+  <select id="selectDebateBoard" resultType="com.team1.food.domain.DebateDto">
+ 		SELECT d.id        id, 
+  	       d.title     title, 
+  	       d.inserted  inserted,
+  	       COUNT(r.id) numOfReply
+  	FROM Debate d LEFT JOIN BigReply r ON d.id = r.id
+  	GROUP BY d.id
+  	ORDER BY id DESC
+ 
+ </select> 
+  
+<insert id="writeDebate" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		INSERT INTO Debate (title,body, memberId)
+		VALUES (#{title}, #{body}, #{memberId})
+	</insert>
+	
+<select id="selectDebateById" resultType="com.team1.food.domain.DebateDto">
+		SELECT b.id, 
+		       b.title,
+		       b.body,
+		       b.inserted, 
+		        m.nickName writerNickName,
+		       COUNT(r.id) numOfReply
+		FROM Debate b LEFT JOIN BigReply r ON b.id = r.debateId
+						   JOIN Member m ON b.memberId = m.id
+		WHERE b.id = #{id}
+	</select>
+	
+<!-- 	<select id="getBoard" resultType="com.team1.food.domain.DebateDto">
+  	SELECT id, title, body, inserted
+  	FROM Debate
+  	WHERE id = #{id}
+  </select> -->
+  <update id="updateDebate">
+		UPDATE Debate
+		SET	title = #{title},
+		body = #{body}
+		WHERE 
+		    id = #{id}
+	</update>
+	
+	<delete id="deleteDebate">
+		DELETE FROM Debate
+		WHERE id = #{id }
+	</delete>
+	
+	<select id="countDebate" resultType="int">
+		SELECT COUNT(id) FROM Debate
+	</select>
+	
+	<select id="listDebatePage" resultType="com.team1.food.domain.DebateDto">
+		SELECT d.id        id, 
+  	       d.title     title, 
+  	       d.inserted  inserted,
+  	       COUNT(r.id) numOfReply
+  		FROM Debate d LEFT JOIN BigReply r ON d.id = r.debateId
+  		GROUP BY d.id
+  		ORDER BY d.id DESC
+  	LIMIT #{from},#{row}
+	</select>
+	
+	<!-- <select id="selectCloseDebate" resultType="com.team1.food.domain.CloseDto">
+ 		SELECT d.id        id, 
+  	       d.title     title, 
+  	       d.inserted  inserted,
+  	       COUNT(r.id) numOfReply
+  	FROM Debate d LEFT JOIN BigReply r ON d.id = r.id
+  	GROUP BY d.id
+  	ORDER BY id DESC
+ 
+ </select>  -->
+	
+
+ </mapper>
+
+
+
