@@ -86,7 +86,7 @@
 								</div>
 								<div class="mb-3">
 									<label for="file-text" class="col-form-label">배경이미지:</label>
-									<input type="file" accept="image/*" id="file-text" name="addFileList" />
+									<input type="file" accept="image/*" id="file-text" name="addFile" />
 								</div>
 							</div>
 							<div class="modal-footer">
@@ -106,7 +106,7 @@
 							class="card-img-top embed-responsive-item" alt="...">
 						<div class="card-body">
 							<h5 class="card-title">${cateList.cateName }</h5>
-							<a href="foodList?cateName=${cateList.cateName }" class="btn btn-primary">카테고리로 이동</a>
+							<a href="foodList?cateIndex=${cateList.cateIndex }" class="btn btn-primary">카테고리로 이동</a>
 						</div>
 					</div>
 				</div>

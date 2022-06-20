@@ -13,7 +13,9 @@
 	</select>
 	
 	<select id="selectFoodList" resultType="com.team1.food.domain.FoodDto">
-		SELECT foodName, cateName FROM FoodTable WHERE cateName = #{cateName}
+		SELECT foodName, cateName 
+		FROM FoodTable T RIGHT JOIN FoodCateTable C ON C.cateIndex = T.cateIndex
+		WHERE C.cateIndex = #{cateIndex}
 	</select>
 	
 	<insert id="insertCate" useGeneratedKeys="true" keyColumn="cateIndex" keyProperty="cateIndex">
@@ -21,8 +23,54 @@
 		VALUES (#{cateName}, #{memberId})
 	</insert>
 	
-	<insert id="insertCateFile">
+	<insert id="insertCateFile" >
 		INSERT INTO CateFileTable (cateId, fileName)
 		VALUES (#{cateId}, #{fileName})
 	</insert>
+	
+	<delete id="deleteCateFileByCateIndex">
+		DELETE FROM CateFileTable
+		WHERE cateId = #{cateId}
+	    AND fileName = #{fileName}
+	</delete>
+	
+	<select id="selectCateByIndex" resultType="com.team1.food.domain.FoodCateDto">
+		SELECT cateIndex, cateName, memberId FROM FoodCateTable WHERE cateIndex = #{cateIndex}
+	</select>
+	
+	<select id="selectFileNameByCateIndex" resultType="string">
+		SELECT F.fileName fileName
+		FROM CateFileTable F RIGHT JOIN FoodCateTable C ON C.cateIndex = F.cateId
+		WHERE C.cateIndex = #{cateIndex}
+	</select>
+	
+<!-- 	<select id="selectCateNameList" resultType="com.team1.food.domain.FoodCateDto">
+		SELECT CateName
+		FROM FoodCateTable;
+	</select> -->
+	
+	<update id="updateCate">
+		UPDATE FoodCateTable
+		SET cateName = #{cateName}
+		WHERE cateIndex = #{cateIndex}
+	</update>
+	
+	<select id="selectCateDto" resultType="com.team1.food.domain.FoodCateDto">
+		SELECT cateIndex, 
+			   cateName, 
+			   memberId, 
+			   F.fileName fileName
+		FROM FoodCateTable C LEFT JOIN CateFileTable F ON C.cateIndex = F.cateId
+		WHERE C.cateIndex = #{cateIndex}
+	</select>
+	
+	<select id="selectCateName" resultType="string">
+		SELECT cateName FROM FoodCateTable WHERE cateName = #{cateName}
+	</select>
+	
+	<select id="selectCateIndexFromCateName" resultType="int">
+		SELECT C.cateIndex cateIndex
+		FROM FoodTable T RIGHT JOIN FoodCateTable C ON T.cateIndex = C.cateIndex
+		WHERE C.cateName = #{cateName};
+	</select>
 </mapper>

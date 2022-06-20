@@ -49,8 +49,8 @@ public class CategoryService {
 		return mapper.selectCateList();
 	}
 
-	public List<FoodDto> foodList(String cateName) {
-		return mapper.selectFoodList(cateName);
+	public List<FoodDto> foodList(int cateIndex) {
+		return mapper.selectFoodList(cateIndex);
 	}
 
 	@Transactional
@@ -70,8 +70,8 @@ public class CategoryService {
 	
 
 	// AwsS3 파일 삭제
-	private void deleteFromAwsS3(int id, MultipartFile file) {
-		String key = "board/" + id + "/" + file;
+	private void deleteFromAwsS3(int id, String file) {
+		String key = "foodWikiFile/" + "FoodCateTable/" + id + "/" + file;
 		
 		DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
 				.bucket(bucketName)
@@ -79,17 +79,6 @@ public class CategoryService {
 				.build();
 		s3.deleteObject(deleteObjectRequest);
 	}
-//	// 파일 등록 메소드 추출
-//	public void addFiles(int id, MultipartFile files, String tableName) {
-//		if (files != null) {
-//			for	(MultipartFile file : files) {
-//				if (file.getSize() > 0) {
-//					mapper.insertFile(id, file.getOriginalFilename(), tableName);
-//					saveFileAwsS3(id, file, tableName); // s3에 업로드
-//				}
-//			}
-//		}
-//	}
 
 	// 공통 s3 업로드 메소드 작성
 	private void saveFileAwsS3(int id, MultipartFile file) {
@@ -110,6 +99,55 @@ public class CategoryService {
 			e.printStackTrace();
 			throw new RuntimeException(e); // Transactional 어노테이션에 대한 exception 설정
 		}
+	}
+
+	public FoodCateDto getCateByIndex(int i) {
+		System.out.println("카테고리 인덱스 가져오기 : " + i);
+		FoodCateDto dto = mapper.selectCateByIndex(i);
+		String fileName = mapper.selectFileNameByCateIndex(i);
+		
+		dto.setFileName(fileName);
+		
+		return dto;
+	}
+
+	@Transactional
+	public boolean updateCate(FoodCateDto dto, String nowFileName, MultipartFile modifyFile) {
+		// 기존 파일 삭제
+		System.out.println("카테고리 인덱스 번호 : " + dto.getCateIndex());
+		if (nowFileName != null) {
+			deleteFromAwsS3(dto.getCateIndex(), nowFileName);
+			// File 테이블의 컬럼 삭제
+			mapper.deleteCateFileByCateIndex(dto.getCateIndex(), nowFileName);
+		}
+		
+		// 삭제한 File 테이블 컬럼 추가 및 파일 등록
+		if (modifyFile != null) {
+			mapper.insertCateFile(dto.getCateIndex(), modifyFile.getOriginalFilename());
+			saveFileAwsS3(dto.getCateIndex(), modifyFile); // s3에 업로드
+			System.out.println("파일수정 성공");
+		}
+		
+		// 카테고리명 변경
+		int cnt = mapper.updateCate(dto);
+		System.out.println("카테고리수정 성공");
+		return cnt == 1;
+	}
+
+//	public List<String> getCateNameList(String string) {
+//		return mapper.selectCateNameList(string);
+//	}
+
+	public FoodCateDto selectCateDto(int cateIndex) {
+		return mapper.selectCateDto(cateIndex);
+	}
+
+	public String selectCateName(String cateName) {
+		return mapper.selectCateName(cateName);
+	}
+
+	public int selectCateIndexFromCateName(String cateName) {
+		return mapper.selectCateIndexFromCateName(cateName);
 	}
 
 

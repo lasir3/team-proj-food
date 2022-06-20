@@ -27,20 +27,22 @@ public class CategoryController {
 	public void cateList(Model model) {
 		List<FoodCateDto> list = cateService.foodCateList();
 		model.addAttribute("foodCateList", list);
-		System.out.println(list.toString());
 	}
 
 	@GetMapping("foodList")
-	public void getCateFoodList(@RequestParam(name = "cateName", defaultValue = "") String cateName, Model model) {
-		List<FoodDto> list = cateService.foodList(cateName);
+	public void getCateFoodList(@RequestParam(name = "cateIndex", defaultValue = "") int cateIndex, Model model) {
+		List<FoodDto> list = cateService.foodList(cateIndex);
+		FoodCateDto dto = cateService.selectCateDto(cateIndex);
+		System.out.println(list.toString());
+		// 수정용 파일명 전송
 		model.addAttribute("foodList", list);
-		model.addAttribute("categoryName", cateName);
+		model.addAttribute("cateDto", dto);
 	}
 
 	@PostMapping("addCate")
 	public String addCategory(FoodCateDto dto, 
 						      @RequestParam(name = "cateName") String cateName, 
-							  @RequestParam(name = "addFileList") MultipartFile file, /* Principal principal, */ 
+							  @RequestParam(name = "addFile") MultipartFile file, /* Principal principal, */ 
 							  RedirectAttributes rttr) {
 		
 		System.out.println("카테고리명 " + cateName);
@@ -71,11 +73,30 @@ public class CategoryController {
 	
 	@PostMapping("modifyCate")
 	public String modifyCategory(FoodCateDto dto, 
-						      @RequestParam(name = "cateName") String cateName, 
-							  @RequestParam(name = "addFileList") MultipartFile file, /* Principal principal, */ 
+							  @RequestParam(name = "modifyFile") MultipartFile modifyFile, /* Principal principal, */ 
 							  RedirectAttributes rttr) {
-
 		
-		return "redirect:foodList?cateName=" + cateName;
+		// 카테고리명이 기존과 같을 경우 진행하지 않고 경고메시지 표시
+//		String cateNameCheck = cateService.selectCateName(dto.getCateName());
+//		if (cateNameCheck != null) {
+			/*
+			 * } else if (modifyFile == null) { rttr.addFlashAttribute("cateFail",
+			 * "파일을 추가해야 합니다."); } else {
+			 */
+			FoodCateDto oldCateByName = cateService.getCateByIndex(dto.getCateIndex());
+			System.out.println("카테고리 이름으로 dto 검색 : " + oldCateByName);
+			System.out.println("새로운 카테고리명 : " + dto.getCateName());
+			boolean success = cateService.updateCate(dto, dto.getFileName(), modifyFile);
+			if (success) {
+				rttr.addFlashAttribute("cateSuccess", "카테고리 수정에 성공하였습니다.");
+			} else {
+				rttr.addFlashAttribute("cateFail", "카테고리 수정에 실패하였습니다.");
+			} 
+				
+//		} else {
+//			rttr.addFlashAttribute("cateFail", "같은 카테고리명이 존재합니다.");
+//		}
+		rttr.addAttribute("cateIndex", dto.getCateIndex());
+		return "redirect:foodList";
 	}
 }

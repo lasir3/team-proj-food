@@ -29,8 +29,8 @@
 	<my:navBar></my:navBar>
 	<div class="container mt-5">
 		<div class="row">
-			<h1>${categoryName }</h1>
-			<div class="mb-5"> - 이 위키는 ${categoryName }에 해당하는 요리에 관한 페이지입니다.</div>
+			<h1>${cateDto.cateName }</h1>
+			<div class="mb-5"> - 이 위키는 ${cateDto.cateName }에 해당하는 요리에 관한 페이지입니다.</div>
 			
 			<!-- 카테고리 수정, 삭제 버튼 -->
 			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
@@ -40,9 +40,29 @@
 					data-bs-whatever="@mdo">카테고리 수정</button>
 				<button class="btn btn-danger me-md-10 mb-1"  id="CateDelete-Button1">카테고리 삭제</button>
 			</div>
+			
+			<!-- 카테고리 수정 여부에 따른 메시지 띄우기 -->
+			<!-- Modal로 수정 예정 -->
+			<c:if test="${not empty cateFail }">
+				<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					<strong>${cateFail }</strong>
+					<button type="button" class="btn-close" data-bs-dismiss="alert"	aria-label="Close"></button>
+				</div>
+			</c:if>
+			<c:if test="${not empty cateSuccess }">
+				<div class="alert alert-primary alert-dismissible fade show" role="alert">
+					<strong>${cateSuccess }</strong>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			</c:if>
 		
 			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4" >
 				<form id="form1" action="${appRoot }/foodBoard/modifyCate" method="post" enctype="multipart/form-data">
+					<!-- 카테고리 수정용 dto hidden 타입으로 입력 -->
+					<input type="hidden" name="cateIndex" value="${cateDto.cateIndex }" />
+					<input type="hidden" name="fileName" value="${cateDto.fileName }" />
+					
+					
 					<div class="modal fade" id="exampleModal" tabindex="-1"
 						aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
@@ -54,11 +74,11 @@
 								<div class="modal-body">
 									<div class="mb-3">
 										<label for="category-name" class="col-form-label">카테고리명:</label>
-										<input type="text" class="form-control" id="category-name" name="cateName" value="${categoryName }"/>
+										<input type="text" class="form-control" id="category-name" name="cateName" value="${cateDto.cateName }"/>
 									</div>
 									<div class="mb-3">
 										<label for="file-text" class="col-form-label">배경이미지:</label>
-										<input type="file" accept="image/*" name="addFileList" id="file-text"/>
+										<input type="file" accept="image/*" name="modifyFile" id="file-text"/>
 									</div>
 								</div>
 								<div class="modal-footer">
@@ -76,8 +96,10 @@
 
 			<div class="col">
 				<c:forEach items="${foodList }" var="food" varStatus="status">
-					<a href="">${status.index + 1}. ${food.foodName }</a>
-					<br />
+			  		<c:if test="${not empty food.foodName }">
+						<a href="">${status.index + 1}. ${food.foodName }</a>
+						<br />
+			  		</c:if>
 				</c:forEach>
 			</div>
 		</div>

@@ -13,14 +13,30 @@ public interface CategoryMapper {
 
 	List<FoodCateDto> selectCateList();
 
-	List<FoodDto> selectFoodList(String foodName);
+	List<FoodDto> selectFoodList(int cateIndex);
 
 	int insertCate(FoodCateDto dto);
 
 	void insertCateFile(@Param("cateId") int id, @Param("fileName") String filename);
 
-	FoodCateDto selectCateByIndex(int cateIndex);
+	FoodCateDto selectCateByName(String cateName);
 
-	String selectFileNameByCateIndex(int cateIndex);
+	String selectFileNameByCateName(String cateName);
+
+	int updateCate(FoodCateDto dto);
+
+//	List<String> selectCateNameList(String string);
+
+	void deleteCateFileByCateIndex(@Param("cateId") int cateIndex, @Param("fileName") String deleteFile);
+
+	FoodCateDto selectCateDto(int cateIndex);
+
+	FoodCateDto selectCateByIndex(int i);
+
+	String selectFileNameByCateIndex(int i);
+
+	String selectCateName(String cateName);
+
+	int selectCateIndexFromCateName(String cateName);
 
 }
