@@ -25,6 +25,7 @@
 		       b.title,
 		       b.body,
 		       b.inserted, 
+		       b.memberId,
 		        m.nickName writerNickName,
 		       COUNT(r.id) numOfReply
 		FROM Debate b LEFT JOIN BigReply r ON b.id = r.debateId
@@ -33,7 +34,7 @@
 	</select>
 	
 <!-- 	<select id="getBoard" resultType="com.team1.food.domain.DebateDto">
-  	SELECT id, title, body, inserted
+  	SELECT id, title, body, inserted 
   	FROM Debate
   	WHERE id = #{id}
   </select> -->

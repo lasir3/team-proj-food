@@ -49,12 +49,12 @@ public class DebateController {
 		model.addAttribute("debateList", list);
 	}
 	
-	/*@RequestMapping("close")
+	@RequestMapping("close")
 	public void CloseDebate(Model model) {
 		List<CloseDto> list = service.CloseDebate();
 		
 		model.addAttribute("CloseList", list);
-	}*/
+	}
 
 	@GetMapping("write")
 	public void insert() {
@@ -96,8 +96,7 @@ public class DebateController {
 			Principal principal,
 			RedirectAttributes rttr) {
 		DebateDto oldBoard = service.getDebateById(dto.getId());
-		System.out.println(dto);
-
+	
 		if (oldBoard.getMemberId().equals(principal.getName())) {
 			boolean success = service.updateDebate(dto);
 
@@ -141,11 +140,4 @@ public class DebateController {
 		return "redirect:/debate/list";
 	}
 	
-//	@PostMapping("move")
-//	public String moveDebate(CloseDto dto, Principal principal, RedirectAttributes rttr) {
-//		
-//		CloseDto closeDebate = service.getCloseDebateById(dto.getId());
-//		
-//		
-//	}
 }

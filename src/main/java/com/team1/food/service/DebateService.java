@@ -67,4 +67,9 @@ public class DebateService {
 		
 		return mapper.listDebatePage(from, rowPerPage);
 	}
+
+	  List<CloseDto> CloseDebate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

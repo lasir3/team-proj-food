@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec"
+   uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
 
 <!DOCTYPE html>
@@ -272,9 +274,11 @@ $(document).ready(function() {
 	<div class="container">
 		<div class="row">
 			<div class="col">
+				<h6>${principal.username }</h6>
+				<h1>${debate.memberId }</h1>
 				<h5>
 					<a href="${listUrl }" style="text-decoration-line: none">토론</a>
-
+				
 					<sec:authorize access="isAuthenticated()">
 						<sec:authentication property="principal" var="principal" />
 
@@ -304,7 +308,7 @@ $(document).ready(function() {
  				<div>
 						<label class="form-label" for="input1">제목</label>
 						<input class="form-control mb-3" type="text" name="title" required
-							id="input1" value="${debate.title }" />
+							id="input1" value="${debate.title }" readonly />
 					</div>
  			
 					<div class="card">
