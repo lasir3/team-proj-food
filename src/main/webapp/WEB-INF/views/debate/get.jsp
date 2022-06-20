@@ -29,36 +29,10 @@ $(document).ready(function() {
 		$("#textarea1").removeAttr("readonly");
 		$("#modify-submit1").removeClass("d-none");
 		$("#delete-submit1").removeClass("d-none");
+		$("#close-submit1").removeClass("d-none")
 	});
 	
-	var bno = ${read.bno};
-	var memberId = ${login.memberId};
-	var writerId = ${read.id};
-	
-	 function updateLike(){ 
-	     $.ajax({
-	            type : "POST",  
-	            url : "/debate/updateLike",       
-	            dataType : "json",   
-	            data : {'bno' : bno, 'memberId' : memberId , 'debateId' : debateId},
-	            error : function(){
-	               alert("통신 에러");
-	            },
-	            success : function(likeCheck) {
-	                
-	                    if(likeCheck == 0){
-	                    	alert("추천완료.");
-	                    	location.reload();
-	                    }
-	                    else if (likeCheck == 1){
-	                     alert("추천취소");
-	                    	location.reload();
 
-	                    
-	                }
-	            }
-	        });
-	 }
 
 	$("#delete-submit1").click(function(e) {
 		e.preventDefault();
@@ -73,55 +47,63 @@ $(document).ready(function() {
 
 	});
 	
+	$("#close-submit1").click(function(e){
+		e.preventDefault();
+		
+		if(confirm("닫힌 토론으로 보내시겠습니까?")) {
+			let form2 = $("#form2");
+			let actionAttr = "${appRoot}/debate/close";
+			form2.attr("action", actionAttr);
+			
+			form2.submit();
+		}
+	})
+	
 	// 페이지 로딩 후 reply list 가져오는 ajax 요청
 	const listReply = function() {
-		
-		const data = {debateId : ${debate.id}};
-		$.ajax({
-			url : "${appRoot}/reply/list",
-			type : "get",
-			data : data,
-			success : function(list) {
-				// console.log("댓글 가져 오기 성공");
-				console.log(list);
-				
-				const replyListElement = $("#replyList1");
-				replyListElement.empty();
-				
-				// 댓글 개수 표시
-				/* $("#numOfReply1").text(list.length); */
-				
-				for (let i = 0; i < list.length; i++) {
-					const replyElement = $("<li class='list-group-item' />");
-					replyElement.html(`
-							
-							<div id="replyDisplayContainer\${list[i].id }">
-								<div class="fw-bold">
-									<i class="fa-solid fa-comment"></i>
+			
+			const data = {debateId : ${debate.id}};
+			$.ajax({
+				url : "${appRoot}/reply/list",
+				type : "get",
+				data : data,
+				success : function(list) {
+					// console.log("댓글 가져 오기 성공");
+					console.log(list);
+					
+					const replyListElement = $("#replyList1");
+					replyListElement.empty();
+					
+					// 댓글 개수 표시
+					$("#numOfReply1").text(list.length);
+					
+					for (let i = 0; i < list.length; i++) {
+						const replyElement = $("<li class='' />");
+						replyElement.html(`
+								<div class="card">
+								  <div class="card-header" id="\${list[i].writerNickName}">\${list[i].writerNickName}
+								  <i class="fa-solid fa-comment"></i>
 									\${list[i].prettyInserted}
-									
 									<span id="modifyButtonWrapper\${list[i].id }">
-									</span>
-									
-
+									</span>								
+								  </div>
+								  <div class="card-body" id="replyContent\${list[i].id }"></div>
+								  </div>
+									<div class="fw-bold">
+								<div id="replyDisplayContainer\${list[i].id }">
+										
+										
+										
+									</div>
 									
 								</div>
-								<span class="badge bg-light text-dark">
-									<i class="fa-solid fa-user"></i>
-									\${list[i].writerNickName}
-								</span>
-								<span id="replyContent\${list[i].id }"><span>
-
-
-							</div>
-
 							<div id="replyEditFormContainer\${list[i].id }"
 								style="display: none;">
 								<form action="${appRoot }/reply/modify" method="post">
 									<div class="input-group">
 										<input type="hidden" name="debateId" value="${debate.id }" />
 										<input type="hidden" name="id" value="\${list[i].id }" />
-										<input class="form-control" value="\${list[i].content }"
+										<input class="form-control" value="\${list[i].board }"
 											type="text" name="board" required />
 										<button data-reply-id="\${list[i].id}" 
 										        class="reply-modify-submit btn btn-outline-secondary">
@@ -133,7 +115,7 @@ $(document).ready(function() {
 							
 							`);
 					replyListElement.append(replyElement);
-					$("#replyContent" + list[i].id).text(list[i].content);
+					$("#replyContent" + list[i].id).text(list[i].board);
 					
 					// own이 true일 때만 수정,삭제 버튼 보이기
 					if (list[i].own) {
@@ -285,56 +267,13 @@ $(document).ready(function() {
 </head>
 <body>
 	<my:navBar current="list" />
-
-	<%-- 
-	<input type="hidden" name="id" value="${debate.id }" />
-	작성일시 : <input type="datetime-local" value="${debate.inserted }" readonly /> <br />
-	
-	제목 : <input type="text" value="${debate.title }" name="title" /> <br />
-	
-	본문 : <textarea cols="30" rows="10" name="body" >${debate.body }</textarea> <br />
-	
-	
-	<button>수정</button>
-
-	<c:url value="/reply/insert" var="replyInsertLink" />
-	<form action="${replyInsertLink }" method="post">
-		<input type="hidden" name="debateId" value="${debate.id } "/>
-		댓글 : <input type="text" name="board" size="50" />
-		
-		<button>쓰기</button>
-	</form>
-	
-	<div>
-		<c:forEach items="${replyList }" var="reply">
-			
-			<div style="border: 1px solid black; margin-bottom: 3px;">
-				${reply.inserted }
-				
-				<c:url value="/reply/modify" var="replyModifyLink" />
-				<form action="${replyModifyLink }" method="post" >
-					<input type="hidden" value="${reply.id }" name="id" />
-					<input type="hidden" name="debateId" value="${debate.id }" />
-					<input type="text" value="${reply.board }" name="board" />
-				</form>
-				
-				<c:url value="/reply/remove" var="replyRemoveLink" />
-				<form action="${replyRemoveLink }" method="post">
-					<input type="hidden" name="id" value="${reply.id }" />
-					<input type="hidden" name="debateId" value="${debate.id }" />
-					<button>삭제</button>
-				</form>
-			</div>
-			
-		</c:forEach>
-	</div> --%>
 	<c:url value="/debate/list" var="listUrl"></c:url>
 
 	<div class="container">
 		<div class="row">
 			<div class="col">
 				<h5>
-					<a href="${listUrl }" style="text-decoration-line : none">토론</a>
+					<a href="${listUrl }" style="text-decoration-line: none">토론</a>
 
 					<sec:authorize access="isAuthenticated()">
 						<sec:authentication property="principal" var="principal" />
@@ -355,30 +294,52 @@ $(document).ready(function() {
 					enctype="multipart/form-data">
 					<input type="hidden" name="id" value="${debate.id }" />
 
-					<div>
-						<label class="form-label" id="input1" type="text" name="title"
-							required>
-							<a href="#" style="text-decoration-line : none">${debate.title }</a>${debate.prettyInserted}
-						</label>
+					<%-- <div>
+						제목
+						<input class="form-control mb-3" type="text" name="title" required
+							id="input1" value="${debate.title }" readonly />
 					</div>
-					<%-- <span id="add-goodRp-btn" class="btn btn-outline">
-													좋아요👍
-					<span class="add-goodRp ml-2">${foundArticle.goodReactionPoint}</span>
-					</span> --%>
-						<%-- <input class="form-control mb-3" type="text" name="title" required
-							id="input1" value="${debate.title }" readonly /> --%>
-						<div>
-							<!-- <label for="input3" class="form-label"> -->${debate.writerNickName }<!-- </label> -->
-							<input id="input3" class="form-control mb-3" type="text"
-								value="${debate.writerNickName }" readonly />
-						</div>
+ --%>
+ 				<%-- <a href="#" style="text-decoration-line: none" name="title">${debate.title }</a>  --%>
+ 				<div>
+						<label class="form-label" for="input1">제목</label>
+						<input class="form-control mb-3" type="text" name="title" required
+							id="input1" value="${debate.title }" />
+					</div>
+ 			
+					<div class="card">
+					<div class="card-header" type="text" value="${debate.writerNickName }" >
+						${debate.writerNickName }
+						
+					<!-- 	<label for="input2" class="form-label">작성일시</label> -->
+						<span type="readonly"	>${debate.prettyInserted }</span>
+					</div>
+					</div>
+					<div>
+						<label class="form-label" for="textarea1"></label>
+						<textarea class="form-control mb-3" name="body" id="textarea1"
+							cols="30" rows="10" readonly>${debate.body }</textarea>
+					</div>
+				
+				<%-- 	<div>
+						<label for="input3" class="form-label">작성자</label>
+						<input id="input3" class="form-control mb-3" type="text"
+							value="${debate.writerNickName }" readonly />
+					</div> --%>
 
-			
-					<div>
-						<label for="textarea1"></label>
-						<textarea class="form-control-plaintext" name="body" rows="4"
-							cols="" id="textarea1" style="resize: none;" readonly>${debate.body }</textarea>
+					
+					<%-- <div>
+						
+						<label for="textarea1">본문</label>			
+						<textarea  name="body" id="textarea1" readonly>${debate.body }</textarea>
+					</div> --%> 
+					<%-- <div>
+						<label for="input2" class="form-label">작성일시</label>
+						<input class="form-control mb-3" type="datetime-local"
+							value="${debate.inserted }" readonly />
+							${debate.writerNickName }/${debate.inserted }
 					</div>
+					 --%>
 					
 					<div class="container mt-3">
 						<div class="row">
@@ -389,13 +350,14 @@ $(document).ready(function() {
 									개
 								</p> -->
 
-								<ul id="replyList1" class="list-group">
+								<ul id="replyList1" class="list-group" style="list-style: none">
 								</ul>
 							</div>
 						</div>
 					</div>
 					<button id="modify-submit1" class="btn btn-primary d-none">수정</button>
 					<button id="delete-submit1" class="btn btn-danger d-none">삭제</button>
+					<button id="close-submit1" class="btn btn-secondary d-none">토론 닫기</button>
 				</form>
 
 			</div>
@@ -407,17 +369,16 @@ $(document).ready(function() {
 		<div class="alert alert-primary" style="display: none;"
 			id="replyMessage1"></div>
 	</div>
-	</div>
 
-	 <div class="container mt-10">
+	<div class="container mt-10">
 		<div class="row">
 			<div class="col">
 				<h5>댓글 달기</h5>
 				<form id="insertReplyForm1">
 					<div class="input-group">
+						<input type="hidden" name="debateId" value="${debate.id }" />
 						<input id="insertReplyContentInput1" class="form-control"
 							type="text" name="board" required />
-						<input type="hidden" name="debateId" value="${debate.id }" />
 						<button id="addReplySubmitButton1"
 							class="btn btn-outline-secondary">
 							<i class="fa-solid fa-comment-dots"></i>
@@ -426,14 +387,15 @@ $(document).ready(function() {
 				</form>
 			</div>
 		</div>
+	</div>
 
-		<%-- reply 삭제 form --%>
-		<div class="d-none">
-			<form id="replyDeleteForm1" action="${appRoot }/reply/delete"
-				method="post">
-				<input id="replyDeleteInput1" type="text" name="id" />
-				<input type="text" name="debateId" value="${debate.id }" />
-			</form>
-		</div>
+	<%-- reply 삭제 form --%>
+	<div class="d-none">
+		<form id="replyDeleteForm1" action="${appRoot }/reply/delete"
+			method="post">
+			<input id="replyDeleteInput1" type="text" name="id" />
+			<input type="text" name="debateId" value="${debate.id }" />
+		</form>
+	</div>
 </body>
 </html>

@@ -50,11 +50,6 @@
 						<label class="form-label" for="textarea1">내용 :</label>
 						<textarea style="resize: none;" placeholder="내용을 입력해 주세요." class="form-control mb-3" name="body" id="textarea1" cols="30" rows="10"></textarea>
 					</div>
-					<div>
-						<label class="form-label" for="input1">작성자</label>
-						<input class="form-control mb-3" type="text" name="memberId" required id="input1" cols="30" rows="10" />
-					</div>
-					
 					 
 					
 					<button class="btn btn-primary">작성</button>

@@ -14,17 +14,6 @@
   	ORDER BY id DESC
  
  </select> 
- <select id="CloseDebate" resultType="com.team1.food.domain.DebateDto">
- 		SELECT d.id        id, 
-  	       d.title     title, 
-  	       d.inserted  inserted,
-  	       COUNT(r.id) numOfReply
-  	FROM Debate d LEFT JOIN BigReply r ON d.id = r.id
-  	GROUP BY d.id
-  	ORDER BY id
- 	LIMIT #{from},#{row}
- </select> 
- 
   
 <insert id="writeDebate" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
 		INSERT INTO Debate (title,body, memberId)
@@ -36,13 +25,13 @@
 		       b.title,
 		       b.body,
 		       b.inserted, 
+		        m.nickName writerNickName,
 		       COUNT(r.id) numOfReply
 		FROM Debate b LEFT JOIN BigReply r ON b.id = r.debateId
+						   JOIN Member m ON b.memberId = m.id
 		WHERE b.id = #{id}
 	</select>
-	<select id="countCloseDebate" resultType="int">
-		SELECT COUNT(id) FROM Debate
-	</select>
+	
 <!-- 	<select id="getBoard" resultType="com.team1.food.domain.DebateDto">
   	SELECT id, title, body, inserted
   	FROM Debate
@@ -50,8 +39,8 @@
   </select> -->
   <update id="updateDebate">
 		UPDATE Debate
-		SET title = #{title},
-			body = #{body}
+		SET	title = #{title},
+		body = #{body}
 		WHERE 
 		    id = #{id}
 	</update>
@@ -70,12 +59,24 @@
   	       d.title     title, 
   	       d.inserted  inserted,
   	       COUNT(r.id) numOfReply
-  		FROM Debate d LEFT JOIN BigReply r ON d.id = r.id
+  		FROM Debate d LEFT JOIN BigReply r ON d.id = r.debateId
   		GROUP BY d.id
-  		ORDER BY id
+  		ORDER BY d.id DESC
   	LIMIT #{from},#{row}
 	</select>
 	
+	<!-- <select id="selectCloseDebate" resultType="com.team1.food.domain.CloseDto">
+ 		SELECT d.id        id, 
+  	       d.title     title, 
+  	       d.inserted  inserted,
+  	       COUNT(r.id) numOfReply
+  	FROM Debate d LEFT JOIN BigReply r ON d.id = r.id
+  	GROUP BY d.id
+  	ORDER BY id DESC
+ 
+ </select>  -->
+	
+
  </mapper>
 
 

@@ -16,6 +16,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<my:navBar current="list" />
 <div class="container">
 		<div class="row">
 			<div class="col">

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.team1.food.domain.CloseDto;
 import com.team1.food.domain.DebateDto;
 import com.team1.food.mapper.BigReplyMapper;
 import com.team1.food.mapper.DebateMapper;
@@ -66,22 +67,4 @@ public class DebateService {
 		
 		return mapper.listDebatePage(from, rowPerPage);
 	}
-
-	public List<DebateDto> listCloseDebate() {
-		// TODO Auto-generated method stub
-		return mapper.CloseDebate();
-	}
-
-	public List<DebateDto> listCloseDebatePage(int page, int rowPerPage) {
-		// TODO Auto-generated method stub
-		int from = (page - 1) * rowPerPage;
-		
-		return mapper.listCloseDebatePage(from, rowPerPage);
-	}
-
-	public int countCloseDebate() {
-		// TODO Auto-generated method stub
-		return mapper.countCloseDebate();
-	}
-
 }

@@ -25,7 +25,7 @@
 	<select id="selectAllDebateId" resultType="com.team1.food.domain.BigReplyDto">
 	
 	SELECT r.id, 
-	       r.debateId debateId,
+		   r.debateId,
 	       r.board,
 	       m.nickName writerNickName,
 	       r.inserted,
@@ -55,7 +55,7 @@
 	
 	<select id="selectBigReplyById" resultType="com.team1.food.domain.BigReplyDto">
 	SELECT id,
-	       debateId,
+		   debateId,
 		   board,
 		   memberId,
 		   inserted

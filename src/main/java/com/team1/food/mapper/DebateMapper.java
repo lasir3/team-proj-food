@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.team1.food.domain.CloseDto;
 import com.team1.food.domain.DebateDto;
 
 public interface DebateMapper {
@@ -18,7 +19,6 @@ public interface DebateMapper {
 
 	int deleteDebate(int id);
 
-	int updateDebate(DebateDto dto);
 
 	int countDebate();
 
@@ -26,12 +26,7 @@ public interface DebateMapper {
 	
 	List<DebateDto> selectDebateBoard();
 
-	List<DebateDto> CloseDebate();
+	/*List<CloseDto> selectCloseDebate();*/
 
-	List<DebateDto> listCloseDebatePage(@Param("from")int from, @Param("row")int rowPerPage);
-
-	int countCloseDebate();
-
-
-
+	int updateDebate(DebateDto dto);
 }

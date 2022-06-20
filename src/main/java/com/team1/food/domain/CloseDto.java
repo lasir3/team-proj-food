@@ -5,14 +5,11 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-public class BigReplyDto {
+public class CloseDto {
 	private int id;
 	private String memberId;
-	private int debateNumber;
-	private int debateId;
-	private String board;
-	private String writerNickName;
-	private boolean own;
+	private String title;
+	private String body;
 	private LocalDateTime inserted;
 	
 	public String getPrettyInserted() {

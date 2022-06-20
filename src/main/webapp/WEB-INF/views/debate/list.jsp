@@ -19,9 +19,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col">
-				<h5>열린 토론<a class="btn btn-link" href="close" role="button">닫힌 토론</a></h5> 
-				<%-- <c:url value="/debate/write" var="writeLink" />
-				<h3><a href="${writeLink }">글 작성</a></h3> --%>
+				<h5>열린 토론</h5> 
 				<c:if test="${not empty message }">
 					<div class="alert alert-primary">
 						${message }
@@ -47,21 +45,16 @@
 										<c:param name="id" value="${debate.id }"></c:param>
 									</c:url>
 									
-									<a href="${getUrl }">
-										<c:out value="${debate.title }" />
+									<a href="${getUrl }" class="text-decoration-none">
+										<div style="height:100%; width=100%">
+										<span class="text-body">${debate.title }</span>
+										<span class="numOfReply">[${debate.numOfReply }]</span>
+										</div>
 									</a>
-								
-									
-									<!-- 댓글 -->
-									<c:if test="${debate.numOfReply > 0 }">
-										<span class="badge rounded-pill bg-light text-dark">
-											<i class="fa-solid fa-comment-dots"></i>
-											${debate.numOfReply }
-										</span>
-									</c:if>
+					
 									
 								</td>
-							 <%-- <td>${debate.memberId }</td>  --%>
+							<%--   <td>${debate.memberId }</td>   --%>
 								<td>${debate.prettyInserted }</td>
 							</tr>
 						</c:forEach>
