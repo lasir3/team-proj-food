@@ -45,14 +45,17 @@ public class CategoryService {
 		this.s3.close();
 	}
 
+	// 카테고리 리스트 메소드
 	public List<FoodCateDto> foodCateList() {
 		return mapper.selectCateList();
 	}
 
+	// 음식 리스트 메소드
 	public List<FoodDto> foodList(int cateIndex) {
 		return mapper.selectFoodList(cateIndex);
 	}
 
+	// 카테고리 등록 메소드
 	@Transactional
 	public boolean addCate(FoodCateDto dto, MultipartFile file) {
 		// 카테고리 등록
@@ -101,16 +104,15 @@ public class CategoryService {
 		}
 	}
 
+	// 카테고리 인덱스번호 호출 메소드
 	public FoodCateDto getCateByIndex(int i) {
-		System.out.println("카테고리 인덱스 가져오기 : " + i);
 		FoodCateDto dto = mapper.selectCateByIndex(i);
 		String fileName = mapper.selectFileNameByCateIndex(i);
-		
 		dto.setFileName(fileName);
-		
 		return dto;
 	}
 
+	// 카테고리 수정 메소드
 	@Transactional
 	public boolean updateCate(FoodCateDto dto, String nowFileName, MultipartFile modifyFile) {
 		// 기존 파일 삭제
@@ -137,18 +139,39 @@ public class CategoryService {
 //	public List<String> getCateNameList(String string) {
 //		return mapper.selectCateNameList(string);
 //	}
-
+	
+	// 카테고리 페이지의 인덱스 번호를 이용해 DTO 입력 메소드
 	public FoodCateDto selectCateDto(int cateIndex) {
 		return mapper.selectCateDto(cateIndex);
 	}
-
+	
+	// 카테고리명 중복검사 메소드
 	public String selectCateName(String cateName) {
 		return mapper.selectCateName(cateName);
 	}
 
-	public int selectCateIndexFromCateName(String cateName) {
-		return mapper.selectCateIndexFromCateName(cateName);
+//	public int selectCateIndexFromCateName(String cateName) {
+//		return mapper.selectCateIndexFromCateName(cateName);
+//	}
+
+	// 카테고리 삭제 메소드
+	@Transactional
+	public boolean deleteCate(int cateIndex) {
+		// 파일 목록 읽기
+		String fileName = mapper.selectFileNameByCateIndex(cateIndex);
+		System.out.println("카테고리 삭제 파일명 : " + fileName);
+		System.out.println("카테고리 인덱스명 : " + cateIndex);
+		
+		// s3에서 지우기
+		deleteFromAwsS3(cateIndex, fileName);
+		
+		// 파일 테이블 삭제
+		mapper.deleteFileByCateIndex(cateIndex);
+		
+		// 카테고리 음식 리스트 삭제
+		mapper.deleteFilelistByCateIndex(cateIndex);
+		
+		// 카테고리 테이블 삭제
+		return mapper.deleteCate(cateIndex) == 1;
 	}
-
-
 }

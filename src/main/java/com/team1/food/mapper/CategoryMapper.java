@@ -37,6 +37,12 @@ public interface CategoryMapper {
 
 	String selectCateName(String cateName);
 
-	int selectCateIndexFromCateName(String cateName);
+	void deleteFileByCateIndex(int cateIndex);
+
+	int deleteCate(int cateIndex);
+
+	void deleteFilelistByCateIndex(int cateIndex);
+
+//	int selectCateIndexFromCateName(String cateName);
 
 }

@@ -68,9 +68,24 @@
 		SELECT cateName FROM FoodCateTable WHERE cateName = #{cateName}
 	</select>
 	
-	<select id="selectCateIndexFromCateName" resultType="int">
+	<delete id="deleteFileByCateIndex">
+		DELETE FROM CateFileTable
+		WHERE cateId = #{cateId}
+	</delete>
+	
+	<delete id="deleteFilelistByCateIndex">
+		DELETE FROM FoodTable
+		WHERE cateIndex = #{cateIndex}
+	</delete>
+	
+	<delete id="deleteCate">
+		DELETE FROM FoodCateTable
+		WHERE cateIndex = #{cateIndex}
+	</delete>
+	
+<!-- 	<select id="selectCateIndexFromCateName" resultType="int">
 		SELECT C.cateIndex cateIndex
 		FROM FoodTable T RIGHT JOIN FoodCateTable C ON T.cateIndex = C.cateIndex
 		WHERE C.cateName = #{cateName};
-	</select>
+	</select> -->
 </mapper>
