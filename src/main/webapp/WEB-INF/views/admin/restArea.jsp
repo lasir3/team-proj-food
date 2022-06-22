@@ -39,7 +39,22 @@
 						${deleteMessage }
 					</div>
 				</c:if>
-			
+				
+				<!-- 테스트  -->
+				<%-- <ul class="list-group list-group-horizontal">
+					<li class="list-group-item">
+						<a href="${appRoot }/admin/restArea">전체</a>
+					</li>
+					<li class="list-group-item">
+						<a href="">휴가</a>
+			  		</li>
+					<li class="list-group-item">
+						<a href="">사퇴</a>
+					</li>
+				</ul> --%>
+				
+				<!-- -->
+				
 				<table class="table table-hover">
 					<thead>
 						<tr>
@@ -50,6 +65,10 @@
 						</tr>
 					</thead>
 					<tbody>
+						<!-- 상단 고정 공지 글 -->
+						<my:pinnedNotice></my:pinnedNotice>
+						
+						<!-- 일반 글 -->
 						<c:forEach items="${boardList }" var="board">
 							<tr>
 								<!-- 글번호  -->
@@ -88,6 +107,12 @@
 		</div>
 	</div>
 	
-	<my:adminBoardPagination path="/admin/restArea"></my:adminBoardPagination>
+	<!-- 페이지, 검색  -->
+	<div class="d-flex justify-content-center">
+		<my:adminBoardPagination path="/admin/restArea"></my:adminBoardPagination>
+	</div>
+	<div class="d-flex justify-content-center mb-3">
+		<my:adminBoardSearch path="/admin/restArea"></my:adminBoardSearch>
+	</div>
 </body>
 </html>

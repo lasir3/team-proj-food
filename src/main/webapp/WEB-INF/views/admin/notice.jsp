@@ -48,8 +48,13 @@
 							<th>작성시간</th>
 						</tr>
 					</thead>
+					
 					<tbody>
-						<c:forEach items="${boardList }" var="board">
+						<!-- 상단 고정 공지 글 -->
+						<my:pinnedNotice></my:pinnedNotice>
+						
+						<!-- 일반 글 -->
+						<c:forEach items="${boardList }" var="board">			
 							<tr>
 								<!-- 글번호  -->
 								<td>${board.id }</td>	
@@ -75,7 +80,7 @@
 								<td>${board.prettyInserted }</td>					
 							</tr>
 						</c:forEach>
-						
+				      	
 					</tbody>
 				</table>
 				
@@ -87,7 +92,13 @@
 		</div> <!-- end of .row -->
 	</div> <!-- end of .container -->
 	
-	<my:adminBoardPagination path="/admin/notice"></my:adminBoardPagination>
+	<!-- 페이지, 검색  -->
+	<div class="d-flex justify-content-center">
+		<my:adminBoardPagination path="/admin/notice"></my:adminBoardPagination>
+	</div>
+	<div class="d-flex justify-content-center mb-3">
+		<my:adminBoardSearch path="/admin/notice"></my:adminBoardSearch>
+	</div>
 
 </body>
 </html>

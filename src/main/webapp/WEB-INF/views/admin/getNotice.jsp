@@ -21,6 +21,8 @@ $(document).ready(function(){
 		$("#input1").removeAttr("readonly");
 		$("#textarea1").removeAttr("readonly");
 		$("#modify-complete1").removeClass("d-none");
+		$(".pin").removeClass("d-none");
+		
 	});
 	
 	/* 글 삭제 버튼 클릭*/
@@ -34,6 +36,20 @@ $(document).ready(function(){
 			form1.submit();
 		}
 	});
+	
+	/* 상단 고정 여부 설정 */
+	let pinned = ${board.pinned};
+	console.log(pinned);
+	if(pinned){
+		$("#isPinned").attr("checked","checked");
+	}
+	$("#pinned").val(pinned);
+	$("#isPinned").change(function(){
+		pinned = $(this).is(":checked");
+		console.log(pinned);
+		$("#pinned").val(pinned);
+	});
+	
 	
 	// 페이지 로딩 후 reply list 가져오는 ajax 요청
 	const listReply = function(){
@@ -282,7 +298,10 @@ $(document).ready(function(){
 						<c:if test="${principal.username == board.memberId }"> 
 							<button id="modify-start1" class="btn btn-primary" >수정</button>
 							<button id="modify-complete1" class="btn btn-success d-none" >완료</button>
-							<button id="delete-submit1" class="btn btn-danger" >삭제</button>
+							<button id="delete-submit1" class="btn btn-danger" >삭제</button>		
+							<input type="checkbox" name="isPinned" id="isPinned" class="pin d-none"/>
+							<label for="isPinned" class="pin d-none">고정</label>
+							<input type="hidden" name="pinned" id="pinned" form="form1"/>
 						</c:if>				
 					</sec:authorize>
 					

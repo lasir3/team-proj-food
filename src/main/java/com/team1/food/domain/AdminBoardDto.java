@@ -16,6 +16,8 @@ public class AdminBoardDto {
 	private LocalDateTime inserted;
 	private String writerNickName;
 	private int numOfReply;
+	// 상단 고정 여부
+	private boolean pinned;
 	
 	public String getPrettyInserted() {
 		// 24시간 이내면 "시간:분:초"
@@ -34,4 +36,5 @@ public class AdminBoardDto {
 		int day = inserted.getDayOfMonth();
 		return month + "-" + day;
 	}
+	
 }

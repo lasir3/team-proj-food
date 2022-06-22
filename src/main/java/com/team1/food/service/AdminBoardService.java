@@ -20,17 +20,19 @@ public class AdminBoardService {
 	
 	/*** 공지  
 	 * @param keyword 
+	 * @param type 
+	 * @param keyword 
 	 * @param type ***/
 	
 	// 공지 글 리스트
-	public List<AdminBoardDto> noticeList(int page, int rowPerPage) {
+	public List<AdminBoardDto> noticeList(String type, String keyword, int page, int rowPerPage) {
 		// 몇번째 레코드부터 가져올 것인지?
 		int startFrom = (page - 1) * rowPerPage;
 		// 예를 들어 page=1, rowPerPage = 5의 경우. 
 		// 0번째부터 5개의 데이터를 가져와야함. (LIMIT 0, 5)
 		// >> startFrom = (1 - 1) * 5 = 0
 		
-		return mapper.selectNoticeBoardAll(startFrom, rowPerPage);
+		return mapper.selectNoticeBoardAll(type, "%" + keyword + "%", startFrom, rowPerPage);
 	}
 
 	// 공지 글 작성
@@ -56,20 +58,20 @@ public class AdminBoardService {
 		return mapper.deleteNoticeBoardById(id) == 1;
 	}
 	
-	// 공지 레코즈 개수
-//	public int noticeBoardCount() {
-//		return mapper.selectNoticeBoardCount();
-//	}
+	// 공지 고정글 리스트
+	public List<AdminBoardDto> pinnedNoticeList() {
+		return mapper.selectPinnedNoticeList();
+	}
 	
 	/*** 쉼터 
 	 * @param rowPerPage 
 	 * @param page ***/
 	
 	// 쉼터 글 리스트
-	public List<AdminBoardDto> restAreaList(int page, int rowPerPage) {
+	public List<AdminBoardDto> restAreaList(String type, String keyword, int page, int rowPerPage) {
 		int startFrom = (page - 1) * rowPerPage;
 		
-		return mapper.selectRestAreaBoardAll(startFrom, rowPerPage);
+		return mapper.selectRestAreaBoardAll(type, "%" + keyword + "%", startFrom, rowPerPage);
 	} 
 	
 	// 쉼터 글 작성
@@ -100,9 +102,9 @@ public class AdminBoardService {
 	 * @param page ***/
 	
 	// 문의 글 리스트
-	public List<AdminBoardDto> askList(int page, int rowPerPage) {
+	public List<AdminBoardDto> askList(String type, String keyword, int page, int rowPerPage) {
 		int startFrom = (page - 1) * rowPerPage;
-		return mapper.selectAskBoardAll(startFrom, rowPerPage);
+		return mapper.selectAskBoardAll(type, "%" + keyword + "%", startFrom, rowPerPage);
 	} 
 	
 	// 문의 글 작성
@@ -133,9 +135,9 @@ public class AdminBoardService {
 	 * @param page ***/
 	
 	// 신고 글 리스트
-	public List<AdminBoardDto> reportList(int page, int rowPerPage) {
+	public List<AdminBoardDto> reportList(String type, String keyword, int page, int rowPerPage) {
 		int startFrom = (page - 1) * rowPerPage;
-		return mapper.selectReportBoardAll(startFrom, rowPerPage);
+		return mapper.selectReportBoardAll(type, "%" + keyword + "%", startFrom, rowPerPage);
 	} 
 	
 	// 신고 글 작성
@@ -163,8 +165,13 @@ public class AdminBoardService {
 
 	
 	// 공용
-	public int boardCount(String tableName) {
-		return mapper.selectBoardCount(tableName);
+	public int boardCount(
+			String type, 
+			String keyword, 
+			String tableName) {
+		return mapper.selectBoardCount(type,"%" + keyword + "%",tableName);
 	}
+
+	
 		
 }

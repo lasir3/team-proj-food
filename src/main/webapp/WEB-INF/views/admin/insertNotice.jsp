@@ -15,13 +15,14 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	
-	let fixed = false;
-	console.log(fixed);
-	$("#isFixed").change(function(){
-		fixed = $(this).is(":checked");
-		$("#fixed").val(fixed);
+	let pinned = false;
+	$("#pinned").val(pinned);
+	console.log(pinned);
+	$("#isPinned").change(function(){
+		pinned = $(this).is(":checked");
+		$("#pinned").val(pinned);
 	});
-}); 
+});
 </script>				
 </head>
 <body>
@@ -47,9 +48,9 @@ $(document).ready(function(){
 					</div>
 					
 					<button class="btn btn-primary">작성</button>
-					<input type="checkbox" id="isFixed" name="isFixed"/>
-					<input type="hidden" id="fixed" name="fixed" />
-					<label for="isFixed">게시글 상단 고정</label>
+					<input type="checkbox" id="isPinned" name="isPinned"/>
+					<input type="hidden" id="pinned" name="pinned" />
+					<label for="pinned">고정</label>
 					
 				</form>
 				

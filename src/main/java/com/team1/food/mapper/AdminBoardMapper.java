@@ -12,6 +12,8 @@ public interface AdminBoardMapper {
 	/* 공지 */
 	
 	List<AdminBoardDto> selectNoticeBoardAll(
+			@Param("type") String type, 
+			@Param("keyword") String keyword,
 			@Param("startFrom") int startFrom, 
 			@Param("rowPerPage") int rowPerPage);
 
@@ -28,6 +30,8 @@ public interface AdminBoardMapper {
 	/* 쉼터 */
 	
 	List<AdminBoardDto> selectRestAreaBoardAll(
+			@Param("type") String type, 
+			@Param("keyword") String keyword,
 			@Param("startFrom") int startFrom, 
 			@Param("rowPerPage") int rowPerPage);
 	
@@ -42,6 +46,8 @@ public interface AdminBoardMapper {
 	/* 문의 */
 	
 	List<AdminBoardDto> selectAskBoardAll(
+			@Param("type") String type, 
+			@Param("keyword") String keyword,
 			@Param("startFrom") int startFrom, 
 			@Param("rowPerPage") int rowPerPage);
 	
@@ -56,6 +62,8 @@ public interface AdminBoardMapper {
 	/* 신고 */
 	
 	List<AdminBoardDto> selectReportBoardAll(
+			@Param("type") String type, 
+			@Param("keyword") String keyword,
 			@Param("startFrom") int startFrom, 
 			@Param("rowPerPage") int rowPerPage);
 	
@@ -70,6 +78,10 @@ public interface AdminBoardMapper {
 	/* 공용 */
 	
 	int selectBoardCount(
+			@Param("type") String type, 
+			@Param("keyword") String keyword,
 			@Param("tableName")String tableName);
+
+	List<AdminBoardDto> selectPinnedNoticeList();
 
 }
