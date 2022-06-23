@@ -108,11 +108,10 @@
 			<h2 class="mb-4">요리 목록</h2>
 
 			<div class="col">
-				<c:forEach items="${foodList }" var="food" varStatus="status">
-			  		<c:if test="${not empty food.foodName }">
-						<a href="">${status.index + 1}. ${food.foodName }</a>
-						<br />
-			  		</c:if>
+				<c:forEach items="${cateFoodList }" var="list">
+					<div class="card-body">
+						<a href="foodPage?foodIndex=${list.foodIndex }" class="btn btn-primary">${list.foodIndex }</a>
+					</div>
 				</c:forEach>
 			</div>
 		</div>

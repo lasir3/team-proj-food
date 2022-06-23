@@ -174,4 +174,8 @@ public class CategoryService {
 		// 카테고리 테이블 삭제
 		return mapper.deleteCate(cateIndex) == 1;
 	}
+
+	public FoodDto getPageByIndex(int foodIndex) {
+		return mapper.selectFoodDto(foodIndex);
+	}
 }

@@ -13,7 +13,7 @@
 	</select>
 	
 	<select id="selectFoodList" resultType="com.team1.food.domain.FoodDto">
-		SELECT foodName, cateName 
+		SELECT foodName, cateName, foodIndex
 		FROM FoodTable T RIGHT JOIN FoodCateTable C ON C.cateIndex = T.cateIndex
 		WHERE C.cateIndex = #{cateIndex}
 	</select>
@@ -88,4 +88,15 @@
 		FROM FoodTable T RIGHT JOIN FoodCateTable C ON T.cateIndex = C.cateIndex
 		WHERE C.cateName = #{cateName};
 	</select> -->
+	
+	<select id="selectFoodDto" resultType="com.team1.food.domain.FoodDto">
+		SELECT foodIndex, 
+			   foodName, 
+			   C.memberId memberId, 
+			   content, 
+			   C.cateIndex cateIndex,
+			   C.cateName cateName 
+		FROM FoodTable F RIGHT JOIN FoodCateTable C ON F.cateIndex = C.cateIndex
+		WHERE foodIndex = #{foodIndex}
+	</select>
 </mapper>

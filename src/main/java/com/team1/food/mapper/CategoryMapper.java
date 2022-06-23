@@ -44,5 +44,7 @@ public interface CategoryMapper {
 	void deleteFilelistByCateIndex(int cateIndex);
 
 //	int selectCateIndexFromCateName(String cateName);
+	
+	FoodDto selectFoodDto(int foodIndex);
 
 }

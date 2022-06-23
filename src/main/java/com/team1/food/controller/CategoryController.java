@@ -36,7 +36,7 @@ public class CategoryController {
 		List<FoodDto> list = cateService.foodList(cateIndex);
 		FoodCateDto dto = cateService.selectCateDto(cateIndex);
 		// 수정용 파일명 전송
-		model.addAttribute("foodList", list);
+		model.addAttribute("cateFoodList", list);
 		model.addAttribute("cateDto", dto);
 	}
 
@@ -113,5 +113,13 @@ public class CategoryController {
 //		}
 		// 아니면 리턴.
 //		return "redirect:foodList";
+	}
+	
+	// 음식 페이지 메소드
+	@GetMapping("foodPage")
+	public void getFoodPage(@RequestParam(name = "foodIndex", defaultValue = "") int foodIndex, Model model) {
+		FoodDto dto = cateService.getPageByIndex(foodIndex);
+		// 수정용 파일명 전송
+		model.addAttribute("foodDto", dto);
 	}
 }
