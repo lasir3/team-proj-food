@@ -36,7 +36,7 @@ public class CategoryController {
 		List<FoodDto> list = cateService.foodList(cateIndex);
 		FoodCateDto dto = cateService.selectCateDto(cateIndex);
 		// 수정용 파일명 전송
-		model.addAttribute("cateFoodList", list);
+		model.addAttribute("foodListPage", list);
 		model.addAttribute("cateDto", dto);
 	}
 
@@ -121,5 +121,14 @@ public class CategoryController {
 		FoodDto dto = cateService.getPageByIndex(foodIndex);
 		// 수정용 파일명 전송
 		model.addAttribute("foodDto", dto);
+	}
+	
+	@PostMapping("addFood")
+	public String addFood(FoodDto dto, RedirectAttributes rttr) {
+		dto.setMemberId("admin");
+		boolean success = cateService.addFoodTable(dto);
+		
+		rttr.addAttribute("cateIndex", dto.getCateIndex());
+		return "redirect:foodList";
 	}
 }

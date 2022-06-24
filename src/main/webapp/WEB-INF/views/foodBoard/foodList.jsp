@@ -12,12 +12,25 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <title>Insert title here</title>
+
+<style>
+   .catetext {
+       font-size: 48px;
+   }
+   
+   .maintext {
+       font-size: 15px;
+   }
+</style>
+
 </head>
 <body>
 	<my:navBar></my:navBar>
 	<div class="container mt-5">
 		<div class="row">
-			<h1>${cateDto.cateName }</h1>
+			<div class="catetext" >${cateDto.cateName }</div>
+			<div class="maintext">&nbsp;<a href="foodCateList">메인 페이지로</a></div>
+			
 			<div class="mb-5"> - 이 위키는 ${cateDto.cateName }에 해당하는 요리에 관한 페이지입니다.</div>
 			
 			<!-- 카테고리 수정, 삭제 버튼 -->
@@ -107,11 +120,42 @@
 
 			<h2 class="mb-4">요리 목록</h2>
 
-			<div class="col">
-				<c:forEach items="${cateFoodList }" var="list">
-					<div class="card-body">
-						<a href="foodPage?foodIndex=${list.foodIndex }" class="btn btn-primary">${list.foodIndex }</a>
+			<!-- 음식 추가 버튼 -->
+			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4" >
+				<button type="button" class="btn btn-primary me-md-0 mb-1"
+					id="CateAdd-Button1" data-bs-toggle="modal"
+					data-bs-target="#addFoodModal" data-bs-whatever="@mdo">음식 추가</button>
+				<form id="form1" action="${appRoot }/foodBoard/addFood" method="post">
+					<input type="hidden" name="cateIndex" value="${cateDto.cateIndex }" />
+					<div class="modal fade" id="addFoodModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">음식 추가</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<div class="mb-3">
+										<label for="category-name" class="col-form-label">음식명:</label>
+										<input type="text" class="form-control" id="food-name" name="foodName"/>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"	data-bs-dismiss="modal">취소</button>
+									<button type="submit" class="btn btn-primary" id="add-submit1">추가</button>
+								</div>
+							</div>
+						</div>
 					</div>
+				</form>
+			</div>
+			<div class="col">
+				<c:forEach items="${foodListPage }" var="list">
+				<c:if test="${not empty list.foodName }">
+					<div class="card-body">
+						<a href="foodPage?foodIndex=${list.foodIndex }" class="btn btn-primary">${list.foodName }</a>
+					</div>
+				</c:if>
 				</c:forEach>
 			</div>
 		</div>

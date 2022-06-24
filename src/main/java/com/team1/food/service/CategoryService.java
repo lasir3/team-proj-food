@@ -178,4 +178,8 @@ public class CategoryService {
 	public FoodDto getPageByIndex(int foodIndex) {
 		return mapper.selectFoodDto(foodIndex);
 	}
+
+	public boolean addFoodTable(FoodDto dto) {
+		return mapper.insertFood(dto) == 1;
+	}
 }

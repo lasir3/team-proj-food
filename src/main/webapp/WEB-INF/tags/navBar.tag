@@ -4,6 +4,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ attribute name="current"%>
 
+<c:url value="/foodBoard/foodCateList" var="foodBoard"></c:url>
 <c:url value="/member/signup" var="signupUrl"></c:url>
 <c:url value="/member/memberlist" var="memberlistUrl"></c:url>
 <c:url value="/member/memberget" var="membergetUrl"></c:url>
@@ -13,7 +14,7 @@
 
 <nav class="navbar navbar-expand-md navbar-light bg-light mb-3"  >
 	<div class="container">
-		<a class="navbar-brand" href="${signupUrl }">
+		<a class="navbar-brand" href="${foodBoard }">
 			<i class="fa-solid fa-house"></i>
 		</a>
 

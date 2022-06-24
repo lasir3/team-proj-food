@@ -47,4 +47,6 @@ public interface CategoryMapper {
 	
 	FoodDto selectFoodDto(int foodIndex);
 
+	int insertFood(FoodDto dto);
+
 }

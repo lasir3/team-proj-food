@@ -99,4 +99,9 @@
 		FROM FoodTable F RIGHT JOIN FoodCateTable C ON F.cateIndex = C.cateIndex
 		WHERE foodIndex = #{foodIndex}
 	</select>
+	
+	<insert id="insertFood" useGeneratedKeys="true" keyColumn="foodIndex" keyProperty="foodIndex">
+		INSERT INTO FoodTable (foodName, memberId, cateIndex) 
+		VALUES (#{foodName}, #{memberId}, #{cateIndex})
+	</insert>
 </mapper>
