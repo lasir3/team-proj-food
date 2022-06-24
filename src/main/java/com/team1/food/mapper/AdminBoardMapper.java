@@ -92,5 +92,10 @@ public interface AdminBoardMapper {
 
 	List<AdminBoardDto> selectPinnedNoticeList();
 
+	int updateBoardState(
+			@Param("id")int id, 
+			@Param("state")int state, 
+			@Param("tableName")String tableName);
+
 
 }

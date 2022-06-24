@@ -188,6 +188,12 @@ public class AdminBoardService {
 		return mapper.selectBoardCountWithState(type, "%" + keyword + "%", tableName, state);
 	}
 
+	public boolean updateBoardState(int id, int state, String tableName) {
+		int cnt = mapper.updateBoardState(id, state, tableName);
+		return cnt == 1;
+		
+	}
+
 	
 		
 }

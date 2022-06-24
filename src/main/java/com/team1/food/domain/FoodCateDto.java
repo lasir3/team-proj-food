@@ -7,6 +7,5 @@ public class FoodCateDto {
 	private int cateIndex;
 	private String cateName;
 	private String memberId;
-	private String authRole;
 	private String fileName;
 }

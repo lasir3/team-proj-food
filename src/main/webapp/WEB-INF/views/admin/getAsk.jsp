@@ -254,6 +254,13 @@ $(document).ready(function(){
 					</div>
 				</c:if>
 				
+				<!-- 답변 완료 메세지 -->
+				<c:if test="${not empty answerMessage }">
+					<div class="alert alert-primary">
+						${answerMessage }
+					</div>
+				</c:if>
+				
 				<!-- 제목, 본문  -->
 				
 				<form id="form1" action="${appRoot }/admin/updateAsk" method="post">
@@ -329,5 +336,17 @@ $(document).ready(function(){
 		</div>
 	</div>
 	
+	<!-- 문의 답변 완료 버튼 -->
+	<sec:authorize access="hasRole('ADMIN')">
+		<c:if test="${board.state == 1 }">	
+			<c:url value="updateBoardState" var="answer">
+				<c:param name="id" value="${board.id }"></c:param>
+				<c:param name="state" value="2"></c:param>
+			</c:url>
+			<form action="${answer }" method="post">
+				<button>답변완료</button>
+			</form>
+		</c:if>
+	</sec:authorize>
 </body>
 </html>

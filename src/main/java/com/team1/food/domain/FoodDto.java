@@ -10,6 +10,7 @@ public class FoodDto {
 	private String foodName;
 	private String memberId;
 	private String content;
+	private String cateIndex;
 	private String cateName;
 	private LocalDateTime inserted;
 	

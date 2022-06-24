@@ -20,7 +20,7 @@
 </head>
 <body>
 	
-	<my:navBar></my:navBar>
+	<my:navBar current="admin"></my:navBar>
 	
 	<div class="container">
 		<div class="row">
