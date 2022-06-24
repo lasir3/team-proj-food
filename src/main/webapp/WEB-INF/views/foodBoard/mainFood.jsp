@@ -24,29 +24,46 @@
        font-size: 15px;
    }
 </style>
+<script>
+	$(document).ready(function() {
+		$("#main-edit-button1").click(function() {
+			$('#summernote').summernote('enable');
+		});
+	});
+	
+	$('#summernote').summernote({				
+		placeholder : '${foodDto.content}',
+		tabsize : 2,
+		height : 120,
+		lang : 'ko-KR',
+		toolbar : [ [ 'style', [ 'style' ] ],
+				[ 'font', [ 'bold', 'underline', 'clear' ] ],
+				[ 'color', [ 'color' ] ],
+				[ 'para', [ 'ul', 'ol', 'paragraph' ] ],
+				[ 'table', [ 'table' ] ],
+				[ 'insert', [ 'link', 'picture', 'video' ] ],
+				[ 'view', [ 'codeview', 'help' ] ] ]
+	});
+</script>
+
 </head>
 <body>
-	<div class="row">
-		<div class="mb-1 foodname">${foodDto.foodName}</div>
-		<div class="mb-5 catename">&nbsp;<a href="foodList?cateIndex=${foodDto.cateIndex }">${foodDto.cateName}</a></div>
+	<div class="container mt-5">
+		<div class="row">
+			<div class="mb-1 foodname">${foodDto.foodName}</div>
+			<div class="mb-5 catename">
+				&nbsp;
+				<a href="foodList?cateIndex=${foodDto.cateIndex }">${foodDto.cateName}로 이동</a>
+			</div>
+			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
+				<button type="button" class="btn btn-warning me-md-0 mb-1"
+					id="CateAdd-Button1">내용 수정</button>
+			</div>
+		</div>
+	
+		<div id="summernote"></div>
+		${foodDto.content }
+		<br />
 	</div>
-	<div id="summernote"></div>
-    <script>
-	    $('#summernote').summernote({
-			placeholder: '이 페이지는 ${foodDto.foodName}요리에 관한 위키 페이지입니다.',
-			tabsize: 2,
-			height: 120,
-			lang : 'ko-KR',
-			toolbar: [
-			  ['style', ['style']],
-			  ['font', ['bold', 'underline', 'clear']],
-			  ['color', ['color']],
-			  ['para', ['ul', 'ol', 'paragraph']],
-			  ['table', ['table']],
-			  ['insert', ['link', 'picture', 'video']],
-			  ['view', ['codeview', 'help']]
-			]
-	    });
-    </script>
 </body>
 </html>

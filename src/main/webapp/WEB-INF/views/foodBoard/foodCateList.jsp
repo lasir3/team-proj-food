@@ -46,12 +46,16 @@
 		<div class="row">
 			<h1 class="mb-4">요리위키에 오신것을 환영합니다!!</h1>
 			<div class="mb-5">이 위키는 요리에 관한 위키입니다.</div>
-			<h2 class="mb-4">카테고리 목록</h2>
-			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
-				<button type="button" class="btn btn-primary me-md-0 mb-1"
-					id="CateAdd-Button1" data-bs-toggle="modal"
-					data-bs-target="#exampleModal" data-bs-whatever="@mdo">카테고리
-					추가</button>
+			<div class="col">
+				<h2 class="mb-4">카테고리 목록</h2>
+			</div>
+			<div class="col">
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
+					<button type="button" class="btn btn-primary me-md-0 mt-3"
+						id="CateAdd-Button1" data-bs-toggle="modal"
+						data-bs-target="#exampleModal" data-bs-whatever="@mdo">카테고리
+						추가</button>
+				</div>
 			</div>
 			
 			<!-- 카테고리 등록 여부에 따른 메시지 띄우기 -->

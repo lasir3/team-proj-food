@@ -28,22 +28,22 @@
 	<my:navBar></my:navBar>
 	<div class="container mt-5">
 		<div class="row">
-			<div class="catetext" >${cateDto.cateName }</div>
-			<div class="maintext">&nbsp;<a href="foodCateList">메인 페이지로</a></div>
-			
-			<div class="mb-5"> - 이 위키는 ${cateDto.cateName }에 해당하는 요리에 관한 페이지입니다.</div>
-			
-			<!-- 카테고리 수정, 삭제 버튼 -->
-			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
-				<button type="button" class="btn btn-warning me-md-0 mb-1"
-					id="CateAdd-Button1" data-bs-toggle="modal"
-					data-bs-target="#modifyModal" 
-					data-bs-whatever="@mdo">카테고리 수정</button>
-				<button type="button" class="btn btn-danger me-md-0 mb-1" 
-					id="CateAdd-Button1"  
-					data-bs-toggle="modal" 
-					data-bs-target="#deleteModal">카테고리 삭제</button>
+			<div class="col-8">
+				<div class="catetext" >${cateDto.cateName }</div>
+				<div class="maintext">&nbsp;<a href="foodCateList">메인 페이지로 이동</a></div>
 			</div>
+			<!-- 카테고리 수정, 삭제 버튼 -->
+			<div class="col d-md-flex justify-content-md-end mt-5" >
+				<div class="btn-group btn-group-toggle" data-toggle="buttons">
+					<button type="button" class="btn btn-warning" data-bs-toggle="modal"
+						data-bs-target="#modifyModal">
+					카테고리 수정 </button>
+					<button type="button" class="btn btn-danger" data-bs-toggle="modal"
+						data-bs-target="#deleteModal">
+					카테고리 삭제 </button>
+				</div>
+			</div>
+			<div class="mb-5"> - 이 위키는 ${cateDto.cateName }에 해당하는 요리에 관한 페이지입니다.</div>
 			
 			<!-- 카테고리 수정 여부에 따른 메시지 띄우기 -->
 			<!-- Modal로 수정 예정 -->
@@ -65,7 +65,6 @@
 					<!-- 카테고리 수정용 dto hidden 타입으로 입력 -->
 					<input type="hidden" name="cateIndex" value="${cateDto.cateIndex }" />
 					<input type="hidden" name="fileName" value="${cateDto.fileName }" />
-					
 					
 					<div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog">

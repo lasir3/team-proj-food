@@ -22,9 +22,12 @@
 <body>
 	<my:navBar></my:navBar>
 	<div class="container mt-5">
-		<jsp:include page="mainFood.jsp" flush="false"></jsp:include>
-		<hr />
-		<jsp:include page="subFood.jsp" flush="false"></jsp:include>
+		<div class="col">
+
+			<jsp:include page="mainFood.jsp" flush="false"></jsp:include>
+			<hr />
+			<jsp:include page="subFood.jsp" flush="false"></jsp:include>
+		</div>
 	</div>
 
 </body>
