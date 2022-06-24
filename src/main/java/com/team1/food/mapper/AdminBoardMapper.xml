@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team1.food.mapper.AdminBoardMapper">
+	
+	<!-- 공지 -->
+	
+	<select id="selectNoticeBoardAll" resultType="com.team1.food.domain.AdminBoardDto">
+	SELECT  n.id, 
+			n.title, 
+			n.inserted,
+			m.nickName writerNickName,
+			COUNT(r.noticeId) numOfReply
+	FROM Notice n JOIN Member m ON n.memberId = m.id
+				LEFT JOIN Reply r ON n.id = r.noticeId 
+	GROUP BY n.id
+	ORDER BY n.id DESC
+	LIMIT #{startFrom}, #{rowPerPage}
+	
+	</select>
+	
+	<select id="selectNoticeBoardById" resultType="com.team1.food.domain.AdminBoardDto">
+	SELECT 	id,
+		 	title, 
+		 	content, 
+		 	memberId, 
+		 	inserted
+	FROM Notice
+	WHERE id = #{id}
+	</select>
+	
+	<insert id="insertNoticeBoard">
+	INSERT INTO Notice (title, content, memberId)
+	VALUES (#{title}, #{content}, #{memberId})
+	</insert>
+	
+	<update id="updateNoticeBoard">
+	UPDATE Notice
+	SET title = #{title},
+		content = #{content}
+	WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteNoticeBoardById">
+	DELETE FROM Notice
+	WHERE id = #{id}
+	</delete>
+	
+	<!-- 	
+	<select id="selectNoticeBoardCount" resultType="int">
+	SELECT COUNT(id)
+	FROM Notice
+	</select>
+	 -->
+	
+	<!-- 쉼터  -->
+	
+	<select id="selectRestAreaBoardAll" resultType="com.team1.food.domain.AdminBoardDto">
+	SELECT  r.id, 
+			r.title, 
+			r.inserted,
+			m.nickName writerNickName,
+			COUNT(Reply.restAreaId) numOfReply
+	FROM RestArea r JOIN Member m ON r.memberId = m.id
+				LEFT JOIN Reply ON r.id = Reply.restAreaId
+	GROUP BY r.id
+	ORDER BY r.id DESC
+	LIMIT #{startFrom}, #{rowPerPage}
+	</select>
+	
+	<select id="selectRestAreaBoardById" resultType="com.team1.food.domain.AdminBoardDto">
+	SELECT 	id,
+		 	title, 
+		 	content, 
+		 	memberId, 
+		 	inserted
+	FROM RestArea
+	WHERE id = #{id}
+	</select>
+	
+	<insert id="insertRestAreaBoard">
+	INSERT INTO RestArea (title, content, memberId)
+	VALUES (#{title}, #{content}, #{memberId})
+	</insert>
+	
+	<update id="updateRestAreaBoard">
+	UPDATE RestArea
+	SET title = #{title},
+		content = #{content}
+	WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteRestAreaBoardById">
+	DELETE FROM RestArea
+	WHERE id = #{id}
+	</delete>
+	
+	
+	<!-- 문의  -->
+	
+	<select id="selectAskBoardAll" resultType="com.team1.food.domain.AdminBoardDto">
+	SELECT  a.id, 
+			a.title, 
+			a.inserted,
+			m.nickName writerNickName,
+			COUNT(r.askId) numOfReply
+	FROM Ask a JOIN Member m ON a.memberId = m.id
+			LEFT JOIN Reply r ON a.id = r.askId
+	GROUP BY a.id
+	ORDER BY a.id DESC
+	LIMIT #{startFrom}, #{rowPerPage}
+	</select>
+	
+	<select id="selectAskBoardById" resultType="com.team1.food.domain.AdminBoardDto">
+	SELECT 	id,
+		 	title, 
+		 	content, 
+		 	memberId, 
+		 	inserted
+	FROM Ask
+	WHERE id = #{id}
+	</select>
+	
+	<insert id="insertAskBoard">
+	INSERT INTO Ask (title, content, memberId)
+	VALUES (#{title}, #{content}, #{memberId})
+	</insert>
+	
+	<update id="updateAskBoard">
+	UPDATE Ask
+	SET title = #{title},
+		content = #{content}
+	WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteAskBoardById">
+	DELETE FROM Ask
+	WHERE id = #{id}
+	</delete>
+	
+	<!-- 신고  -->
+	
+	<select id="selectReportBoardAll" resultType="com.team1.food.domain.AdminBoardDto">
+	SELECT  r.id, 
+			r.title, 
+			r.inserted,
+			m.nickName writerNickName,
+			COUNT(Reply.reportId) numOfReply
+	FROM Report r JOIN Member m ON r.memberId = m.id
+			LEFT JOIN Reply ON r.id = Reply.reportId
+	GROUP BY r.id
+	ORDER BY r.id DESC
+	LIMIT #{startFrom}, #{rowPerPage}
+	</select>
+	
+	<select id="selectReportBoardById" resultType="com.team1.food.domain.AdminBoardDto">
+	SELECT 	id,
+		 	title, 
+		 	content, 
+		 	memberId, 
+		 	inserted
+	FROM Report
+	WHERE id = #{id}
+	</select>
+	
+	<insert id="insertReportBoard">
+	INSERT INTO Report (title, content, memberId)
+	VALUES (#{title}, #{content}, #{memberId})
+	</insert>
+	
+	<update id="updateReportBoard">
+	UPDATE Report
+	SET title = #{title},
+		content = #{content}
+	WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteReportBoardById">
+	DELETE FROM Report
+	WHERE id = #{id}
+	</delete>
+	
+	<!-- 공용 -->
+	<select id="selectBoardCount" resultType="int">
+	SELECT COUNT(id)
+	FROM ${tableName}
+	</select>
+	
+</mapper>

@@ -41,7 +41,7 @@
 
 </head>
 <body>
-	<my:navBar></my:navBar>
+<my:navBar current="foodCateList"></my:navBar>
 	<div class="container mt-5">
 		<div class="row">
 			<h1 class="mb-4">요리위키에 오신것을 환영합니다!!</h1>
