@@ -23,7 +23,12 @@
 			
 				<h1>쉼터 글 작성</h1>
 				<form action="${appRoot }/admin/insertRestArea" method="post">
-				
+					<select name="state" class="form-select">
+						<option value="1" ${param.state != 1 && param.state != 2 ? 'selected' : '' }>휴가</option>
+						<option value="2" ${param.state == 1 ? 'selected' : '' }>사퇴</option>
+						<option value="3" ${param.state == 2 ? 'selected' : '' }>경고</option>
+					</select>
+					
 					<div>
 						<label class="form-label" for="input1" >제목</label>
 						<input class="form-control" id="input1" name="title" type="text" required/>

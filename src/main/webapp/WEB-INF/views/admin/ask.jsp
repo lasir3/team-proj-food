@@ -17,7 +17,44 @@
 	#numOfReply{
 		color: rgb(255, 127, 80);
 	}
+		.state-a{
+		text-decoration: none;
+		color: black;
+		display: inline-block;
+		width: 4em;
+		height: 2.5em;
+		text-align: center;
+		padding-top: 0.4em;
+	}
+	.state-a:hover{
+		color: black;
+	}
+	.state-li{
+		padding: 0px;
+	}
+	.state-li:hover{
+		box-shadow: 0px -6px 2px green inset;
+	}
+	.state-li-selected{
+		box-shadow: 0px -6px 2px gold inset;
+	}
 </style>
+<script type="text/javascript">
+	$(document).ready(function(){
+		/* state 탭 스타일 초기화   */
+		let stateNum = $("#currentState").val(); /* 초기값 0 */
+		let stateElem = $("#state" + stateNum);
+		stateElem.addClass("state-li-selected");
+		/* state 탭 눌렀을 때 */
+		$(".state-li").click(function(){
+			stateElem.removeClass("state-li-selected");
+			stateNum = $("#currentState").val();
+			stateElem = $("#state" + stateNum);
+			stateElem.addClass("state-li-selected");
+		});
+		
+	});
+</script>
 </head>
 <body>
 
@@ -39,7 +76,29 @@
 						${deleteMessage }
 					</div>
 				</c:if>
-			
+				
+				<!-- 글 종류 탭  -->
+				<ul class="list-group list-group-horizontal">
+					<c:url value="/admin/ask" var="stateLink">
+						<c:param name="type" value="all"></c:param>
+						<c:param name="keyword" value="%%"></c:param>
+						<c:param name="page" value="1"></c:param>
+						<c:param name="state" value=""></c:param>
+					</c:url>
+					<li class="list-group-item state-li"  id="state0">
+						<a href="${stateLink }0" class="state-a">전체</a>
+					</li>
+					<li class="list-group-item state-li"  id="state1">
+						<a href="${stateLink }1" class="state-a">대기</a>
+			  		</li>
+					<li class="list-group-item state-li"  id="state2">
+						<a href="${stateLink }2" class="state-a">완료</a>
+					</li>
+					<input type="hidden" id="currentState" value="${not empty param.state ? param.state : 0 }"/>
+				</ul>
+				
+				<!-- 테이블 시작 -->
+				
 				<table class="table table-hover">
 					<thead>
 						<tr>
@@ -50,6 +109,10 @@
 						</tr>
 					</thead>
 					<tbody>
+						<!-- 상단 고정 공지 글 -->
+						<my:pinnedNotice></my:pinnedNotice>
+						
+						<!-- 일반 글 -->
 						<c:forEach items="${boardList }" var="board">
 							<tr>
 								<!-- 글번호  -->
@@ -62,7 +125,18 @@
 									</c:url>
 									
 									<a href="${getAskUrl }" class="text-decoration-none text-body">
-										<div style="height:100%; width:100%">
+										<div style="height:100%; width:100%">											
+												<c:choose>
+													<c:when test="${board.state == 1}">
+														<span class="badge rounded-pill
+														 bg-secondary ">대기</span>
+													</c:when>
+													<c:when test="${board.state == 2 }">
+														<span class="badge rounded-pill
+														 bg-success ">완료</span>
+													</c:when>
+												</c:choose>
+											</span>
 											<span class="text-body">${board.title }</span>
 											<span id="numOfReply">[${board.numOfReply }]</span>
 										</div>
@@ -88,7 +162,13 @@
 		</div>
 	</div>
 	
-	<my:adminBoardPagination path="/admin/ask"></my:adminBoardPagination>
+	<!-- 페이지, 검색  -->
+	<div class="d-flex justify-content-center">
+		<my:adminBoardPagination path="/admin/ask"></my:adminBoardPagination>
+	</div>
+	<div class="d-flex justify-content-center mb-3">
+		<my:adminBoardSearch path="/admin/ask"></my:adminBoardSearch>
+	</div>
 	
 </body>
 </html>

@@ -10,14 +10,31 @@
 	SELECT  n.id, 
 			n.title, 
 			n.inserted,
+			n.pinned,
 			m.nickName writerNickName,
-			COUNT(r.noticeId) numOfReply
+			COUNT(r.noticeId) numOfReply,
+			n.pinned
 	FROM Notice n JOIN Member m ON n.memberId = m.id
 				LEFT JOIN Reply r ON n.id = r.noticeId 
+				
+	<if test="keyword != '%%'">
+		<choose>
+			<when test="type == 'all'">
+				WHERE n.title LIKE #{keyword } OR
+					n.content LIKE #{keyword }	
+			</when>
+			<when test="type == 'title'">
+				WHERE n.title LIKE #{keyword }
+			</when>
+			<when test="type == 'content'">
+				WHERE n.content LIKE #{keyword }
+			</when>
+		</choose>
+	</if>
+		
 	GROUP BY n.id
 	ORDER BY n.id DESC
 	LIMIT #{startFrom}, #{rowPerPage}
-	
 	</select>
 	
 	<select id="selectNoticeBoardById" resultType="com.team1.food.domain.AdminBoardDto">
@@ -25,20 +42,22 @@
 		 	title, 
 		 	content, 
 		 	memberId, 
-		 	inserted
+		 	inserted,
+		 	pinned
 	FROM Notice
 	WHERE id = #{id}
 	</select>
 	
 	<insert id="insertNoticeBoard">
-	INSERT INTO Notice (title, content, memberId)
-	VALUES (#{title}, #{content}, #{memberId})
+	INSERT INTO Notice (title, content, memberId, pinned)
+	VALUES (#{title}, #{content}, #{memberId}, ${pinned})
 	</insert>
 	
 	<update id="updateNoticeBoard">
 	UPDATE Notice
 	SET title = #{title},
-		content = #{content}
+		content = #{content},
+		pinned = #{pinned}
 	WHERE id = #{id}
 	</update>
 	
@@ -47,12 +66,19 @@
 	WHERE id = #{id}
 	</delete>
 	
-	<!-- 	
-	<select id="selectNoticeBoardCount" resultType="int">
-	SELECT COUNT(id)
-	FROM Notice
+	<select id="selectPinnedNoticeList" resultType="com.team1.food.domain.AdminBoardDto">
+	SELECT  n.id, 
+			n.title, 
+			n.inserted,
+			n.pinned,
+			m.nickName writerNickName,
+			COUNT(r.noticeId) numOfReply
+	FROM Notice n JOIN Member m ON n.memberId = m.id
+				LEFT JOIN Reply r ON n.id = r.noticeId 
+	WHERE n.pinned = true
+	GROUP BY n.id
+	ORDER BY n.id DESC
 	</select>
-	 -->
 	
 	<!-- 쉼터  -->
 	
@@ -61,9 +87,28 @@
 			r.title, 
 			r.inserted,
 			m.nickName writerNickName,
-			COUNT(Reply.restAreaId) numOfReply
+			COUNT(Reply.restAreaId) numOfReply,
+			r.state
 	FROM RestArea r JOIN Member m ON r.memberId = m.id
 				LEFT JOIN Reply ON r.id = Reply.restAreaId
+	
+	<if test="keyword != '%%'">
+		<choose>
+			<when test="type == 'all'">
+				WHERE (r.title LIKE #{keyword } OR
+					r.content LIKE #{keyword })
+			</when>
+			<when test="type == 'title'">
+				WHERE r.title LIKE #{keyword }
+			</when>
+			<when test="type == 'content'">
+				WHERE r.content LIKE #{keyword }
+			</when>
+		</choose>
+	</if>
+	<if test="state != ''">
+		AND state = #{state}
+	</if>
 	GROUP BY r.id
 	ORDER BY r.id DESC
 	LIMIT #{startFrom}, #{rowPerPage}
@@ -80,8 +125,8 @@
 	</select>
 	
 	<insert id="insertRestAreaBoard">
-	INSERT INTO RestArea (title, content, memberId)
-	VALUES (#{title}, #{content}, #{memberId})
+	INSERT INTO RestArea (title, content, memberId, state)
+	VALUES (#{title}, #{content}, #{memberId}, #{state})
 	</insert>
 	
 	<update id="updateRestAreaBoard">
@@ -104,9 +149,28 @@
 			a.title, 
 			a.inserted,
 			m.nickName writerNickName,
-			COUNT(r.askId) numOfReply
+			COUNT(r.askId) numOfReply,
+			a.state
 	FROM Ask a JOIN Member m ON a.memberId = m.id
 			LEFT JOIN Reply r ON a.id = r.askId
+			
+	<if test="keyword != '%%'">
+		<choose>
+			<when test="type == 'all'">
+				WHERE (a.title LIKE #{keyword } OR
+					a.content LIKE #{keyword })	
+			</when>
+			<when test="type == 'title'">
+				WHERE a.title LIKE #{keyword }
+			</when>
+			<when test="type == 'content'">
+				WHERE a.content LIKE #{keyword }
+			</when>
+		</choose>
+	</if>
+	<if test="state != ''">
+		AND state = #{state}
+	</if>
 	GROUP BY a.id
 	ORDER BY a.id DESC
 	LIMIT #{startFrom}, #{rowPerPage}
@@ -149,6 +213,22 @@
 			COUNT(Reply.reportId) numOfReply
 	FROM Report r JOIN Member m ON r.memberId = m.id
 			LEFT JOIN Reply ON r.id = Reply.reportId
+			
+	<if test="keyword != '%%'">
+		<choose>
+			<when test="type == 'all'">
+				WHERE r.title LIKE #{keyword } OR
+					r.content LIKE #{keyword }	
+			</when>
+			<when test="type == 'title'">
+				WHERE r.title LIKE #{keyword }
+			</when>
+			<when test="type == 'content'">
+				WHERE r.content LIKE #{keyword }
+			</when>
+		</choose>
+	</if>
+	
 	GROUP BY r.id
 	ORDER BY r.id DESC
 	LIMIT #{startFrom}, #{rowPerPage}
@@ -185,6 +265,41 @@
 	<select id="selectBoardCount" resultType="int">
 	SELECT COUNT(id)
 	FROM ${tableName}
+	<if test="keyword != '%%'">
+		<choose>
+			<when test="type == 'all'">
+				WHERE title LIKE #{keyword } OR
+					content LIKE #{keyword }	
+			</when>
+			<when test="type == 'title'">
+				WHERE title LIKE #{keyword }
+			</when>
+			<when test="type == 'content'">
+				WHERE content LIKE #{keyword }
+			</when>
+		</choose>
+	</if>
 	</select>
 	
+	<select id="selectBoardCountWithState" resultType="int">
+	SELECT COUNT(id)
+	FROM ${tableName}
+	<if test="keyword != '%%'">
+		<choose>
+			<when test="type == 'all'">
+				WHERE (title LIKE #{keyword } OR
+					content LIKE #{keyword })	
+			</when>
+			<when test="type == 'title'">
+				WHERE title LIKE #{keyword }
+			</when>
+			<when test="type == 'content'">
+				WHERE content LIKE #{keyword }
+			</when>
+		</choose>
+	</if>
+	<if test="state != ''">
+		AND state = #{state}
+	</if>
+	</select>
 </mapper>

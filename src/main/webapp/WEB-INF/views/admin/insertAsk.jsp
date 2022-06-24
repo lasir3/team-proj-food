@@ -23,7 +23,6 @@
 			
 				<h1>문의 글 작성</h1>
 				<form action="${appRoot }/admin/insertAsk" method="post">
-				
 					<div>
 						<label class="form-label" for="input1" >제목</label>
 						<input class="form-control" id="input1" name="title" type="text" required/>
