@@ -2,12 +2,14 @@ package com.team1.food.controller;
 
 import java.beans.Transient;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.servlet.jsp.tagext.PageData;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -183,7 +185,12 @@ public class AdminBoardController {
 	@PostMapping("insertRestArea")
 	public String insertRestArea(AdminBoardDto dto,
 			RedirectAttributes rttr,
-			Principal principal) {
+			Principal principal,
+			String datepicker1,
+			String datepicker2
+			) {
+		System.out.println(datepicker1);
+		System.out.println(datepicker2);
 		
 		dto.setMemberId(principal.getName());
 		
@@ -300,6 +307,8 @@ public class AdminBoardController {
 		model.addAttribute("board", dto);
 	}
 	
+	// 문의 글 수정
+	
 	@PostMapping("updateAsk")
 	public String updateAsk(AdminBoardDto dto,
 			RedirectAttributes rttr) {
@@ -332,6 +341,21 @@ public class AdminBoardController {
 		}
 		
 		return "redirect:/admin/ask";
+	}
+	
+	// 문의 글 답변 완료
+	@PostMapping("updateBoardState")
+	public String updateBoardState(int id, int state, RedirectAttributes rttr) {
+		// 세번째 파라미터 >> 테이블명
+		boolean success = service.updateBoardState(id, state, "Ask");
+		if(success) {
+			rttr.addFlashAttribute("answerMessage", "답변 완료");
+		}else {
+			rttr.addFlashAttribute("answerMessage", "실패");
+		}
+		
+		rttr.addAttribute("id", id);
+		return "redirect:/admin/getAsk";
 	}
 	
 	/*** 신고 ***/

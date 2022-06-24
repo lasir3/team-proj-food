@@ -181,7 +181,8 @@
 		 	title, 
 		 	content, 
 		 	memberId, 
-		 	inserted
+		 	inserted,
+		 	state
 	FROM Ask
 	WHERE id = #{id}
 	</select>
@@ -302,4 +303,10 @@
 		AND state = #{state}
 	</if>
 	</select>
+	
+	<update id="updateBoardState">
+	UPDATE ${tableName}
+	SET state = #{state}
+	WHERE id = #{id}
+	</update>
 </mapper>
