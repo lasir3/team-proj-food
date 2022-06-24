@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.team1.food.domain.MemberDto;
+import com.team1.food.service.MailSendService;
 import com.team1.food.service.MemberService;
 
 @Controller
@@ -19,6 +20,9 @@ import com.team1.food.service.MemberService;
 public class MemberController {
 	@Autowired
 	private MemberService service;
+	
+	@Autowired
+	private MailSendService mailService;
 
 	@GetMapping("signup")
 	public void signupForm() {
@@ -39,18 +43,31 @@ public class MemberController {
 
     }
     
-    @GetMapping(path = "check", params = "email")
-    @ResponseBody
-    public String emailCheck(String email) {        
-        boolean exist = service.hasMemberEmail(email);
-        
-        if (exist) {
-            return "notOk";
-        } else {
-            return "ok";
-        }
-
-    }
+	/*
+	 * @GetMapping(path = "check", params = "email")
+	 * 
+	 * @ResponseBody public String emailCheck(String email) { boolean exist =
+	 * service.hasMemberEmail(email);
+	 * 
+	 * if (exist) { return "notOk"; } else { return "ok"; }
+	 * 
+	 * }
+	 */
+    
+	//회원가입 페이지 이동
+	@GetMapping("/userJoin")
+	public void userJoin() {}
+	
+	//이메일 인증
+	@GetMapping("/confirmemail")
+	@ResponseBody
+	public String mailCheck(String email) {
+		System.out.println("이메일 인증 요청이 들어옴!");
+		System.out.println("이메일 인증 이메일 : " + email);
+		return mailService.joinEmail(email);
+		
+			
+	}
     
 	@GetMapping(path = "check", params = "nickName")
 	@ResponseBody
