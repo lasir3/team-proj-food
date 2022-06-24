@@ -33,7 +33,8 @@ public interface AdminBoardMapper {
 			@Param("type") String type, 
 			@Param("keyword") String keyword,
 			@Param("startFrom") int startFrom, 
-			@Param("rowPerPage") int rowPerPage);
+			@Param("rowPerPage") int rowPerPage,
+			@Param("state") int state);
 	
 	int insertRestAreaBoard(AdminBoardDto dto);
 
@@ -49,7 +50,8 @@ public interface AdminBoardMapper {
 			@Param("type") String type, 
 			@Param("keyword") String keyword,
 			@Param("startFrom") int startFrom, 
-			@Param("rowPerPage") int rowPerPage);
+			@Param("rowPerPage") int rowPerPage, 
+			@Param("state") int state);
 	
 	int insertAskBoard(AdminBoardDto dto);
 
@@ -82,6 +84,13 @@ public interface AdminBoardMapper {
 			@Param("keyword") String keyword,
 			@Param("tableName")String tableName);
 
+	int selectBoardCountWithState(
+			@Param("type") String type, 
+			@Param("keyword") String keyword,
+			@Param("tableName") String tableName, 
+			@Param("state") int state);
+
 	List<AdminBoardDto> selectPinnedNoticeList();
+
 
 }

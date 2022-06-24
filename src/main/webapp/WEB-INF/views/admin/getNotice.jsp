@@ -312,6 +312,7 @@ $(document).ready(function(){
 	</div>
 	
 	<%-- 댓글 추가 form --%>
+	
 	<div class="container mt-3">
 		<div class="row">
 			<div class="col">

@@ -11,6 +11,9 @@
     	</select>
     	<input type="search" class="form-control me-2" name="keyword"/>
     	<input type="hidden" name="page" value="1" />
+    	<c:if test="${not empty param.state }">
+	    	<input type="hidden" name="state" value="${param.state }"/>
+    	</c:if>
     	<button class="btn btn-outline-success" ><i class="fa-solid fa-magnifying-glass"></i></button>
    	</div>
 </form>

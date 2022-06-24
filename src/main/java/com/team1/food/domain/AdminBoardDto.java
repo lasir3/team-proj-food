@@ -18,6 +18,8 @@ public class AdminBoardDto {
 	private int numOfReply;
 	// 상단 고정 여부
 	private boolean pinned;
+	// 쉼터 글 분류 번호
+	private int state;
 	
 	public String getPrettyInserted() {
 		// 24시간 이내면 "시간:분:초"

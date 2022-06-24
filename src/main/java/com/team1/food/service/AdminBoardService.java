@@ -65,13 +65,20 @@ public class AdminBoardService {
 	
 	/*** 쉼터 
 	 * @param rowPerPage 
-	 * @param page ***/
+	 * @param page 
+	 * @param state ***/
 	
 	// 쉼터 글 리스트
-	public List<AdminBoardDto> restAreaList(String type, String keyword, int page, int rowPerPage) {
+	public List<AdminBoardDto> restAreaList(
+			String type, 
+			String keyword, 
+			int page, 
+			int rowPerPage, 
+			int state) {
+		
 		int startFrom = (page - 1) * rowPerPage;
 		
-		return mapper.selectRestAreaBoardAll(type, "%" + keyword + "%", startFrom, rowPerPage);
+		return mapper.selectRestAreaBoardAll(type, "%" + keyword + "%", startFrom, rowPerPage, state);
 	} 
 	
 	// 쉼터 글 작성
@@ -99,12 +106,13 @@ public class AdminBoardService {
 	
 	/*** 문의 
 	 * @param rowPerPage 
-	 * @param page ***/
+	 * @param page 
+	 * @param state ***/
 	
 	// 문의 글 리스트
-	public List<AdminBoardDto> askList(String type, String keyword, int page, int rowPerPage) {
+	public List<AdminBoardDto> askList(String type, String keyword, int page, int rowPerPage, int state) {
 		int startFrom = (page - 1) * rowPerPage;
-		return mapper.selectAskBoardAll(type, "%" + keyword + "%", startFrom, rowPerPage);
+		return mapper.selectAskBoardAll(type, "%" + keyword + "%", startFrom, rowPerPage, state);
 	} 
 	
 	// 문의 글 작성
@@ -170,6 +178,14 @@ public class AdminBoardService {
 			String keyword, 
 			String tableName) {
 		return mapper.selectBoardCount(type,"%" + keyword + "%",tableName);
+	}
+
+	public int boardCountWithState(
+			String type, 
+			String keyword, 
+			String tableName, 
+			int state) {
+		return mapper.selectBoardCountWithState(type, "%" + keyword + "%", tableName, state);
 	}
 
 	

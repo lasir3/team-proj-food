@@ -69,6 +69,9 @@
 										<div style="height:100%; width:100%">
 											<span class="text-body">${board.title }</span> 
 											<span id="numOfReply">[${board.numOfReply }]</span>
+											<c:if test="${board.pinned }">
+												<i class="fa-solid fa-thumbtack"></i>
+											</c:if>
 										</div>
 									</a>
 								</td>		

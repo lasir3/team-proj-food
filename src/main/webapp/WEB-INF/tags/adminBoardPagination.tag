@@ -11,6 +11,9 @@
 			<c:param name="type" value="${param.type }"></c:param>
 			<c:param name="keyword" value="${param.keyword }"></c:param>
 		</c:if>
+		<c:if test="${not empty param.state }">
+			<c:param name="state" value="${param.state }"></c:param>
+		</c:if>
 		<c:param name="page" value="1"></c:param>
 	</c:url>
 	<li class="page-item">
@@ -24,6 +27,9 @@
 		<c:if test="${not empty param.type && not empty param.keyword}">
 			<c:param name="type" value="${param.type }"></c:param>
 			<c:param name="keyword" value="${param.keyword }"></c:param>
+		</c:if>
+		<c:if test="${not empty param.state }">
+			<c:param name="state" value="${param.state }"></c:param>
 		</c:if>
 		<!-- page 파라미터가 1보다 작아지지 않도록 함 -->
 		<c:param name="page" 
@@ -43,6 +49,9 @@
  				<c:param name="type" value="${param.type }"></c:param>
  				<c:param name="keyword" value="${param.keyword }"></c:param>
  			</c:if>
+ 			<c:if test="${not empty param.state }">
+				<c:param name="state" value="${param.state }"></c:param>
+			</c:if>
    			<c:param name="page" value="${pageNum }"></c:param>
 		</c:url>
 		<li class="page-item ${pageInfo.page == pageNum ? 'active' : ''}">
@@ -56,6 +65,9 @@
 	  	<c:if test="${not empty param.type && not empty param.keyword}">
 			<c:param name="type" value="${param.type }"></c:param>
 			<c:param name="keyword" value="${param.keyword }"></c:param>
+		</c:if>
+		<c:if test="${not empty param.state }">
+			<c:param name="state" value="${param.state }"></c:param>
 		</c:if>
   		<!-- page 파라미터가 last값을 넘어가지 않도록 함  -->
   		<c:param name="page" 
@@ -73,6 +85,9 @@
 		<c:if test="${not empty param.type && not empty param.keyword}">
 			<c:param name="type" value="${param.type }"></c:param>
 			<c:param name="keyword" value="${param.keyword }"></c:param>
+		</c:if>
+		<c:if test="${not empty param.state }">
+			<c:param name="state" value="${param.state }"></c:param>
 		</c:if>
   		<c:param name="page" value="${pageInfo.last }"></c:param>
   	</c:url>
