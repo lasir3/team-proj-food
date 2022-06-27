@@ -42,5 +42,13 @@ public interface DebateMapper {
 
 	int updateClose(int id);
 
+	int countAllDebate(@Param("type")String type, @Param("keyword")String keyword);
+
+	List<DebateDto> AllDebate(@Param("from")int from, 
+			@Param("row")int rowPerPage, 
+			@Param("type")String type, 
+			@Param("keyword")String keyword);
+	
+
 	/*List<DebateDto> searchDebate(@Param("type")String type, @Param("keyword")String keyword);*/
 }

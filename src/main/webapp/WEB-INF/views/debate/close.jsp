@@ -35,7 +35,7 @@
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th><i class="fa-solid fa-hashtag"></i></th>
+							<th>글 번호</th>
 							<th>항목</th>
 							<th><i class="fa-solid fa-calendar"></i></th>
 						</tr>
@@ -68,8 +68,10 @@
 						</c:forEach>
 					</tbody>
 				</table>
-				<my:closePageNation path="close" />
+				<div class="d-inline-flex p-2">
 				<my:closeSearch search="close" />
+				</div>
+				<my:closePageNation path="close" />
 			</div>
 		</div>
     </

@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
 
 <!DOCTYPE html>
@@ -25,18 +23,15 @@
 	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 	crossorigin="anonymous"></script>
 
-<script>
-
-</script>
 
 <title>Insert title here</title>
 </head>
 <body>
-	<my:navBar current="list" />
+	<my:navBar current="all" />
 	<div class="container">
 		<div class="row">
 			<div class="col">
-				<h5>열린 토론</h5>
+				<h5>전체 토론</h5>
 				<c:if test="${not empty message }">
 					<div class="alert alert-primary">${message }</div>
 				</c:if>
@@ -45,9 +40,7 @@
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th>
-								글 번호
-							</th>
+							<th>글 번호</th>
 							<th>항목</th>
 							<th>
 								<i class="fa-solid fa-calendar"></i>
@@ -55,42 +48,40 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${debateList }" var="debate">
+						<c:forEach items="${allDebate }" var="all">
 							<tr>
-								<td>${debate.id }</td>
+								<td>${all.id }</td>
 								<td>
 									<c:url value="/debate/get" var="getUrl">
-										<c:param name="id" value="${debate.id }"></c:param>
+										<c:param name="id" value="${all.id }"></c:param>
 									</c:url>
 
 									<a href="${getUrl }" class="text-decoration-none">
 										<div style="height: 100%;">
-										<%-- <c:choose>
+											<%-- <c:choose>
 												<c:when test="${debate.state == 0 }">
 													<span class="badge rounded-pill bg-secondary">열린토론</span>
 												</c:when>
 										</c:choose> --%>
-											<span class="text-body">${debate.title }</span>
-											<span class="numOfReply">[${debate.numOfReply }]</span>
-										</div> 
+											<span class="text-body">${all.title }</span>
+											<span class="numOfReply">[${all.numOfReply }]</span>
+										</div>
 									</a>
 
 
 								</td>
 								<%--   <td>${debate.memberId }</td>   --%>
-								<td>${debate.prettyInserted }</td>
+								<td>${all.prettyInserted }</td>
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
 				<div class="d-inline-flex p-2">
-				<my:search search="list" />
+					<my:search search="all" />
 				</div>
-				<my:pageNation path="list" />
-				</div>
+				<my:pageNation path="all" />
 			</div>
 		</div>
 	</div>
-
 </body>
 </html>

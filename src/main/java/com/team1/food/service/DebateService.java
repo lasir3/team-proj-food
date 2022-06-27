@@ -68,6 +68,11 @@ public class DebateService {
 	public List<DebateDto> closeDebate(String type, int page, String keyword, int rowPerPage) {
 		int from = (page - 1) * rowPerPage;
 		
+		System.out.println(from);
+		System.out.println(rowPerPage);
+		System.out.println(type);
+		System.out.println(keyword);
+		
 		return mapper.selectCloseDebate(from, rowPerPage, type, "%" + keyword + "%");
 	}
 
@@ -87,5 +92,16 @@ public class DebateService {
 		int cnt = mapper.updateClose(id);
 		
 		return cnt == 1;
+	}
+
+	public int countAllDebate(String type, String keyword) {
+		// TODO Auto-generated method stub
+		return mapper.countAllDebate(type, keyword);
+	}
+
+	public List<DebateDto> AllDebate(int page, int rowPerPage, String type, String keyword) {
+		int from = (page - 1) * rowPerPage;
+		
+		return mapper.AllDebate(from, rowPerPage, type, "%" + keyword + "%");
 	}
 }

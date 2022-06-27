@@ -110,23 +110,21 @@
 		COUNT(r.id) numOfReply,
 		d.close
 		FROM Debate d LEFT JOIN BigReply r ON d.id = r.debateId
+		WHERE d.close = 1
 		<if test="keyword != '%%'">
 			<choose>
 				<when test="type == 'all'">
-					WHERE (d.title LIKE #{keyword } OR
+					AND (d.title LIKE #{keyword } OR
 					      d.body LIKE #{keyword })
-					     AND d.close = 1
 				</when>
 				<when test="type == 'title'">
-					WHERE d.title LIKE #{keyword }
-						AND d.close = 1
+					AND d.title LIKE #{keyword }
 				</when>
 				<when test="type == 'body'">
-					WHERE  d.body LIKE #{keyword }
-						AND d.close = 1
+					AND  d.body LIKE #{keyword }
 				</when>
 			</choose>
-		</if> 
+		</if>
 		
 		GROUP BY d.id
 		ORDER BY d.id DESC
@@ -134,21 +132,22 @@
 	</select>
 	
 	<select id="countClose" resultType="int">
-		SELECT COUNT(id) FROM Debate
+		SELECT COUNT(id) FROM Debate d
+	    WHERE d.close = 1
 		<if test="keyword != '%%'">
 			<choose>
 				<when test="type == 'all'">
-					WHERE( title LIKE #{keyword } OR
-					      body LIKE #{keyword } )
+					AND (d.title LIKE #{keyword } OR
+					      d.body LIKE #{keyword })
 				</when>
 				<when test="type == 'title'">
-					WHERE title LIKE #{keyword }
+					AND d.title LIKE #{keyword }
 				</when>
 				<when test="type == 'body'">
-					WHERE  body LIKE #{keyword }
+					AND  d.body LIKE #{keyword }
 				</when>
 			</choose>
-		</if>
+		</if> 
 	</select>
 
 <select id="selectCloseById"
@@ -170,6 +169,51 @@
 		SET close = 1
 		WHERE id = #{id}
 	</update>
+	
+	<select id="AllDebate" resultType="com.team1.food.domain.DebateDto">
+		SELECT d.id id,
+		d.title title,
+		d.inserted inserted,
+		COUNT(r.id) numOfReply,
+		d.close
+		FROM Debate d LEFT JOIN BigReply r ON d.id = r.debateId
+		<if test="keyword != '%%'">
+			<choose>
+				<when test="type == 'all'">
+					WHERE d.title LIKE #{keyword } OR
+					      d.body LIKE #{keyword }
+				</when>
+				<when test="type == 'title'">
+					WHERE d.title LIKE #{keyword }
+				</when>
+				<when test="type == 'body'">
+					WHERE  d.body LIKE #{keyword }			
+				</when>
+			</choose>
+		</if> 
+		
+		GROUP BY d.id
+		ORDER BY d.id DESC
+		LIMIT #{from},#{row}
+	</select>
+	
+	<select id="countAllDebate" resultType="int">
+		SELECT COUNT(id) FROM Debate
+		<if test="keyword != '%%'">
+			<choose>
+				<when test="type == 'all'">
+					WHERE title LIKE #{keyword } OR
+					      body LIKE #{keyword }
+				</when>
+				<when test="type == 'title'">
+					WHERE title LIKE #{keyword }
+				</when>
+				<when test="type == 'body'">
+					WHERE  body LIKE #{keyword }
+				</when>
+			</choose>
+		</if> 
+	</select>
 
 </mapper>
 

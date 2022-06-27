@@ -14,6 +14,7 @@
 <c:url value="/debate/list" var="debateUrl"></c:url>
 <c:url value="/debate/write" var="debateWriteUrl"></c:url>
 <c:url value="/debate/close" var="debateCloseUrl"></c:url>
+<c:url value="/debate/all" var="debateAllUrl"></c:url>
 <c:url value="/admin/main" var="adminMainUrl"></c:url>
 <c:url value="/admin/notice" var="adminNoticeUrl"></c:url>
 <c:url value="/admin/report" var="adminReportUrl"></c:url>
@@ -86,13 +87,16 @@
                   data-bs-toggle="dropdown" aria-expanded="false"> 토론게시판 </a>
                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   <li>
-                     <a class="dropdown-item" href="${debateUrl }">토론목록보기</a>
+                     <a class="dropdown-item" href="${debateUrl }">열린토론</a>
+                  </li>
+                  <li>
+                     <a class="dropdown-item" href="${debateCloseUrl } ">닫힌토론</a>
                   </li>
                   <li>
                      <a class="dropdown-item" href="${debateWriteUrl }">토론글쓰기</a>
                   </li>
                   <li>
-                     <a class="dropdown-item" href="${debateCloseUrl } ">닫힌토론</a>
+                  	<a class="dropdown-item" href="${debateAllUrl }">전체토론목록</a>
                   </li>
                </ul>
             </li>
