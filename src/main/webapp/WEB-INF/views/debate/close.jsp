@@ -18,8 +18,10 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 	<my:navBar current="close" />
 	<div class="container">
+
 		<div class="row">
 			<div class="col">
 				<h5>닫힌 토론</h5> 
@@ -70,5 +72,6 @@
 				<my:closeSearch search="close" />
 			</div>
 		</div>
+    </
 </body>
 </html>

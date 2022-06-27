@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team1.food.mapper.AdminReplyMapper">
+	<insert id="insertNoticeReply">
+	INSERT INTO Reply (noticeId, memberId, content)
+	VALUES (#{noticeId}, #{memberId}, #{content})
+	</insert>
+	
+	<insert id="insertRestAreaReply">
+	INSERT INTO Reply (restAreaId, memberId, content)
+	VALUES (#{restAreaId}, #{memberId}, #{content})
+	</insert>
+
+	<insert id="insertAskReply">
+	INSERT INTO Reply (askId, memberId, content)
+	VALUES (#{askId}, #{memberId}, #{content})
+	</insert>
+	
+	<insert id="insertReportReply">
+	INSERT INTO Reply (reportId, memberId, content)
+	VALUES (#{reportId}, #{memberId}, #{content})
+	</insert>
+	
+	<select id="selectAllReplyByBoardId" resultType="com.team1.food.domain.AdminReplyDto">
+	SELECT r.id, 
+			r.content, 
+			r.memberId,
+			r.inserted,
+			m.nickName writerNickName
+	FROM Reply r JOIN Member m ON r.memberId = m.id
+	WHERE ${columnName} = #{boardId}
+	ORDER BY id DESC
+	</select>
+	
+	<select id="selectAllReplyWithOwnByBoardId" resultType="com.team1.food.domain.AdminReplyDto">
+	SELECT r.id, 
+			r.content, 
+			r.memberId,
+			r.inserted,
+			m.nickName writerNickName,
+			IF (m.id = #{memberId}, 1, 0) own
+	FROM Reply r JOIN Member m ON r.memberId = m.id
+	WHERE ${columnName} = #{boardId}
+	ORDER BY id DESC
+	</select>
+	
+	<update id="updateReply">
+	UPDATE Reply
+	SET content = #{content}
+	WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteReplyById">
+	DELETE FROM Reply
+	WHERE id = #{id}
+	</delete>
+	
+	<delete id="deleteReplyByBoardId">
+	DELETE FROM Reply
+	WHERE ${columnName} = #{boardId}
+	</delete>
+	
+	
+	
+</mapper>

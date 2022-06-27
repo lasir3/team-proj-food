@@ -4,16 +4,22 @@
    uri="http://www.springframework.org/security/tags"%>
 <%@ attribute name="current"%>
 
+<c:url value="/foodBoard/foodCateList" var="foodBoard"></c:url>
 <c:url value="/member/signup" var="signupUrl"></c:url>
 <c:url value="/member/memberlist" var="memberlistUrl"></c:url>
 <c:url value="/member/memberget" var="membergetUrl"></c:url>
 <c:url value="/member/login" var="loginUrl"></c:url>
 <c:url value="/logout" var="logoutUrl"></c:url>
 <c:url value="/admin/main" var="adminUrl"></c:url>
-<c:url value="/foodBoard/foodCateList" var="foodCateListUrl"></c:url>
 <c:url value="/debate/list" var="debateUrl"></c:url>
 <c:url value="/debate/write" var="debateWriteUrl"></c:url>
 <c:url value="/debate/close" var="debateCloseUrl"></c:url>
+<c:url value="/admin/main" var="adminMainUrl"></c:url>
+<c:url value="/admin/notice" var="adminNoticeUrl"></c:url>
+<c:url value="/admin/report" var="adminReportUrl"></c:url>
+<c:url value="/admin/restArea" var="adminRestAreaUrl"></c:url>
+<c:url value="/admin/ask" var="adminAskUrl"></c:url>
+
 
 <%-- 회원정보링크 --%>
 <sec:authorize access="isAuthenticated()">
@@ -25,7 +31,7 @@
 
 <nav class="navbar sticky-top navbar-expand-md navbar-light bg-light mb-3"  >
    <div class="container-fluid">
-      <a class="navbar-brand" href="${foodCateListUrl }">
+      <a class="navbar-brand" href="${foodBoard }">
          <i class="fa-solid fa-house"></i>
       </a>
 
@@ -33,7 +39,7 @@
          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
             <li class="nav-item dropdown">
-               <a class="nav-link dropdown-toggle ${current == 'foodCateList' ? 'active' : ''}" href="${foodCateListUrl }"
+               <a class="nav-link dropdown-toggle ${current == 'foodCateList' ? 'active' : ''}" 
                   id="navbarDropdownMenuLink" role="button"
                   data-bs-toggle="dropdown" aria-expanded="false"> 카테고리 </a>
                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -51,21 +57,24 @@
 
 
             <li class="nav-item dropdown">
-               <a class="nav-link dropdown-toggle" href="#"
+               <a class="nav-link dropdown-toggle ${current == 'admin' ? 'active' : ''}" 
                   id="navbarDropdownMenuLink" role="button"
                   data-bs-toggle="dropdown" aria-expanded="false"> 커뮤니티 </a>
                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li>
-                     <a class="dropdown-item" href="#">공지사항</a>
+               	  <li>
+                     <a class="dropdown-item" href="${adminMainUrl }">커뮤니티목록</a>
                   </li>
                   <li>
-                     <a class="dropdown-item" href="#">문의</a>
+                     <a class="dropdown-item" href="${adminNoticeUrl }">공지사항</a>
                   </li>
                   <li>
-                     <a class="dropdown-item" href="#">쉼터</a>
+                     <a class="dropdown-item" href="${adminAskUrl }">문의</a>
                   </li>
                   <li>
-                     <a class="dropdown-item" href="#">신고</a>
+                     <a class="dropdown-item" href="${adminRestAreaUrl }">쉼터</a>
+                  </li>
+                  <li>
+                     <a class="dropdown-item" href="${adminReportUrl }">신고</a>
                   </li>
                </ul>
             </li>
