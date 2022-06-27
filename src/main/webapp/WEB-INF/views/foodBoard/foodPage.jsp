@@ -13,18 +13,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
-<!-- include summernote for BootStrap5 css/js -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/lang/summernote-ko-KR.min.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
 	<my:navBar></my:navBar>
 	<div class="container mt-5">
-		<jsp:include page="mainFood.jsp" flush="false"></jsp:include>
-		<hr />
-		<jsp:include page="subFood.jsp" flush="false"></jsp:include>
+		<div class="col">
+			<jsp:include page="mainFood.jsp" flush="false"></jsp:include>
+			<hr />
+			<h1>하위 레시피 목록</h1>
+			<jsp:include page="subFood.jsp" flush="false"></jsp:include>
+		</div>
 	</div>
 
 </body>
