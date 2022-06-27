@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ attribute name="path" %>
 
-
+<ul class="pagination">
 	<!-- 처음으로 -->
 	<c:url value="${path }" var="toFirst">
 		<c:if test="${not empty param.type && not empty param.keyword}">

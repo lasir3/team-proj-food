@@ -141,6 +141,17 @@
 	WHERE id = #{id}
 	</delete>
 	
+	<select id="selectLastRestArea" resultType="com.team1.food.domain.AdminBoardDto">
+	SELECT id,
+		content,
+		memberId,
+		inserted,
+		state
+	FROM RestArea
+	WHERE memberId = #{memberId}
+	ORDER BY id DESC
+	LIMIT 1
+	</select>
 	
 	<!-- 문의  -->
 	
@@ -309,4 +320,22 @@
 	SET state = #{state}
 	WHERE id = #{id}
 	</update>
+	
+	<insert id="insertLeave">
+	INSERT INTO OnLeave (memberId, start, end, boardId)
+	VALUES (#{memberId}, #{start}, #{end}, #{boardId})
+	</insert>
+	
+	<update id="updateLeave">
+	UPDATE OnLeave
+	SET start = #{start},
+		end = #{end}
+	WHERE id = #{id}
+	</update>
+	
+	<select id="selectLeaveByBoardId" resultType="com.team1.food.domain.AdminLeaveDto">
+	SELECT id, memberId, start, end, boardId
+	FROM OnLeave
+	WHERE boardId = #{boardId}
+	</select>
 </mapper>
