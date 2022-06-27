@@ -1,5 +1,9 @@
+<%@ page import="com.team1.food.domain.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,33 +14,49 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <title>Insert title here</title>
 
-<!-- include summernote for BootStrap5 css/js -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/lang/summernote-ko-KR.min.js"></script>
+<script src="./summernote-lite.js"></script>
+<script src="./summernote-ko-KR.js"></script>
+<link rel="stylesheet" href="./summernote-lite.css">
+
+<style>
+.center {
+  justify-content:center;
+  align-items:center;
+}
+
+.arrow {
+	font-size:xx-large;
+	text-align: center;
+}
+</style>
+
+<script>
+	$(document).ready(function() {
+		
+	});
+</script>
 
 </head>
 <body>
-	<div class="row">
-		<div class="mb-1 foodname">하위 음식 리스트1</div>
+	<div class="container mt-5">
+		<c:forEach items="${subFoodDto }" var="subList">
+			<div class="row center">
+				<div class="col-1">
+				<div class="row">
+					<i class="arrow fa-solid fa-square-caret-up"></i><br />
+				</div>
+				<div style="font-size:large; text-align: center; font-weight:bold">${subIndexMap[subList.subRecipeIndex] }</div>
+				<div class="row">
+					<i class="arrow fa-solid fa-square-caret-down"></i>
+				</div>
+				</div>
+				<div class="col-11">
+					<h1>${subList.subRecipeName }</h1>
+					<h3>${subList.content }</h3>
+				</div>
+			</div>
+			<hr />
+		</c:forEach>
 	</div>
-	<div id="summernote2"></div>
-    <script>
-	    $('#summernote2').summernote({
-			placeholder: '이 페이지는 ${foodDto.foodName}요리에 관한 위키 페이지입니다.',
-			tabsize: 2,
-			height: 120,
-			lang : 'ko-KR',
-			toolbar: [
-			  ['style', ['style']],
-			  ['font', ['bold', 'underline', 'clear']],
-			  ['color', ['color']],
-			  ['para', ['ul', 'ol', 'paragraph']],
-			  ['table', ['table']],
-			  ['insert', ['link', 'picture', 'video']],
-			  ['view', ['codeview', 'help']]
-			]
-	    });
-	  </script>
 </body>
 </html>

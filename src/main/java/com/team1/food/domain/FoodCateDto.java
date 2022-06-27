@@ -8,4 +8,5 @@ public class FoodCateDto {
 	private String cateName;
 	private String memberId;
 	private String fileName;
+	private String content;
 }
