@@ -25,16 +25,16 @@
 	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 	crossorigin="anonymous"></script>
 <script>
-$(document).ready(function() {
+ $(document).ready(function() {
 	$("#edit-button1").click(function() {
 		$("#input1").removeAttr("readonly");
 		$("#textarea1").removeAttr("readonly");
-		$("#modify-submit1").removeClass("d-none");
-		$("#delete-submit1").removeClass("d-none");
-		$("#close-submit1").removeClass("d-none");
+		/* $("#modify-submit1").removeClass("d-none"); */
+		/* $("#delete-submit1").removeClass("d-none");
+		$("#close-submit1").removeClass("d-none"); */
 		$("#input1").removeClass("d-none");
 		$("#title-a").addClass("d-none");
-	});
+	}); 
 	
 
 
@@ -54,10 +54,9 @@ $(document).ready(function() {
 	$("#close-submit1").click(function(e){
 		e.preventDefault();
 		
-		if(confirm("토론을 종료 하시겠습니까?")) {
-			console.log("hello");
+		if(confirm("닫힌 토론으로 보내시겠습니까?")) {
 			let form2 = $("#form2");
-			let actionAttr = "${appRoot}/debate/updateclose";
+			let actionAttr = "${appRoot}/debate/close";
 			form2.attr("action", actionAttr);
 			
 			form2.submit();
@@ -109,10 +108,10 @@ $(document).ready(function() {
 										<input type="hidden" name="id" value="\${list[i].id }" />
 										<input class="form-control" value="\${list[i].board }"
 											type="text" name="board" required />
-										<button data-reply-id="\${list[i].id}" 
+										 <button data-reply-id="\${list[i].id}" 
 										        class="reply-modify-submit btn btn-outline-secondary">
 											<i class="fa-solid fa-comment-dots"></i>
-										</button>
+										</button> 
 									</div>
 								</form>
 							</div>
@@ -122,17 +121,10 @@ $(document).ready(function() {
 					$("#replyContent" + list[i].id).text(list[i].board);
 					
 					// own이 true일 때만 수정,삭제 버튼 보이기
-					if (list[i].own) {
+						if (list[i].own) {
 						$("#modifyButtonWrapper" + list[i].id).html(`
-							<span class="reply-edit-toggle-button badge bg-info text-dark"
-								id="replyEditToggleButton\${list[i].id }"
-								data-reply-id="\${list[i].id }">
-								<i class="fa-solid fa-pen-to-square"></i>
 							</span>
-							<span class="reply-delete-button badge bg-danger"
-								data-reply-id="\${list[i].id }">
-								<i class="fa-solid fa-trash-can"></i>
-							</span>
+							
 						`);
 					}
 					
@@ -282,12 +274,12 @@ $(document).ready(function() {
 					
 					<sec:authorize access="isAuthenticated()">
 						<sec:authentication property="principal" var="principal" />
-
+<%-- 
 						<c:if test="${principal.username == debate.memberId }">
 							<button id="edit-button1" class="btn btn-secondary">
 								<i class="fa-solid fa-pen-to-square"></i>
 							</button>
-						</c:if>
+						</c:if> --%>
 					</sec:authorize>
 
 				</h5>
@@ -297,10 +289,6 @@ $(document).ready(function() {
 				<c:if test="${not empty message }">
 					<div class="alert alert-primary">${message }</div>
 				</c:if>
-					<form action="" id="form2" method="post">
-					<button id="close-submit1" class="btn btn-primary d-none">토론 종료</button>
-						<input type="hidden" name="id" value="${debate.id }" />
-					</form>
 			
 				<form id="form1" action="${appRoot }/debate/modify" method="post"
 					enctype="multipart/form-data">
@@ -312,8 +300,9 @@ $(document).ready(function() {
  				    	<a href="#" style="text-decoration-line: none; font-size: 25px;" id="title-a">${debate.title }</a>
 						<input style= "border: none; background: transparent; font-size:25px;"
 							type="text" name="title" required class="d-none"
-							id="input1" value="${debate.title }"readonly ></input>
+						 value="${debate.title }"readonly ></input>
 					</div>		
+					<button id="close-submit1" class="btn btn-primary d-none">토론 닫기</button>
 					<button id="modify-submit1" class="btn btn-primary d-none">수정</button>
 					<button id="delete-submit1" class="btn btn-danger d-none">삭제</button>
 					<!-- <button id="close-submit1" class="btn btn-secondary d-none">토론 닫기</button> -->
@@ -392,11 +381,11 @@ $(document).ready(function() {
 					<div class="input-group">
 						<input type="hidden" name="debateId" value="${debate.id }" />
 						<input id="insertReplyContentInput1" class="form-control"
-							type="text" name="board" required />
-						<button id="addReplySubmitButton1"
+							type="text" name="board" required readonly  placeholder="댓글을 입력할수없습니다." />
+						<!-- <button id="addReplySubmitButton1"
 							class="btn btn-outline-secondary">
 							<i class="fa-solid fa-comment-dots"></i>
-						</button>
+						</button> -->
 					</div>
 				</form>
 			</div>

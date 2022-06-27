@@ -19,4 +19,6 @@ public interface BigReplyMapper {
 	void deleteByDebateId(int id);
 
 	int updateBigReply(BigReplyDto dto);
+
+	List<BigReplyDto> selectAllCloseId(@Param("debateId")int debateId, @Param("memberId")String memberId);
 }

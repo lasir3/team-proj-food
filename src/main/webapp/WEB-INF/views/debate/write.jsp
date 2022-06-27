@@ -34,7 +34,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col">
-				<h3>토론 작성</h3>
+				<h3>새 주제 생성</h3>
 				
 			
 				<div class="alert alert-primary">주제와 맞는 토론을 입력해 주세요.</div>

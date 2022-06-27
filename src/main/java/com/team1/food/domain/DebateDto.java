@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class DebateDto {
+	private boolean close;
 	private String memberId;
 	private int id;
 	private String title;

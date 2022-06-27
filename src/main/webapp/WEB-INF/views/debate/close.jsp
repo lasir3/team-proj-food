@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
 
 <!DOCTYPE html>
 <html>
@@ -16,13 +18,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-<my:navBar current="list" />
-<div class="container">
+	<my:navBar current="close" />
+	<div class="container">
 		<div class="row">
 			<div class="col">
-				<h5>닫힌 토론</h5>
-				<%-- <c:url value="/debate/write" var="writeLink" />
-				<h3><a href="${writeLink }">글 작성</a></h3> --%>
+				<h5>닫힌 토론</h5> 
 				<c:if test="${not empty message }">
 					<div class="alert alert-primary">
 						${message }
@@ -39,38 +39,36 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${debateList }" var="debate">
-							<tr>
-								<td>${debate.id }</td>
-								<td>
-													
-									 <c:url value="/debate/get" var="getUrl">
-										<c:param name="id" value="${debate.id }"></c:param>
-									</c:url> 
-									
-									<a href="${getUrl }">
-										<c:out value="${debate.title }" />
-									</a>
-								
-									
-									<!-- 댓글 -->
-									<c:if test="${debate.numOfReply > 0 }">
-										<span class="badge rounded-pill bg-light text-dark">
-											<i class="fa-solid fa-comment-dots" ></i>
-											${debate.numOfReply }
-										</span>
-									</c:if>
-									
-								</td>
-							 <%-- <td>${debate.memberId }</td>  --%>
-								<td>${debate.prettyInserted }</td>
-							</tr>
+						<c:forEach items="${closeDebate }" var="close">
+							<c:if test="${close.close == true }" >
+								<tr>
+									<td>${close.id }</td>
+									<td>
+														
+										<c:url value="closeget" var="getUrl">
+											<c:param name="id" value="${close.id }"></c:param>
+										</c:url>
+										
+										<a href="${getUrl }" class="text-decoration-none">
+											<div style="height:100%; width=100%">
+										<span class="badge rounded-pill text-bg-success">닫힌토론</span>
+											<span class="text-body">${close.title }</span>
+											<span class="numOfReply">[${close.numOfReply }]</span>
+											</div>
+										</a>
+						
+										
+									</td>
+								<%--   <td>${debate.memberId }</td>   --%>
+									<td>${close.prettyInserted }</td>
+								</tr>
+							</c:if>
 						</c:forEach>
 					</tbody>
 				</table>
-				<my:pageNation path="list" />
+				<my:closePageNation path="close" />
+				<my:closeSearch search="close" />
 			</div>
 		</div>
-	</div>
 </body>
 </html>

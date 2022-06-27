@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.team1.food.domain.BigReplyDto;
-import com.team1.food.domain.CloseDto;
 import com.team1.food.domain.DebateDto;
 import com.team1.food.domain.PageInfoDto;
 import com.team1.food.service.BigReplyService;
@@ -31,36 +30,81 @@ public class DebateController {
 
 	@RequestMapping("list")
 	public void listDebate(Model model,
-			@RequestParam(name = "page", defaultValue = "1") int page) {
+			@RequestParam(name = "page", defaultValue = "1") int page,
+			@RequestParam(name = "type", defaultValue = "")String type,
+			@RequestParam(name = "keyword", defaultValue = "") String keyword) {
 
 		int rowPerPage = 10;
 
-		int totalRecords = service.countDebate();
+		int totalRecords = service.countDebate(type, keyword);
 		int end = (totalRecords - 1) / rowPerPage + 1;
 
 		PageInfoDto pageInfo = new PageInfoDto();
 		pageInfo.setCurrent(page);
 		pageInfo.setEnd(end);
-
-		List<DebateDto> list = service.listDebatePage(page, rowPerPage);
+		
+		List<DebateDto> list = service.listDebatePage(page, rowPerPage, type, keyword);
+		/*List<DebateDto> search = service.searchDebate(type, keyword);*/
 		//			List<DebateDto> list = service.listDebate();
-
+		
 		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("debateList", list);
 	}
+	 
+	
 	
 	@RequestMapping("close")
-	public void CloseDebate(Model model) {
-		List<CloseDto> list = service.CloseDebate();
+	public void closeDebate(Model model,
+			@RequestParam(name = "page", defaultValue = "1")int page,
+			@RequestParam(name = "type", defaultValue = "") String type,
+			@RequestParam(name = "keyword", defaultValue = "") String keyword) {
 		
-		model.addAttribute("CloseList", list);
-	}
+		int rowPerPage = 10;
+		
+		int totalRecords = service.countClose(type, keyword);
+		int end = (totalRecords -1) / rowPerPage + 1;
+		
+		PageInfoDto pageInfo = new PageInfoDto();
+		pageInfo.setCurrent(page);
+		pageInfo.setEnd(end);
+				
+		List<DebateDto> close = service.closeDebate(type, page, keyword, rowPerPage);
+	 
+		model.addAttribute("pageInfo", pageInfo);
+		model.addAttribute("closeDebate", close);
 
+	}
+	
+	@GetMapping("closeget")
+	public void getClose(int id, Model model) {
+		DebateDto dto = service.getCloseById(id);
+		List<BigReplyDto> replyList = replyService.getBigReplyByCloseId(id);
+		model.addAttribute("debate", dto);
+		
+
+		/* ajax로 처리하기 위해 삭제 */
+		// model.addAttribute("replyList", replyList);
+
+	}
+	
+	@PostMapping("updateclose")
+	public String updateclose(int id, RedirectAttributes rttr) {
+		
+		boolean success = service.updateClose(id);
+		
+		if(success) {
+			rttr.addFlashAttribute("message", "토론이 종료되었습니다.");
+	} else {
+		rttr.addFlashAttribute("message", "토론닫기 실패했습니다.");
+	}
+		 return "redirect:/debate/close";
+	}
+	
 	@GetMapping("write")
 	public void insert() {
-
+		
 	}
-
+	
 	@PostMapping("write")
 	public String writeBoardProcess(DebateDto debate,
 			Principal principal,
