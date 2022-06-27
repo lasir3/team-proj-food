@@ -58,6 +58,6 @@ public interface CategoryMapper {
 
 	List<SubFoodDto> selectSubFoodList(int foodIndex);
 
-	VoteDto selectVoteSum(int subRecipeIndex);
+	List<VoteDto> selectVoteSum(int subRecipeIndex);
 
 }

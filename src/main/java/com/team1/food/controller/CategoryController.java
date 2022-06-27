@@ -1,9 +1,7 @@
 package com.team1.food.controller;
 
 import java.security.Principal;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -170,31 +169,28 @@ public class CategoryController {
 	}
 	
 	// 음식 페이지 메소드
+	// ajax로 수정 필요
 	@GetMapping("foodPage")
 	public void getFoodPage(@RequestParam(name = "foodIndex", defaultValue = "") int foodIndex, Model model) {
-		
-		// 음식정보 DTO
 		FoodDto dto = cateService.getPageByIndex(foodIndex);
-		
-		// 하위 레시피 리스트 DTO
 		List<SubFoodDto> subDto = cateService.getSubDtoList(foodIndex);
-		
-		// Map으로 subRecipteIndex에 해당하는 추천 수 저장
-		Map<Integer, Integer> subRecipeIndexVoteSumMap = new HashMap<>(); 
-		
-		for (SubFoodDto subIndex : subDto) {
-			// Vote테이블에서 subRecipeIndex를 이용하여 추천수 합계 추출
-			VoteDto voteDto = cateService.getVoteSum(subIndex.getSubRecipeIndex());
-			int voteSum = voteDto.getVoteSum();
-			subRecipeIndexVoteSumMap.put(subIndex.getSubRecipeIndex(), voteSum);
-		}
-		
-		System.out.println("subMap : " + subRecipeIndexVoteSumMap.toString());
-		
-		// 수정용 파일명 전송
+
 		model.addAttribute("foodDto", dto);
 		model.addAttribute("subFoodDto", subDto);
-		model.addAttribute("subIndexMap", subRecipeIndexVoteSumMap);
+		System.out.println("subFoodDto" + subDto.toString());
+	}
+	
+	// subRecipeList ajax 요청
+	@GetMapping("subList")
+	@ResponseBody
+	public List<SubFoodDto> subList(int foodIndex) {
+		return cateService.getSubDtoList(foodIndex);
+	}
+
+	@GetMapping("voteSum")
+	@ResponseBody
+	public List<VoteDto> voteList(int subRecipeIndex) {
+		return cateService.getVoteSum(subRecipeIndex);
 	}
 	
 }
