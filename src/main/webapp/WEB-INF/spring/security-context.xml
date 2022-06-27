@@ -19,7 +19,6 @@
          <security:intercept-url pattern="/debate/write" access="isAuthenticated()"/>
          <security:intercept-url pattern="/debate/modify" access="isAuthenticated()"/>
          <security:intercept-url pattern="/debate/remove" access="isAuthenticated()"/>
-         <security:intercept-url pattern="/debate/close" access="isAuthenticated()"/>
     </security:http>
 	
 	<security:authentication-manager>
