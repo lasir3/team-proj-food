@@ -321,9 +321,15 @@ $(document).ready(function(){
 					<input type="hidden" name="leaveId" value="${leave.id }" />
 					<!-- 글 세분류  -->
 					<select id="stateSelect1" name="state" class="form-select d-none">
-						<option value="1" ${param.state != 1 && param.state != 2 ? 'selected' : '' }>휴가</option>
-						<option value="2" ${param.state == 1 ? 'selected' : '' }>사퇴</option>
-						<option value="3" ${param.state == 2 ? 'selected' : '' }>경고</option>
+						<c:if test="${board.state == 1 }">
+							<option value="1" ${param.state != 1 && param.state != 2 ? 'selected' : '' }>휴가</option>
+						</c:if>
+						<c:if test="${board.state == 2 }">						
+							<option value="2" ${param.state == 1 ? 'selected' : '' }>사퇴</option>
+						</c:if>
+						<c:if test="${board.state == 3 }">						
+							<option value="3" ${param.state == 2 ? 'selected' : '' }>경고</option>
+						</c:if>
 					</select>
 					
 					<!-- 제목  -->

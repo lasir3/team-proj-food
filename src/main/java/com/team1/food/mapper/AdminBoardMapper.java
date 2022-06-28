@@ -106,6 +106,8 @@ public interface AdminBoardMapper {
 
 	AdminLeaveDto selectLeaveByBoardId(int boardId);
 
+	void deleteLeave(int id);
+
 	
 
 

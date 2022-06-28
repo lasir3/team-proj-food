@@ -223,7 +223,6 @@ public class AdminBoardController {
 	}
 	
 	
-	
 	// 쉼터 글 보기
 	@GetMapping("getRestArea")
 	public void getRestArea(int id, Model model) {
@@ -237,7 +236,7 @@ public class AdminBoardController {
 	// 쉼터 글 수정
 	@PostMapping("updateRestArea")
 	public String updateRestArea(AdminBoardDto dto,
-			int leaveId,
+			String leaveId,
 			RedirectAttributes rttr,
 			Principal principal,
 			String datepicker1,
@@ -247,7 +246,7 @@ public class AdminBoardController {
 		// 휴가 기간 값이 있을 경우 휴가자 테이블 정보 수정
 		if(dto.getState() == 1 && datepicker1 != "" && datepicker2 != "") {
 			AdminLeaveDto leave = getLeaveDto(principal.getName(), datepicker1, datepicker2);
-			leave.setId(leaveId);
+			leave.setId(Integer.parseInt(leaveId));
 			service.updateLeave(leave);
 		}
 		
@@ -267,7 +266,13 @@ public class AdminBoardController {
 	@Transactional
 	@PostMapping("deleteRestArea")
 	public String deleteRestArea(AdminBoardDto dto,
-			RedirectAttributes rttr) {
+			RedirectAttributes rttr,
+			String leaveId) {
+		
+		// 휴가 글 삭제할때에는 휴가정보도 삭제
+		if(dto.getState() == 1 && leaveId != "") {
+			service.deleteLeave(Integer.parseInt(leaveId));
+		}
 		
 		replyService.deleteReplyByBoardId(dto.getId(), "restAreaId");
 		boolean success = service.deleteRestAreaBoardById(dto.getId());

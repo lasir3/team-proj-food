@@ -119,7 +119,8 @@
 		 	title, 
 		 	content, 
 		 	memberId, 
-		 	inserted
+		 	inserted,
+		 	state
 	FROM RestArea
 	WHERE id = #{id}
 	</select>
@@ -338,4 +339,9 @@
 	FROM OnLeave
 	WHERE boardId = #{boardId}
 	</select>
+	
+	<delete id="deleteLeave">
+	DELETE FROM OnLeave
+	WHERE id = #{id}
+	</delete>
 </mapper>

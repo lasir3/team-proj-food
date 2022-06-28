@@ -212,6 +212,10 @@ public class AdminBoardService {
 		return mapper.selectLeaveByBoardId(boardId);
 	}
 
+	public void deleteLeave(int id) {
+		mapper.deleteLeave(id);
+	}
+
 	
 		
 }
