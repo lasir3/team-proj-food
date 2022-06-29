@@ -42,6 +42,7 @@
 						<tr>
 							<th>글 번호</th>
 							<th>항목</th>
+							<th>작성자</th>
 							<th>
 								<i class="fa-solid fa-calendar"></i>
 							</th>
@@ -70,7 +71,7 @@
 
 
 								</td>
-								<%--   <td>${debate.memberId }</td>   --%>
+							 <td>${all.writerNickName}</td> 
 								<td>${all.prettyInserted }</td>
 							</tr>
 						</c:forEach>

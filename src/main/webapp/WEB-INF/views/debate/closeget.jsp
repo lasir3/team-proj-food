@@ -29,9 +29,9 @@
 	$("#edit-button1").click(function() {
 		$("#input1").removeAttr("readonly");
 		$("#textarea1").removeAttr("readonly");
-		/* $("#modify-submit1").removeClass("d-none"); */
-		/* $("#delete-submit1").removeClass("d-none");
-		$("#close-submit1").removeClass("d-none"); */
+		$("#modify-submit1").removeClass("d-none");
+		$("#delete-submit1").removeClass("d-none");
+		$("#close-submit1").removeClass("d-none");
 		$("#input1").removeClass("d-none");
 		$("#title-a").addClass("d-none");
 	}); 
@@ -43,7 +43,7 @@
 
 		if (confirm("삭제하시겠습니까?")) {
 			let form1 = $("#form1");
-			let actionAttr = "${appRoot}/debate/remove";
+			let actionAttr = "${appRoot}/debate/removeclose";
 			form1.attr("action", actionAttr);
 
 			form1.submit();
@@ -191,7 +191,7 @@
 
 					if (confirm(message)) {
 						// $("#replyDeleteInput1").val(replyId);
-						// $("#replyDeleteForm1").submit();
+						 $("#replyDeleteForm1").submit();
 						
 						$.ajax({
 							url : "${appRoot}/reply/delete/" + replyId,
@@ -274,12 +274,12 @@
 					
 					<sec:authorize access="isAuthenticated()">
 						<sec:authentication property="principal" var="principal" />
-<%-- 
+ 
 						<c:if test="${principal.username == debate.memberId }">
 							<button id="edit-button1" class="btn btn-secondary">
 								<i class="fa-solid fa-pen-to-square"></i>
 							</button>
-						</c:if> --%>
+						</c:if>
 					</sec:authorize>
 
 				</h5>
@@ -302,8 +302,8 @@
 							type="text" name="title" required class="d-none"
 						 value="${debate.title }"readonly ></input>
 					</div>		
-					<button id="close-submit1" class="btn btn-primary d-none">토론 닫기</button>
-					<button id="modify-submit1" class="btn btn-primary d-none">수정</button>
+				<!-- 	<button id="close-submit1" class="btn btn-primary d-none">토론 닫기</button> -->
+					<!-- <button id="modify-submit1" class="btn btn-primary d-none">수정</button> -->
 					<button id="delete-submit1" class="btn btn-danger d-none">삭제</button>
 					<!-- <button id="close-submit1" class="btn btn-secondary d-none">토론 닫기</button> -->
  			
