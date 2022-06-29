@@ -49,6 +49,7 @@
 								글 번호
 							</th>
 							<th>항목</th>
+							<th>작성자</th>
 							<th>
 								<i class="fa-solid fa-calendar"></i>
 							</th>
@@ -65,11 +66,6 @@
 
 									<a href="${getUrl }" class="text-decoration-none">
 										<div style="height: 100%;">
-										<%-- <c:choose>
-												<c:when test="${debate.state == 0 }">
-													<span class="badge rounded-pill bg-secondary">열린토론</span>
-												</c:when>
-										</c:choose> --%>
 											<span class="text-body">${debate.title }</span>
 											<span class="numOfReply">[${debate.numOfReply }]</span>
 										</div> 
@@ -77,7 +73,8 @@
 
 
 								</td>
-								<%--   <td>${debate.memberId }</td>   --%>
+								
+							  <td>${debate.writerNickName }</td>
 								<td>${debate.prettyInserted }</td>
 							</tr>
 						</c:forEach>

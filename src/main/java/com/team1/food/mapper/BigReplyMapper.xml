@@ -78,6 +78,11 @@
 		   
 		   
 	</select>
+	
+	<delete id="deleteByCloseId">
+	DELETE FROM BigReply
+	WHERE debateId = #{debateId}
+	</delete>
 
 </mapper>
 

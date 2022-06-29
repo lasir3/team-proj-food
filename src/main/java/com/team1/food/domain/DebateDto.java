@@ -24,5 +24,5 @@ public class DebateDto {
 		} else {
 			return inserted.toLocalDate().toString();
 		}
-	}	
+	}
 }
