@@ -23,6 +23,10 @@
 	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 	crossorigin="anonymous"></script>
 
+<script>
+
+
+</script>
 
 <title>Insert title here</title>
 </head>
@@ -59,11 +63,14 @@
 
 									<a href="${getUrl }" class="text-decoration-none">
 										<div style="height: 100%;">
-											<%-- <c:choose>
-												<c:when test="${debate.state == 0 }">
+											<c:choose>
+												<c:when test="${debate.close == 0 }">
 													<span class="badge rounded-pill bg-secondary">열린토론</span>
 												</c:when>
-										</c:choose> --%>
+												<c:when test="${debate.close == 1 }">
+													<span class="badge rounded-pill bg-secondary">닫힌토론</span>
+												</c:when>
+										</c:choose>
 											<span class="text-body">${all.title }</span>
 											<span class="numOfReply">[${all.numOfReply }]</span>
 										</div>

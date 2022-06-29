@@ -55,7 +55,7 @@ public class DebateController {
 	public void allDebate(Model model,
 			@RequestParam(name = "page", defaultValue="1")int page,
 			@RequestParam(name = "type", defaultValue="")String type,
-			@RequestParam(name = "keyword", defaultValue="")String keyword) {
+			@RequestParam(name = "keyword", defaultValue="")String keyword){
 		
 		int rowPerPage = 10;
 		

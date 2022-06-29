@@ -68,6 +68,7 @@ public class DebateService {
 	public List<DebateDto> closeDebate(String type, int page, String keyword, int rowPerPage) {
 		int from = (page - 1) * rowPerPage;
 		
+		
 		return mapper.selectCloseDebate(from, rowPerPage, type, "%" + keyword + "%");
 	}
 
