@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.team1.food.domain.CloseDto;
 import com.team1.food.domain.DebateDto;
 
 public interface DebateMapper {
@@ -20,13 +19,36 @@ public interface DebateMapper {
 	int deleteDebate(int id);
 
 
-	int countDebate();
+	int countDebate(@Param("type")String type, @Param("keyword")String keyword);
 
-	List<DebateDto> listDebatePage(@Param("from")int from, @Param("row")int rowPerPage);
+	List<DebateDto> listDebatePage(@Param("from")int from,
+			@Param("row")int rowPerPage, 
+			@Param("type")String type, 
+			@Param("keyword")String keyword);
 	
 	List<DebateDto> selectDebateBoard();
 
-	/*List<CloseDto> selectCloseDebate();*/
-
 	int updateDebate(DebateDto dto);
+
+
+	List<DebateDto> selectCloseDebate(@Param("from")int from,
+			@Param("row")int rowPerPage, 
+			@Param("type")String type, 
+			@Param("keyword")String keyword);
+
+	int countClose(@Param("type")String type, @Param("keyword")String keyword);
+
+	DebateDto selectCloseById(int id);
+
+	int updateClose(int id);
+
+	int countAllDebate(@Param("type")String type, @Param("keyword")String keyword);
+
+	List<DebateDto> AllDebate(@Param("from")int from, 
+			@Param("row")int rowPerPage, 
+			@Param("type")String type, 
+			@Param("keyword")String keyword);
+	
+
+	/*List<DebateDto> searchDebate(@Param("type")String type, @Param("keyword")String keyword);*/
 }

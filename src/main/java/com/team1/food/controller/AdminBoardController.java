@@ -2,11 +2,14 @@ package com.team1.food.controller;
 
 import java.beans.Transient;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.servlet.jsp.tagext.PageData;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -40,16 +43,16 @@ public class AdminBoardController {
 		// 메인화면에서 각 게시판 별 보여질 글의 개수
 		int row = 7;
 		
-		List<AdminBoardDto> noticeList = service.noticeList(1,row);
+		List<AdminBoardDto> noticeList = service.noticeList("", "", 1, row);
 		model.addAttribute("noticeBoardList", noticeList);
 		
-		List<AdminBoardDto> restAreaList = service.restAreaList(1,row);
+		List<AdminBoardDto> restAreaList = service.restAreaList("", "", 1, row, 0);
 		model.addAttribute("restAreaBoardList", restAreaList);
 		
-		List<AdminBoardDto> askList = service.askList(1,row);
+		List<AdminBoardDto> askList = service.askList("", "", 1, row, 0);
 		model.addAttribute("askBoardList", askList);
 		
-		List<AdminBoardDto> reportList = service.reportList(1,row);
+		List<AdminBoardDto> reportList = service.reportList("", "", 1, row);
 		model.addAttribute("reportBoardList", reportList);
 		
 	}
@@ -59,16 +62,20 @@ public class AdminBoardController {
 	// 공지 글 리스트
 	@GetMapping("notice")
 	public void notice(
-						@RequestParam(name = "page", defaultValue = "1") int page,
-						Model model) {		
+			@RequestParam(name= "keyword", defaultValue = "") String keyword,
+			@RequestParam(name = "type", defaultValue = "") String type,
+			@RequestParam(name = "page", defaultValue = "1") int page,
+			Model model) {		
 		
 		// 테이블에 맞는 값이 세팅된 pageDto 가져오기 
 		// 파라미터 : (page, DB테이블명)
-//		AdminBoardPageDto pageDto = getPageDto(page, "Notice");		
-//		List<AdminBoardDto> list = service.noticeList(page, rowPerPage);
-		AdminBoardPageDto pageDto = getPageDto(page, "Notice");		
-		List<AdminBoardDto> list = service.noticeList(page, rowPerPage);
+		AdminBoardPageDto pageDto = getPageDto(type, keyword, page, "Notice");		
+		List<AdminBoardDto> list = service.noticeList(
+				type, keyword, page, rowPerPage);
+		// 고정 공지 글 가져오기
+		List<AdminBoardDto> pinnedList = service.pinnedNoticeList();
 		
+		model.addAttribute("pinnedBoardList", pinnedList);
 		model.addAttribute("pageInfo", pageDto);
 		model.addAttribute("boardList", list);
 		
@@ -82,7 +89,8 @@ public class AdminBoardController {
 	
 	// 공지 글 작성 완료
 	@PostMapping("insertNotice")
-	public String insertNotice(AdminBoardDto dto,
+	public String insertNotice(
+			AdminBoardDto dto,
 			RedirectAttributes rttr,
 			Principal principal) {
 		
@@ -129,10 +137,10 @@ public class AdminBoardController {
 	public String deleteNotice(AdminBoardDto dto,
 			RedirectAttributes rttr) {
 		// 두번째 파라미터는 noticeId, restAreaId, askId, reportId
-		boolean success1 = replyService.deleteReplyByBoardId(dto.getId(), "noticeId");
-		boolean success2 = service.deleteNoticeBoardById(dto.getId());
+		replyService.deleteReplyByBoardId(dto.getId(), "noticeId");
+		boolean success = service.deleteNoticeBoardById(dto.getId());
 		
-		if(success1 && success2) {
+		if(success) {
 			rttr.addFlashAttribute("deleteMessage", "글이 삭제되었습니다.");
 		}else {
 			rttr.addFlashAttribute("deleteMessage", "글이 삭제되지 않았습니다.");
@@ -147,12 +155,20 @@ public class AdminBoardController {
 	// 쉼터 글 리스트
 	
 	@GetMapping("restArea")
-	public void restArea(@RequestParam(name = "page", defaultValue = "1") int page,
+	public void restArea(
+			@RequestParam(name= "keyword", defaultValue = "") String keyword,
+			@RequestParam(name = "type", defaultValue = "") String type,
+			@RequestParam(name = "page", defaultValue = "1") int page,
+			@RequestParam(name = "state", defaultValue = "0") int state,
 						Model model) {
 		
-		AdminBoardPageDto pageDto = getPageDto(page, "RestArea");		
-		List<AdminBoardDto> list = service.restAreaList(page, rowPerPage);
+		AdminBoardPageDto pageDto = getPageDtoWithState(type, keyword, page, "RestArea", state);
+		//state >> 0:전체, 1:휴가, 2:사퇴, 3:신고
+		List<AdminBoardDto> list = service.restAreaList(type, keyword, page, rowPerPage, state);
+		// 고정 공지 글 가져오기
+		List<AdminBoardDto> pinnedList = service.pinnedNoticeList();
 		
+		model.addAttribute("pinnedBoardList", pinnedList);
 		model.addAttribute("pageInfo", pageDto);
 		model.addAttribute("boardList", list);
 	}
@@ -169,7 +185,12 @@ public class AdminBoardController {
 	@PostMapping("insertRestArea")
 	public String insertRestArea(AdminBoardDto dto,
 			RedirectAttributes rttr,
-			Principal principal) {
+			Principal principal,
+			String datepicker1,
+			String datepicker2
+			) {
+		System.out.println(datepicker1);
+		System.out.println(datepicker2);
 		
 		dto.setMemberId(principal.getName());
 		
@@ -210,15 +231,15 @@ public class AdminBoardController {
 	}
 	
 	// 쉼터 글 삭제
-	
+	@Transactional
 	@PostMapping("deleteRestArea")
 	public String deleteRestArea(AdminBoardDto dto,
 			RedirectAttributes rttr) {
 		
-		boolean success1 = replyService.deleteReplyByBoardId(dto.getId(), "restAreaId");
-		boolean success2 = service.deleteRestAreaBoardById(dto.getId());
+		replyService.deleteReplyByBoardId(dto.getId(), "restAreaId");
+		boolean success = service.deleteRestAreaBoardById(dto.getId());
 		
-		if(success1 && success2) {
+		if(success) {
 			rttr.addFlashAttribute("deleteMessage", "글이 삭제되었습니다.");
 		}else {
 			rttr.addFlashAttribute("deleteMessage", "글이 삭제되지 않았습니다.");
@@ -232,12 +253,20 @@ public class AdminBoardController {
 	// 문의 글 리스트
 	
 	@GetMapping("ask")
-	public void ask(@RequestParam(name = "page", defaultValue = "1") int page,
+	public void ask(
+			@RequestParam(name= "keyword", defaultValue = "") String keyword,
+			@RequestParam(name = "type", defaultValue = "") String type,
+			@RequestParam(name = "page", defaultValue = "1") int page,
+			@RequestParam(name = "state", defaultValue = "0") int state,
 					Model model) {
 		
-		AdminBoardPageDto pageDto = getPageDto(page, "Ask");
-		List<AdminBoardDto> list = service.askList(page, rowPerPage);
+		AdminBoardPageDto pageDto = getPageDtoWithState(type, keyword, page, "Ask", state);
+		//state >> 0:전체, 1:대기, 2:완료
+		List<AdminBoardDto> list = service.askList(type, keyword, page, rowPerPage, state);
+		// 고정 공지 글 가져오기
+		List<AdminBoardDto> pinnedList = service.pinnedNoticeList();
 		
+		model.addAttribute("pinnedBoardList", pinnedList);
 		model.addAttribute("pageInfo", pageDto);
 		model.addAttribute("boardList", list);
 	}
@@ -278,6 +307,8 @@ public class AdminBoardController {
 		model.addAttribute("board", dto);
 	}
 	
+	// 문의 글 수정
+	
 	@PostMapping("updateAsk")
 	public String updateAsk(AdminBoardDto dto,
 			RedirectAttributes rttr) {
@@ -295,15 +326,15 @@ public class AdminBoardController {
 	}
 	
 	// 문의 글 삭제
-	
+	@Transactional
 	@PostMapping("deleteAsk")
 	public String deleteAsk(AdminBoardDto dto,
 			RedirectAttributes rttr) {
 		
-		boolean success1 = replyService.deleteReplyByBoardId(dto.getId(), "askId");
-		boolean success2 = service.deleteAskBoardById(dto.getId());
+		replyService.deleteReplyByBoardId(dto.getId(), "askId");
+		boolean success = service.deleteAskBoardById(dto.getId());
 		
-		if(success2) {
+		if(success) {
 			rttr.addFlashAttribute("deleteMessage", "글이 삭제되었습니다.");
 		}else {
 			rttr.addFlashAttribute("deleteMessage", "글이 삭제되지 않았습니다.");
@@ -312,18 +343,39 @@ public class AdminBoardController {
 		return "redirect:/admin/ask";
 	}
 	
+	// 문의 글 답변 완료
+	@PostMapping("updateBoardState")
+	public String updateBoardState(int id, int state, RedirectAttributes rttr) {
+		// 세번째 파라미터 >> 테이블명
+		boolean success = service.updateBoardState(id, state, "Ask");
+		if(success) {
+			rttr.addFlashAttribute("answerMessage", "답변 완료");
+		}else {
+			rttr.addFlashAttribute("answerMessage", "실패");
+		}
+		
+		rttr.addAttribute("id", id);
+		return "redirect:/admin/getAsk";
+	}
+	
 	/*** 신고 ***/
 	
 	
 	// 신고 글 리스트
 	
 	@GetMapping("report")
-	public void report(@RequestParam(name = "page", defaultValue = "1") int page,
+	public void report(
+			@RequestParam(name= "keyword", defaultValue = "") String keyword,
+			@RequestParam(name = "type", defaultValue = "") String type,
+			@RequestParam(name = "page", defaultValue = "1") int page,
 						Model model) {
 		
-		AdminBoardPageDto pageDto = getPageDto(page, "Report");
-		List<AdminBoardDto> list = service.reportList(page, rowPerPage);
+		AdminBoardPageDto pageDto = getPageDto(type, keyword, page, "Report");
+		List<AdminBoardDto> list = service.reportList(type, keyword, page, rowPerPage);
+		// 고정 공지 글 가져오기
+		List<AdminBoardDto> pinnedList = service.pinnedNoticeList();
 		
+		model.addAttribute("pinnedBoardList", pinnedList);
 		model.addAttribute("pageInfo", pageDto);
 		model.addAttribute("boardList", list);
 	}
@@ -381,15 +433,15 @@ public class AdminBoardController {
 	}
 	
 	// 신고 글 삭제
-	
+	@Transactional
 	@PostMapping("deleteReport")
 	public String deleteReport(AdminBoardDto dto,
 			RedirectAttributes rttr) {
 		
-		boolean success1 = replyService.deleteReplyByBoardId(dto.getId(), "reportId");
-		boolean success2 = service.deleteReportBoardById(dto.getId());
+		replyService.deleteReplyByBoardId(dto.getId(), "reportId");
+		boolean success = service.deleteReportBoardById(dto.getId());
 		
-		if(success2) {
+		if(success) {
 			rttr.addFlashAttribute("deleteMessage", "글이 삭제되었습니다.");
 		}else {
 			rttr.addFlashAttribute("deleteMessage", "글이 삭제되지 않았습니다.");
@@ -398,16 +450,36 @@ public class AdminBoardController {
 		return "redirect:/admin/report";
 	}
 	
-	/*** 공용 ***/
+	/*** 공용 
+	 * @param keyword 
+	 * @param type ***/
 	
 	// 값이 세팅된 pageDto 가져오기
-	private AdminBoardPageDto getPageDto(int page, 
-										String tableName) {
+	private AdminBoardPageDto getPageDto(
+			String type,
+			String keyword, 
+			int page, 
+			String tableName) {
 		AdminBoardPageDto dto = new AdminBoardPageDto();
 		dto.setPage(page);
 		dto.setRowPerPage(rowPerPage);
-		int totalRow = service.boardCount(tableName);
+		int totalRow = service.boardCount(type, keyword, tableName);
 		dto.setTotalRow(totalRow);
 		return dto;
 	}
+	
+	// 값이 세팅된 pageDto 가져오기
+		private AdminBoardPageDto getPageDtoWithState(
+				String type,
+				String keyword, 
+				int page, 
+				String tableName,
+				int state) {
+			AdminBoardPageDto dto = new AdminBoardPageDto();
+			dto.setPage(page);
+			dto.setRowPerPage(rowPerPage);
+			int totalRow = service.boardCountWithState(type, keyword, tableName, state);
+			dto.setTotalRow(totalRow);
+			return dto;
+		}
 }

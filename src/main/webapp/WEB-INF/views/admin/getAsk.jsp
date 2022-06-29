@@ -254,6 +254,13 @@ $(document).ready(function(){
 					</div>
 				</c:if>
 				
+				<!-- 답변 완료 메세지 -->
+				<c:if test="${not empty answerMessage }">
+					<div class="alert alert-primary">
+						${answerMessage }
+					</div>
+				</c:if>
+				
 				<!-- 제목, 본문  -->
 				
 				<form id="form1" action="${appRoot }/admin/updateAsk" method="post">
@@ -291,24 +298,34 @@ $(document).ready(function(){
 		</div>
 	</div>
 	
-	<%-- 댓글 추가 form --%>
-	<div class="container mt-3">
-		<div class="row">
-			<div class="col">
-				<form id="insertReplyForm1">
-					<div class="input-group">
-						<input type="hidden" name="askId" value="${board.id }" />
-						<input id="insertReplyContentInput1" class="form-control" type="text" name="content" required /> 
-						<button id="addReplySubmitButton1" class="btn btn-outline-secondary"><i class="fa-solid fa-comment-dots"></i></button>
-					</div>
-				</form>
+	<%-- 댓글 추가 form --%> 
+	
+		<div class="container mt-3">
+			<div class="row">
+				<div class="col">
+					<!-- 관리자 권한 있을 때  -->
+					<sec:authorize access="hasRole('ADMIN')">
+						<form id="insertReplyForm1">
+							<div class="input-group">
+								<input type="hidden" name="askId" value="${board.id }" />
+								<input id="insertReplyContentInput1" class="form-control" type="text" name="content" required /> 
+								<button id="addReplySubmitButton1" class="btn btn-outline-secondary"><i class="fa-solid fa-comment-dots"></i></button>
+							</div>
+						</form>
+					</sec:authorize>
+					<!-- 관리자 권한 없을 때  -->
+					<sec:authorize access="!hasRole('ADMIN')">
+						<div class="alert alert-secondary" role="alert">
+							답변 작성 권한이 없습니다.
+						</div>
+					</sec:authorize>
+				</div>
+			</div>
+			<div class="row">
+				<div class="alert alert-primary" style="display:none;" id="replyMessage1"></div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="alert alert-primary" style="display:none;" id="replyMessage1"></div>
-		</div>
-	</div>
-	
+
 	<%-- 댓글 목록 --%>
 	<div class="container mt-3">
 		<div class="row">
@@ -319,5 +336,17 @@ $(document).ready(function(){
 		</div>
 	</div>
 	
+	<!-- 문의 답변 완료 버튼 -->
+	<sec:authorize access="hasRole('ADMIN')">
+		<c:if test="${board.state == 1 }">	
+			<c:url value="updateBoardState" var="answer">
+				<c:param name="id" value="${board.id }"></c:param>
+				<c:param name="state" value="2"></c:param>
+			</c:url>
+			<form action="${answer }" method="post">
+				<button>답변완료</button>
+			</form>
+		</c:if>
+	</sec:authorize>
 </body>
 </html>

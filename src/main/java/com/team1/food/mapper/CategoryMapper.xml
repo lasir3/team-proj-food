@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team1.food.mapper.CategoryMapper">
+
+	<select id="selectCateList" resultType="com.team1.food.domain.FoodCateDto">
+		SELECT cateIndex, 
+			   cateName, 
+			   memberId, 
+			   F.fileName fileName,
+			   content
+		FROM FoodCateTable C LEFT JOIN CateFileTable F ON C.cateIndex = F.cateId
+	</select>
+	
+	<select id="selectFoodList" resultType="com.team1.food.domain.FoodDto">
+		SELECT foodName, cateName, foodIndex
+		FROM FoodTable T RIGHT JOIN FoodCateTable C ON C.cateIndex = T.cateIndex
+		WHERE C.cateIndex = #{cateIndex}
+	</select>
+	
+	<insert id="insertCate" useGeneratedKeys="true" keyColumn="cateIndex" keyProperty="cateIndex">
+		INSERT INTO FoodCateTable (cateName, memberId) 
+		VALUES (#{cateName}, #{memberId})
+	</insert>
+	
+	<insert id="insertCateFile" >
+		INSERT INTO CateFileTable (cateId, fileName)
+		VALUES (#{cateId}, #{fileName})
+	</insert>
+	
+	<delete id="deleteCateFileByCateIndex">
+		DELETE FROM CateFileTable
+		WHERE cateId = #{cateId}
+	    AND fileName = #{fileName}
+	</delete>
+	
+<!-- 	<select id="selectCateByIndex" resultType="com.team1.food.domain.FoodCateDto">
+		SELECT cateIndex, cateName, memberId FROM FoodCateTable WHERE cateIndex = #{cateIndex}
+	</select> -->
+	
+	<select id="selectFileNameByCateIndex" resultType="string">
+		SELECT F.fileName fileName
+		FROM CateFileTable F RIGHT JOIN FoodCateTable C ON C.cateIndex = F.cateId
+		WHERE C.cateIndex = #{cateIndex}
+	</select>
+	
+<!-- 	<select id="selectCateNameList" resultType="com.team1.food.domain.FoodCateDto">
+		SELECT CateName
+		FROM FoodCateTable;
+	</select> -->
+	
+	<update id="updateCate">
+		UPDATE FoodCateTable
+		SET cateName = #{cateName}
+		WHERE cateIndex = #{cateIndex}
+	</update>
+	
+	<select id="selectCateDto" resultType="com.team1.food.domain.FoodCateDto">
+		SELECT cateIndex, 
+			   cateName, 
+			   memberId, 
+			   F.fileName fileName,
+			   content
+		FROM FoodCateTable C LEFT JOIN CateFileTable F ON C.cateIndex = F.cateId
+		WHERE C.cateIndex = #{cateIndex}
+	</select>
+	
+	<select id="selectCateName" resultType="string">
+		SELECT cateName FROM FoodCateTable WHERE cateName = #{cateName}
+	</select>
+	
+	<delete id="deleteFileByCateIndex">
+		DELETE FROM CateFileTable
+		WHERE cateId = #{cateId}
+	</delete>
+	
+	<delete id="deleteFilelistByCateIndex">
+		DELETE FROM FoodTable
+		WHERE cateIndex = #{cateIndex}
+	</delete>
+	
+	<delete id="deleteCate">
+		DELETE FROM FoodCateTable
+		WHERE cateIndex = #{cateIndex}
+	</delete>
+	
+<!-- 	<select id="selectCateIndexFromCateName" resultType="int">
+		SELECT C.cateIndex cateIndex
+		FROM FoodTable T RIGHT JOIN FoodCateTable C ON T.cateIndex = C.cateIndex
+		WHERE C.cateName = #{cateName};
+	</select> -->
+	
+	<select id="selectFoodDto" resultType="com.team1.food.domain.FoodDto">
+		SELECT foodIndex, 
+			   foodName, 
+			   C.memberId memberId, 
+			   F.content content, 
+			   C.cateIndex cateIndex,
+			   C.cateName cateName 
+		FROM FoodTable F RIGHT JOIN FoodCateTable C ON F.cateIndex = C.cateIndex
+		WHERE foodIndex = #{foodIndex}
+	</select>
+	
+	<insert id="insertFood" useGeneratedKeys="true" keyColumn="foodIndex" keyProperty="foodIndex">
+		INSERT INTO FoodTable (foodName, memberId, cateIndex) 
+		VALUES (#{foodName}, #{memberId}, #{cateIndex})
+	</insert>
+	
+	<select id="selectCateNameByIndex" resultType="string">
+		SELECT cateName FROM FoodCateTable
+		WHERE cateIndex = #{cateIndex}
+	</select>
+	
+	<select id="selectFoodName" resultType="string">
+		SELECT foodName FROM FoodTable
+		WHERE foodName = #{foodName}
+	</select>
+	
+	<select id="selectSubFoodList" resultType="com.team1.food.domain.SubFoodDto">
+		SELECT subRecipeIndex, 
+			   foodIndex, 
+			   subRecipeName, 
+			   memberId, 
+			   content, 
+			   inserted
+		FROM SubRecipeTable 
+		WHERE foodIndex = #{foodIndex}
+	</select>
+	
+	<select id="selectVoteSum" resultType="com.team1.food.domain.VoteDto">
+		SELECT voteRecipeIndex, sum(voteCount) voteSum 
+		FROM VoteRecipeTable 
+		WHERE subRecipeIndex = #{subRecipeIndex}
+	</select>
+</mapper>

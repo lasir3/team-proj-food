@@ -50,6 +50,10 @@
 						</tr>
 					</thead>
 					<tbody>
+						<!-- 상단 고정 공지 글 -->
+						<my:pinnedNotice></my:pinnedNotice>
+						
+						<!-- 일반 글 -->
 						<c:forEach items="${boardList }" var="board">
 							<tr>
 								<!-- 글번호  -->
@@ -88,6 +92,12 @@
 		</div>
 	</div>
 	
-	<my:adminBoardPagination path="/admin/report"></my:adminBoardPagination>
+	<!-- 페이지, 검색  -->
+	<div class="d-flex justify-content-center">
+		<my:adminBoardPagination path="/admin/report"></my:adminBoardPagination>
+	</div>
+	<div class="d-flex justify-content-center mb-3">
+		<my:adminBoardSearch path="/admin/report"></my:adminBoardSearch>
+	</div>
 </body>
 </html>

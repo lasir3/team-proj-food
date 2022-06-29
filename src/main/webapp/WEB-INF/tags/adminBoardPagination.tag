@@ -3,10 +3,17 @@
 <%@ attribute name="path" %>
 
 
-<ul class="pagination justify-content-center">
+<ul class="pagination">
 
 	<!-- 처음으로 -->
 	<c:url value="${path }" var="toFirst">
+		<c:if test="${not empty param.type && not empty param.keyword}">
+			<c:param name="type" value="${param.type }"></c:param>
+			<c:param name="keyword" value="${param.keyword }"></c:param>
+		</c:if>
+		<c:if test="${not empty param.state }">
+			<c:param name="state" value="${param.state }"></c:param>
+		</c:if>
 		<c:param name="page" value="1"></c:param>
 	</c:url>
 	<li class="page-item">
@@ -17,6 +24,13 @@
 	
 	<!-- 이전 페이지 묶음으로 -->
 	<c:url value="${path }" var="toPrev">
+		<c:if test="${not empty param.type && not empty param.keyword}">
+			<c:param name="type" value="${param.type }"></c:param>
+			<c:param name="keyword" value="${param.keyword }"></c:param>
+		</c:if>
+		<c:if test="${not empty param.state }">
+			<c:param name="state" value="${param.state }"></c:param>
+		</c:if>
 		<!-- page 파라미터가 1보다 작아지지 않도록 함 -->
 		<c:param name="page" 
 		value="${pageInfo.lastNumOfPrevPageBundle > 1 ?
@@ -31,6 +45,13 @@
    <!--  페이지 번호 나열 -->
 	<c:forEach begin="${pageInfo.left }" end="${pageInfo.right}" var="pageNum">   
  		<c:url value="${path }" var="link">
+ 			<c:if test="${not empty param.type && not empty param.keyword}">
+ 				<c:param name="type" value="${param.type }"></c:param>
+ 				<c:param name="keyword" value="${param.keyword }"></c:param>
+ 			</c:if>
+ 			<c:if test="${not empty param.state }">
+				<c:param name="state" value="${param.state }"></c:param>
+			</c:if>
    			<c:param name="page" value="${pageNum }"></c:param>
 		</c:url>
 		<li class="page-item ${pageInfo.page == pageNum ? 'active' : ''}">
@@ -41,6 +62,13 @@
 	
   	<!-- 다음 페이지 묶음으로  -->
   	<c:url value="${path }" var="toNext">
+	  	<c:if test="${not empty param.type && not empty param.keyword}">
+			<c:param name="type" value="${param.type }"></c:param>
+			<c:param name="keyword" value="${param.keyword }"></c:param>
+		</c:if>
+		<c:if test="${not empty param.state }">
+			<c:param name="state" value="${param.state }"></c:param>
+		</c:if>
   		<!-- page 파라미터가 last값을 넘어가지 않도록 함  -->
   		<c:param name="page" 
   		value="${pageInfo.firstNumOfNextPageBundle > pageInfo.last ?
@@ -54,6 +82,13 @@
 	
 	<!-- 끝으로 -->
 	<c:url value="${path }" var="toLast">
+		<c:if test="${not empty param.type && not empty param.keyword}">
+			<c:param name="type" value="${param.type }"></c:param>
+			<c:param name="keyword" value="${param.keyword }"></c:param>
+		</c:if>
+		<c:if test="${not empty param.state }">
+			<c:param name="state" value="${param.state }"></c:param>
+		</c:if>
   		<c:param name="page" value="${pageInfo.last }"></c:param>
   	</c:url>
  	<li class="page-item">

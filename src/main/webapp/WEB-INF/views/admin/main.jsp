@@ -39,7 +39,7 @@
 			<div class="col mt-3 mb-3">
 				
 				<a href="${appRoot }/admin/notice" >
-					<h3>공지사항</h3>
+					<span><h3>공지사항</h3></span>
 				</a>
 
 				<ul class="list-group">		

@@ -53,4 +53,9 @@ public class BigReplyService {
 			return false;
 		}
 	}
+
+	public List<BigReplyDto> getBigReplyByCloseId(int debateId) {
+		// TODO Auto-generated method stub
+		return mapper.selectAllCloseId(debateId, null);
+	}
 }
