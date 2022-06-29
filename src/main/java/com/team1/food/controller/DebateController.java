@@ -47,6 +47,8 @@ public class DebateController {
 		/*List<DebateDto> search = service.searchDebate(type, keyword);*/
 		//			List<DebateDto> list = service.listDebate();
 		
+		System.out.println(list);
+		
 		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("debateList", list);
 	}
@@ -55,7 +57,8 @@ public class DebateController {
 	public void allDebate(Model model,
 			@RequestParam(name = "page", defaultValue="1")int page,
 			@RequestParam(name = "type", defaultValue="")String type,
-			@RequestParam(name = "keyword", defaultValue="")String keyword){
+			@RequestParam(name = "keyword", defaultValue="")String keyword,
+			@RequestParam(name = "close", defaultValue= "false")boolean close){
 		
 		int rowPerPage = 10;
 		
@@ -66,7 +69,7 @@ public class DebateController {
 		pageInfo.setCurrent(page);
 		pageInfo.setEnd(end);
 		
-		List<DebateDto> allDebate = service.AllDebate(page, rowPerPage, type, keyword);
+		List<DebateDto> allDebate = service.AllDebate(page, rowPerPage, type, keyword, close);
 		
 		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("allDebate", allDebate);

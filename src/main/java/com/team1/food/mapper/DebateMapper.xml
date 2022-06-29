@@ -78,8 +78,10 @@
 		d.title title,
 		d.inserted inserted,
 		COUNT(r.id) numOfReply,
+		m.nickName writerNickName,
 		d.close
 		FROM Debate d LEFT JOIN BigReply r ON d.id = r.debateId
+						   JOIN Member m ON d.memberId = m.id
 		WHERE d.close = 0
 		<if test="keyword != '%%'">
 			<choose>
@@ -109,8 +111,10 @@
 		d.title title,
 		d.inserted inserted,
 		COUNT(r.id) numOfReply,
+		m.nickName writerNickName,
 		d.close
 		FROM Debate d LEFT JOIN BigReply r ON d.id = r.debateId
+		JOIN Member m ON d.memberId = m.id
 		WHERE d.close = 1
 		<if test="keyword != '%%'">
 			<choose>
@@ -176,8 +180,10 @@
 		d.title title,
 		d.inserted inserted,
 		COUNT(r.id) numOfReply,
+		m.nickName writerNickName,
 		d.close
 		FROM Debate d LEFT JOIN BigReply r ON d.id = r.debateId
+			JOIN Member m ON d.memberId = m.id
 		<if test="keyword != '%%'">
 			<choose>
 				<when test="type == 'all'">
@@ -191,8 +197,10 @@
 					WHERE  d.body LIKE #{keyword }			
 				</when>
 			</choose>
-		</if> 
-		
+		</if>
+		<if test="close != ''">
+		AND close = #{close}
+		</if>
 		GROUP BY d.id
 		ORDER BY d.id DESC
 		LIMIT #{from},#{row}

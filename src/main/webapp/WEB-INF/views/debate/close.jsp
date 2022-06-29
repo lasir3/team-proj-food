@@ -24,7 +24,7 @@
 
 		<div class="row">
 			<div class="col">
-				<h5>닫힌 토론</h5> 
+				<h1>닫힌 토론</h1> 
 				<c:if test="${not empty message }">
 					<div class="alert alert-primary">
 						${message }
@@ -54,6 +54,7 @@
 										
 										<a href="${getUrl }" class="text-decoration-none">
 											<div style="height:100%; width=100%">
+											<span class="badge rounded-pill bg-danger">닫힌토론</span>
 											<span class="text-body">${close.title }</span>
 											<span class="numOfReply">[${close.numOfReply }]</span>
 											</div>

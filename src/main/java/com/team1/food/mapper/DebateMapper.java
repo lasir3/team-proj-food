@@ -47,7 +47,8 @@ public interface DebateMapper {
 	List<DebateDto> AllDebate(@Param("from")int from, 
 			@Param("row")int rowPerPage, 
 			@Param("type")String type, 
-			@Param("keyword")String keyword);
+			@Param("keyword")String keyword, 
+			@Param("close")boolean close);
 
 	DebateDto removeClose(int id);
 	

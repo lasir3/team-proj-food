@@ -33,10 +33,10 @@
 </head>
 <body>
 	<my:navBar current="list" />
-	<div class="container">
+	<div class="container mb-3">
 		<div class="row">
 			<div class="col">
-				<h5>열린 토론</h5>
+				<h1>열린 토론</h1>
 				<c:if test="${not empty message }">
 					<div class="alert alert-primary">${message }</div>
 				</c:if>
@@ -66,6 +66,7 @@
 
 									<a href="${getUrl }" class="text-decoration-none">
 										<div style="height: 100%;">
+										<span class="badge rounded-pill bg-success">열린토론</span>
 											<span class="text-body">${debate.title }</span>
 											<span class="numOfReply">[${debate.numOfReply }]</span>
 										</div> 

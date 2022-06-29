@@ -95,10 +95,10 @@ public class DebateService {
 		return mapper.countAllDebate(type, keyword);
 	}
 
-	public List<DebateDto> AllDebate(int page, int rowPerPage, String type, String keyword) {
+	public List<DebateDto> AllDebate(int page, int rowPerPage, String type, String keyword, boolean close) {
 		int from = (page - 1) * rowPerPage;
 		
-		return mapper.AllDebate(from, rowPerPage, type, "%" + keyword + "%");
+		return mapper.AllDebate(from, rowPerPage, type, "%" + keyword + "%", close);
 	}
 
 	public DebateDto getRemoveById(int id) {
