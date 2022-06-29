@@ -37,6 +37,7 @@
 						<tr>
 							<th>글 번호</th>
 							<th>항목</th>
+							<th>작성자</th>
 							<th><i class="fa-solid fa-calendar"></i></th>
 						</tr>
 					</thead>
@@ -53,7 +54,6 @@
 										
 										<a href="${getUrl }" class="text-decoration-none">
 											<div style="height:100%; width=100%">
-										<span class="badge rounded-pill text-bg-success">닫힌토론</span>
 											<span class="text-body">${close.title }</span>
 											<span class="numOfReply">[${close.numOfReply }]</span>
 											</div>
@@ -61,7 +61,7 @@
 						
 										
 									</td>
-								<%--   <td>${debate.memberId }</td>   --%>
+							 <td>${close.writerNickName }</td>
 									<td>${close.prettyInserted }</td>
 								</tr>
 							</c:if>

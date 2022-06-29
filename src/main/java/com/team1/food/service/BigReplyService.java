@@ -44,6 +44,7 @@ public class BigReplyService {
 
 	public boolean updateBigReply(BigReplyDto dto, Principal principal) {
 		BigReplyDto old = mapper.selectBigReplyById(dto.getId());
+		
 
 		if (old.getMemberId().equals(principal.getName())) {
 			// 댓글 작성자와 로그인한 유저가 같을 때만 수정

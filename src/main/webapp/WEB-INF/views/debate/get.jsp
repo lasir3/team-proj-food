@@ -272,14 +272,12 @@ $(document).ready(function() {
 <body>
 	<my:navBar current="debate" />
 	<c:url value="/debate/list" var="listUrl"></c:url>
+	<c:url value="/foodBoard/foodPage?foodIndex=1" var="foodUrl"></c:url>
 
 	<div class="container">
 		<div class="row">
 			<div class="col">
-				<h5>
-					<a href="${listUrl }" style="text-decoration-line: none">토론</a>
-					
-					
+				<h5>					
 					<sec:authorize access="isAuthenticated()">
 						<sec:authentication property="principal" var="principal" />
 
@@ -309,10 +307,10 @@ $(document).ready(function() {
 					<input type="hidden" name="id" value="${debate.id }" />
 
  				    <div>	
- 				    	<a href="#" style="text-decoration-line: none; font-size: 25px;" id="title-a">${debate.title }</a>
+ 				    	<a href="${foodUrl }" style="text-decoration-line: none; font-size: 25px;" id="title-a">${debate.title }</a>
 						<input style= "border: none; background: transparent; font-size:25px;"
 							type="text" name="title" required class="d-none"
-							id="input1" value="${debate.title }"readonly ></input>
+							id="input1" value="${debate.title }"readonly ><a href="${listUrl }" style="text-decoration-line: none;">(토론)</a></input>
 					</div>		
 					<button id="modify-submit1" class="btn btn-primary d-none">수정</button>
 					<button id="delete-submit1" class="btn btn-danger d-none">삭제</button>

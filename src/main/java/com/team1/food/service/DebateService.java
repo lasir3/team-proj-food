@@ -68,11 +68,6 @@ public class DebateService {
 	public List<DebateDto> closeDebate(String type, int page, String keyword, int rowPerPage) {
 		int from = (page - 1) * rowPerPage;
 		
-		System.out.println(from);
-		System.out.println(rowPerPage);
-		System.out.println(type);
-		System.out.println(keyword);
-		
 		return mapper.selectCloseDebate(from, rowPerPage, type, "%" + keyword + "%");
 	}
 
@@ -103,5 +98,16 @@ public class DebateService {
 		int from = (page - 1) * rowPerPage;
 		
 		return mapper.AllDebate(from, rowPerPage, type, "%" + keyword + "%");
+	}
+
+	public DebateDto getRemoveById(int id) {
+		DebateDto debate = mapper.removeClose(id);
+		return debate;
+	}
+	
+	public boolean deleteClose(int id) {
+		replyMapper.deleteByCloseId(id);
+		
+		return mapper.deleteClose(id) == 1;
 	}
 }

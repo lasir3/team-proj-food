@@ -205,4 +205,28 @@ public class DebateController {
 		return "redirect:/debate/list";
 	}
 	
+	@PostMapping("removeclose")
+		public String removeClose(DebateDto dto, Principal principal, RedirectAttributes rttr) {
+	
+			// 게시물 정보 얻고
+			DebateDto oldBoard = service.getRemoveById(dto.getId());
+			// 게시물 작성자(memberId)와 principal의 name과 비교해서 같을 때만 진행.
+			if (oldBoard.getMemberId().equals(principal.getName())) {
+				boolean success = service.deleteClose(dto.getId());
+	
+				if (success) {
+					rttr.addFlashAttribute("message", "글이 삭제 되었습니다.");
+	
+				} else {
+					rttr.addFlashAttribute("message", "글이 삭제 되지않았습니다.");
+				}
+	 
+			} else {
+				rttr.addFlashAttribute("message", "권한이 없습니다.");
+				rttr.addAttribute("id", dto.getId());
+				return "redirect:/debate/closeget";
+			}
+	
+			return "redirect:/debate/close";
+		}
 }
