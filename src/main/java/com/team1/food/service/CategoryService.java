@@ -208,7 +208,7 @@ public class CategoryService {
 	}
 
 	// subRecipeIndex 번호로 추천수 합계 계산
-	public List<VoteDto> getVoteSum(int subRecipeIndex) {
+	public int getVoteSum(int subRecipeIndex) {
 		return mapper.selectVoteSum(subRecipeIndex);
 	}
 

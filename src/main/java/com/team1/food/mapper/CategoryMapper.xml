@@ -128,8 +128,8 @@
 		WHERE foodIndex = #{foodIndex}
 	</select>
 	
-	<select id="selectVoteSum" resultType="com.team1.food.domain.VoteDto">
-		SELECT voteRecipeIndex, sum(voteCount) voteSum 
+	<select id="selectVoteSum" resultType="int">
+		SELECT sum(voteCount) 
 		FROM VoteRecipeTable 
 		WHERE subRecipeIndex = #{subRecipeIndex}
 	</select>

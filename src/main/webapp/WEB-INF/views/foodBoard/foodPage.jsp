@@ -21,16 +21,13 @@
    .foodname {
        font-size: 48px;
    }
-   
    .catename {
        font-size: 15px;
    }
-
 	.center {
 	  justify-content:center;
 	  align-items:center;
 	}
-	
 	.arrow {
 		font-size:xx-large;
 		text-align: center;
@@ -49,39 +46,68 @@
 					// console.log("댓글 가져 오기 성공");
 					console.log('sublist', subList);
 					
-					const subListElement = $("#subRecipeList1");
+					const subListElement = $("#subRecipeList1"); 
 					// list 표시를 위해 초기화 필요
 					subListElement.empty();
-					
+					// 하위리스트의 갯수 표시
 					$("#numOfRecipe1").text(subList.length);
 					
+					// subElementArr
+					const subElementArr = [];
 					for (let i = 0; i < subList.length; i++) {
-						const subElement = $("<li class='list-group-item' />");
-						subElement.html(`
+						var subIndex = subList[i].subRecipeIndex;
+						// subRecipeIndex로 추천수 ajax 실행
+						const voteData = {subRecipeIndex : subIndex};
+						// 여기서 for 문으로 subList List를 가려오고 아래 ajax요청으로 해당 List에 해당하는 subRecipeIndex값을 참조하여 추천수를 카운트하는 service가 작동합니다
+						$.ajax({
+							url : "${appRoot}/foodBoard/voteSum",
+							type : "get",
+							data : voteData,
+							success : function(voteCount) {
+								const subElement = $("<li class='list-group-item' />");
+								console.log(subList[i].subRecipeName);
+								console.log(subList[i].content);
+								console.log(voteCount);
+								// 여기서 voteCount순으로 리스트를 다시 정렬하고 싶습니다
 								
-							<div class="row center">
-								<div class="col-1">
-									<div class="row">
-										<i class="arrow fa-solid fa-square-caret-up"></i>
-										<br />
+								subElement.html(`
+										
+									<div class="row center">
+										<div class="col-1">
+											<div class="row">
+												<i class="arrow fa-solid fa-square-caret-up"></i>
+												<br />
+											</div>
+											<!-- 추천수 합계 표시 -->
+											<div class="row"><h1 class="voteCountHeader">\${voteCount }</h1></div>
+											
+											<div class="row">
+												<i class="arrow fa-solid fa-square-caret-down"></i>
+											</div>
+										</div>
+										<div class="col-11">
+											<h1>\${subList[i].subRecipeName }</h1>
+											
+											<h3>\${subList[i].content }</h3>
+										</div>
 									</div>
-									<span id="numOfVote1"></span>
-									<div class="row">
-										<i class="arrow fa-solid fa-square-caret-down"></i>
-									</div>
-								</div>
-								<div class="col-11">
-									<h1>\${subList[i].subRecipeName }</h1>
-									<h3>\${subList[i].content }</h3>
-								</div>
-							</div>
-						`);
-						subListElement.append(subElement); // reply list에 각 항목 추가
-						// $("#replyContent" + list[i].id).text(list[i].content); // xml 공격방지
-					}
-				}
-			});
-		}
+								`); // end of html
+								subElementArr.push(subElement);
+								subElementArr.sort(function(a, b) {
+									const aVote = Number(a.find(".voteCountHeader").text());
+									const bVote = Number(b.find(".voteCountHeader").text());
+									
+									return bVote - aVote;
+								});
+								subListElement.empty();
+								subListElement.append(subElementArr); // sublist에 각 항목 추가
+							} // end of ajax function
+						}); // end of ajax
+					} // end of for
+					// $("#replyContent" + list[i].id).text(list[i].content); // xml 공격방지
+				} //end of ajax function
+			}); //end of ajax
+		} // end of subRecipeList
 		subRecipeList();
 	});
 </script>

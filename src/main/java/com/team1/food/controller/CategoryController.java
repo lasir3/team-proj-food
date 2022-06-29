@@ -169,15 +169,10 @@ public class CategoryController {
 	}
 	
 	// 음식 페이지 메소드
-	// ajax로 수정 필요
 	@GetMapping("foodPage")
 	public void getFoodPage(@RequestParam(name = "foodIndex", defaultValue = "") int foodIndex, Model model) {
 		FoodDto dto = cateService.getPageByIndex(foodIndex);
-		List<SubFoodDto> subDto = cateService.getSubDtoList(foodIndex);
-
 		model.addAttribute("foodDto", dto);
-		model.addAttribute("subFoodDto", subDto);
-		System.out.println("subFoodDto" + subDto.toString());
 	}
 	
 	// subRecipeList ajax 요청
@@ -187,10 +182,10 @@ public class CategoryController {
 		return cateService.getSubDtoList(foodIndex);
 	}
 
-	@GetMapping("voteSum")
-	@ResponseBody
-	public List<VoteDto> voteList(int subRecipeIndex) {
-		return cateService.getVoteSum(subRecipeIndex);
-	}
+	 @GetMapping("voteSum")
+	 @ResponseBody
+	 public int voteList(int subRecipeIndex) {
+	 	return cateService.getVoteSum(subRecipeIndex);
+	 }
 	
 }
