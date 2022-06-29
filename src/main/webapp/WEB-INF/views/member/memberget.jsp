@@ -177,6 +177,7 @@
 </script>
 </head>
 <body>
+<my:navBar2></my:navBar2>
 	<my:navBar current="memberget"></my:navBar>
 	<div class="container">
 	

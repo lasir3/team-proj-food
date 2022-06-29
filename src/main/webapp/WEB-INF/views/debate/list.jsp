@@ -32,6 +32,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<my:navBar2 current="list" />
 	<my:navBar current="list" />
 	<div class="container">
 		<div class="row">

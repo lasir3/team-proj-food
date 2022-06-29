@@ -29,7 +29,7 @@ public class MailSendService {
 				//이메일 보낼 양식! 
 		public String joinEmail(String email) {
 			makeRandomNumber();
-			String setFrom = ".com"; // email-config에 설정한 자신의 이메일 주소를 입력 
+			String setFrom = "gmlseho13@gmail.com"; // email-config에 설정한 자신의 이메일 주소를 입력 
 			String toMail = email;
 			String title = "회원 가입 인증 이메일 입니다."; // 이메일 제목 
 			String content = 
@@ -53,6 +53,10 @@ public class MailSendService {
 				helper.setSubject(title);
 				// true 전달 > html 형식으로 전송 , 작성하지 않으면 단순 텍스트로 전달.
 				helper.setText(content,true);
+				System.out.println("###################################################################################");
+				System.out.println(mailSender.getUsername());
+				System.out.println(mailSender.getPassword());
+				System.out.println("###################################################################################");
 				mailSender.send(message);
 			} catch (MessagingException e) {
 				e.printStackTrace();

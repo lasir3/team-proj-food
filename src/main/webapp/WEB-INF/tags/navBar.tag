@@ -30,11 +30,8 @@
    </c:url>
 </sec:authorize>
 
-<nav class="navbar sticky-top navbar-expand-md navbar-light bg-light mb-3"  >
-   <div class="container-fluid">
-      <a class="navbar-brand" href="${foodBoard }">
-         <i class="fa-solid fa-house"></i>
-      </a>
+<nav class="navbar sticky-top navbar-expand-md navbar-light mb-3" style="background-color: #e3f2fd;" >
+   <div class="container-fluid container">
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -100,46 +97,8 @@
                   </li>
                </ul>
             </li>
-            
+           
 
-            <sec:authorize access="not isAuthenticated()">
-            <li class="nav-item">
-               <a href="${signupUrl }"
-                  class="nav-link
-                  ${current == 'signup' ? 'active' : ''}">회원가입</a>
-            </li>
-            </sec:authorize>
-
-            <sec:authorize access="isAuthenticated()">
-            <li class="nav-item">
-               <a href="${membergetUrl }"
-                  class="nav-link ${current == 'memberget' ? 'active' : '' }">회원정보</a>
-            </li>
-            </sec:authorize>
-
-            <sec:authorize access="hasRole('ADMIN')">
-            <li class="nav-item">
-               <a href="${memberlistUrl }"
-                  class="nav-link
-                     ${current == 'memberlist' ? 'active' : ''}">회원목록</a>
-            </li>
-            </sec:authorize>
-
-            <sec:authorize access="not isAuthenticated()">
-            <li class="nav-item">
-               <a href="${loginUrl }" class="nav-link">로그인</a>
-            </li>
-            </sec:authorize>
-
-            <sec:authorize access="isAuthenticated()">
-            <li class="nav-item">
-               <button class="nav-link" type="submit" form="logoutform1">로그아웃</button>
-            </li>
-            </sec:authorize>
-
-            <div class="d-none">
-               <form action="${logoutUrl }" id="logoutform1" method="post"></form>
-            </div>
 
 
          </ul>

@@ -262,6 +262,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<my:navBar2></my:navBar2>
 	<my:navBar current="list" />
 	<c:url value="/debate/list" var="listUrl"></c:url>
 

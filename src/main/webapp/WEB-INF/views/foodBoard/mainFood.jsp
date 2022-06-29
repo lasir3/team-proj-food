@@ -38,6 +38,7 @@
 
 </head>
 <body>
+<my:navBar2></my:navBar2>
 	<div class="container mt-5">
 		<div class="row">
 			<div class="col-8">

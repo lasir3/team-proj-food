@@ -25,7 +25,7 @@
 		// 중복,암호 확인 변수
 		let idOk = false;
 		let pwOk = false;
-		/* let emailOk = false; */
+		let emailOk = false; 
 		let nickNameOk = false;
 		
 		$("#checkIdButton1").click(function(e) {
@@ -125,10 +125,11 @@
 				$('#userEamil2').attr('readonly',true);
 				$('#userEmail2').attr('onFocus', 'this.initialSelect = this.selectedIndex');
 		         $('#userEmail2').attr('onChange', 'this.selectedIndex = this.initialSelect');
+		         emailOk = true;
 			}else{
 				$resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요!.');
 				$resultMsg.css('color','red');
-			}
+			} enableSubmit();
 		});
 		
 		
@@ -180,7 +181,7 @@
 	    
 		 // 회원가입 submit 버튼 활성화/비활성화 함수
 		const enableSubmit = function () {
-			if (idOk && pwOk && nickNameOk) {
+			if (idOk && pwOk && emailOk && nickNameOk) {
 				$("#submitButton1").removeAttr("disabled");
 			} else {
 				$("#submitButton1").attr("disabled", "");
@@ -192,6 +193,7 @@
 </script>
 </head>
 <body>
+<my:navBar2></my:navBar2>
 	<my:navBar current="signup"></my:navBar>​
 	<div class="container">
 		<div class="row justify-content-center">
@@ -230,7 +232,7 @@
 					<div class="form-group email-form"> -->
 	 <label for="email">이메일</label>
 	 <div class="input-group">
-	<input type="text" class="form-control" name="userEmail1" id="userEmail1" placeholder="이메일" >
+	<input type="text" class="form-control" name="email" id="userEmail1" placeholder="이메일" />
 	<select class="form-control" name="userEmail2" id="userEmail2" >
 	<option>@naver.com</option>
 	<option>@daum.net</option>

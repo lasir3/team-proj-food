@@ -242,7 +242,7 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-
+<my:navBar2></my:navBar2>
 	<my:navBar></my:navBar>
 	
 	<div class="container">

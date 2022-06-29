@@ -25,7 +25,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	
+	<my:navBar2></my:navBar2>
 	<my:navBar current="admin"></my:navBar>
 	
 	<!-- 각 구역이 보여줄 게시글 개수 -->

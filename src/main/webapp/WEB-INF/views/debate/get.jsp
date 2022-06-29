@@ -270,6 +270,7 @@ $(document).ready(function() {
 <title>Insert title here</title>
 </head>
 <body>
+<my:navBar2></my:navBar2>
 	<my:navBar current="debate" />
 	<c:url value="/debate/list" var="listUrl"></c:url>
 

@@ -16,6 +16,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<my:navBar2></my:navBar2>
 	<my:navBar></my:navBar>
 	<div class="container mt-5">
 		<div class="col">
