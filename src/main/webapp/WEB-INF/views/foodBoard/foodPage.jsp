@@ -72,14 +72,14 @@
 								
 								subElement.html(`
 										
-									<div class="row center">
+									<div class="row">
 										<div class="col-1">
 											<div class="row">
 												<i class="arrow fa-solid fa-square-caret-up"></i>
 												<br />
 											</div>
 											<!-- 추천수 합계 표시 -->
-											<div class="row"><h1 class="voteCountHeader">\${voteCount }</h1></div>
+											<div class="row arrow"><h1 class="voteCountHeader">\${voteCount }</h1></div>
 											
 											<div class="row">
 												<i class="arrow fa-solid fa-square-caret-down"></i>
