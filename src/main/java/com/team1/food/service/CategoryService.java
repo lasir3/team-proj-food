@@ -1,6 +1,7 @@
 package com.team1.food.service;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -210,6 +211,15 @@ public class CategoryService {
 	// subRecipeIndex 번호로 추천수 합계 계산
 	public int getVoteSum(int subRecipeIndex) {
 		return mapper.selectVoteSum(subRecipeIndex);
+	}
+
+	// subRecipeIndex에 해당하는 memberId의 추천수 가져오기 
+	public int getVoteNum(VoteDto dto, Principal principal) {
+		return mapper.selectVoteNum(dto.getSubRecipeIndex(), principal.getName());
+	}
+
+	public boolean setVoteUp(VoteDto dto, int voteNum, Principal principal) {
+		return mapper.updateVoteNum(dto.getSubRecipeIndex(), voteNum, principal.getName()) == 1;
 	}
 
 }

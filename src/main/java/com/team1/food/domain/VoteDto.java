@@ -7,5 +7,6 @@ public class VoteDto {
 	private int voteRecipeIndex;
 	private int subRecipeIndex;
 	private String memberId;
+	private int voteCount;
 	private int voteSum;
 }

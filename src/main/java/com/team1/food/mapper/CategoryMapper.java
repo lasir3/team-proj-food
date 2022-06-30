@@ -1,7 +1,6 @@
 package com.team1.food.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -9,7 +8,6 @@ import org.apache.ibatis.annotations.Param;
 import com.team1.food.domain.FoodCateDto;
 import com.team1.food.domain.FoodDto;
 import com.team1.food.domain.SubFoodDto;
-import com.team1.food.domain.VoteDto;
 
 @Mapper
 public interface CategoryMapper {
@@ -59,5 +57,9 @@ public interface CategoryMapper {
 	List<SubFoodDto> selectSubFoodList(int foodIndex);
 
 	int selectVoteSum(int subRecipeIndex);
+
+	int selectVoteNum(@Param("subRecipeIndex") int subRecipeIndex, @Param("memberId") String memberId);
+
+	int updateVoteNum(@Param("subRecipeIndex") int subRecipeIndex, @Param("voteCount") int voteNum, @Param("memberId") String memberId);
 
 }

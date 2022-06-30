@@ -14,7 +14,7 @@
 	</select>
 	
 	<select id="selectFoodList" resultType="com.team1.food.domain.FoodDto">
-		SELECT foodName, cateName, foodIndex
+		SELECT foodName, cateName, foodIndex, T.content content
 		FROM FoodTable T RIGHT JOIN FoodCateTable C ON C.cateIndex = T.cateIndex
 		WHERE C.cateIndex = #{cateIndex}
 	</select>
@@ -133,4 +133,18 @@
 		FROM VoteRecipeTable 
 		WHERE subRecipeIndex = #{subRecipeIndex}
 	</select>
+	
+	<select id="selectVoteNum" resultType="int">
+		SELECT voteCount
+		FROM VoteRecipeTable
+		WHERE subRecipeIndex = #{subRecipeIndex} 
+		AND memberId = #{memberId}
+	</select>
+	
+	<update id="updateVoteNum">
+		UPDATE VoteRecipeTable
+		SET voteCount = #{voteCount}
+		WHERE subRecipeIndex = #{subRecipeIndex} 
+		AND memberId = #{memberId}
+	</update>
 </mapper>
