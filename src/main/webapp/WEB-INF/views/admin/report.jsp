@@ -85,7 +85,10 @@
 				</table>
 				
 				<sec:authorize access="isAuthenticated()">
-					<a href="${appRoot }/admin/insertReport">글 쓰기</a>
+					<a href="${appRoot }/admin/insertReport" 
+					class="btn btn-primary">
+						글 쓰기
+					</a>
 				</sec:authorize>
 				
 			</div>

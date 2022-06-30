@@ -6,6 +6,7 @@ import java.util.Date;
 
 import lombok.Data;
 
+//com.team1.food.domain.AdminLeaveDto
 
 @Data
 public class AdminLeaveDto {

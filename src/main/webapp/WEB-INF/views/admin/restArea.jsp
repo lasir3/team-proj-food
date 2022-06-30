@@ -60,6 +60,8 @@
 	
 	<my:navBar current="admin"></my:navBar>
 	
+	
+	
 	<div class="container">
 		<div class="row">
 			<div class="col">
@@ -77,28 +79,79 @@
 					</div>
 				</c:if>
 				
-				<!-- 글 종류 탭  -->
-				<ul class="list-group list-group-horizontal">
-					<c:url value="/admin/restArea" var="stateLink">
-						<c:param name="type" value="all"></c:param>
-						<c:param name="keyword" value="%%"></c:param>
-						<c:param name="page" value="1"></c:param>
-						<c:param name="state" value=""></c:param>
-					</c:url>
-					<li class="list-group-item state-li"  id="state0">
-						<a href="${stateLink }0" class="state-a">전체</a>
-					</li>
-					<li class="list-group-item state-li"  id="state1">
-						<a href="${stateLink }1" class="state-a">휴가</a>
-			  		</li>
-					<li class="list-group-item state-li"  id="state2">
-						<a href="${stateLink }2" class="state-a">사퇴</a>
-					</li>
-					<li class="list-group-item state-li"  id="state3">
-						<a href="${stateLink }3" class="state-a">경고</a>
-					</li>
-					<input type="hidden" id="currentState" value="${not empty param.state ? param.state : 0 }"/>
-				</ul>
+				<!-- 글 종류 탭  -->	
+				<div class="row">
+					<div class="col d-flex justify-content-start">
+						<ul class="list-group list-group-horizontal">
+							<c:url value="/admin/restArea" var="stateLink">
+								<c:param name="type" value="all"></c:param>
+								<c:param name="keyword" value="%%"></c:param>
+								<c:param name="page" value="1"></c:param>
+								<c:param name="state" value=""></c:param>
+							</c:url>
+							<li class="list-group-item state-li"  id="state0">
+								<a href="${stateLink }0" class="state-a">전체</a>
+							</li>
+							<li class="list-group-item state-li"  id="state1">
+								<a href="${stateLink }1" class="state-a">휴가</a>
+					  		</li>
+							<li class="list-group-item state-li"  id="state2">
+								<a href="${stateLink }2" class="state-a">사퇴</a>
+							</li>
+							<li class="list-group-item state-li"  id="state3">
+								<a href="${stateLink }3" class="state-a">경고</a>
+							</li>
+							<input type="hidden" id="currentState" value="${not empty param.state ? param.state : 0 }"/>
+						</ul>
+					</div>
+					
+					<!-- 휴가 현황  -->
+					<sec:authorize access="hasRole('ADMIN')">
+						<div class="col d-flex justify-content-end">
+							<!-- Modal Button  -->
+							<button type="button" 
+							class="btn btn-secondary" 
+							data-bs-toggle="modal" 
+							data-bs-target="#modal1">
+								휴가 현황
+							</button>
+							
+							<!-- Modal -->
+							<div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							  <div class="modal-dialog">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							      </div>
+							      <div class="modal-body">
+							      <table class="table">
+							      	<thead>
+							      		<tr>
+							      			<th>휴가자</th>
+							      			<th>기간</th>
+							      		</tr>
+							      	</thead>
+							      	<tbody>
+							      		<c:forEach items="${LeaveList }" var="leave">
+							      			<tr>
+							      				<td>${leave.memberId }</td>
+							      				<td>${leave.startDate } - ${leave.startDate }</td>
+							      			</tr>
+							      		</c:forEach>
+							      	</tbody>
+							      </table>
+							      </div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+						</div>
+					</sec:authorize>
+				</div>
+				
 				
 				<!-- 테이블 시작 -->
 				
@@ -158,7 +211,10 @@
 				</table>
 				
 				<sec:authorize access="hasRole('ADMIN')">
-					<a href="${appRoot }/admin/insertRestArea">글 쓰기</a>
+					<a href="${appRoot }/admin/insertRestArea" 
+					class="btn btn-primary">
+						글 쓰기
+					</a>
 				</sec:authorize>
 				
 			</div>

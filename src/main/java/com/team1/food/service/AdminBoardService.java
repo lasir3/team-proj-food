@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.team1.food.domain.AdminBoardDto;
 import com.team1.food.domain.AdminBoardPageDto;
 import com.team1.food.domain.AdminLeaveDto;
+import com.team1.food.domain.AdminWarningDto;
+import com.team1.food.domain.MemberDto;
 import com.team1.food.mapper.AdminBoardMapper;
 
 @Service
@@ -215,6 +217,28 @@ public class AdminBoardService {
 	public void deleteLeave(int id) {
 		mapper.deleteLeave(id);
 	}
+
+	public List<AdminLeaveDto> LeaveList() {
+		return mapper.selectLeaveAll();
+	}
+
+	public List<MemberDto> selectMemberById(String userId) {
+		return mapper.selectMemberById("%" + userId + "%");
+	}
+
+	public void insertWarning(AdminWarningDto warning) {
+		mapper.insertWarning(warning);
+	}
+
+	public AdminWarningDto selectWarningByBoardId(int boardId) {
+		return mapper.selectWarningByBoardId(boardId);
+	}
+
+	public void updateWarning(AdminWarningDto warning) {
+		return mapper.updateWarning(warning);
+	}
+
+
 
 	
 		

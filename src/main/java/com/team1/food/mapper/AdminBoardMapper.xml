@@ -344,4 +344,43 @@
 	DELETE FROM OnLeave
 	WHERE id = #{id}
 	</delete>
+	
+	<select id="selectLeaveAll" resultType="com.team1.food.domain.AdminLeaveDto">
+	SELECT id,
+		memberId,
+		start,
+		end,
+		boardId
+	FROM OnLeave
+	</select>
+	
+	<select id="selectMemberById" resultType="com.team1.food.domain.MemberDto">
+	SELECT id,
+		email,
+		nickName,
+		inserted
+	FROM Member
+	WHERE id LIKE #{userId}
+	</select>
+	
+	<insert id="insertWarning">
+	INSERT INTO Warning(userId, reason, boardId)
+	VALUES (#{userId}, #{reason}, #{boardId})
+	</insert>
+	
+	<select id="selectWarningByBoardId" resultType="com.team1.food.domain.AdminWarningDto">
+	SELECT id,
+			userId,
+			reason,
+			boardId
+	FROM Warning
+	WHERE boardId = #{boardId}
+	</select>
+	
+	<update id="updateWarning">
+	UPDATE Warning
+	SET userId = #{userId},
+		reason = #{reason}
+	WHERE boardId = #{boardId}
+	</update>
 </mapper>
