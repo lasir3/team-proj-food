@@ -24,6 +24,11 @@
 				form1.submit();
 			}
 		});
+		ModalMessageFunction(function() {
+			e.preventDefautl();
+			
+			$("#modalMessage1").modal("show");
+		});
 	});
 </script>
 
@@ -49,6 +54,32 @@
 			
 			<!-- 카테고리 등록 여부에 따른 메시지 띄우기 -->
 			<!-- Modal로 수정 예정 -->
+			
+			<!-- 안내 메시지용 Modal -->
+			<div id="modalMessage1" class="modal fade" tabindex="-1">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">알림</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"	aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<p>${cateMessage }</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<c:if test="${not empty cateMessage }">
+				<script> ModalMessageFunction() </script>
+			</c:if>
+			
+			
+			
+			<!--  삭제 예정
 			<c:if test="${not empty cateFail }">
 				<div class="alert alert-danger alert-dismissible fade show" role="alert">
 					<strong>${cateFail }</strong>
@@ -61,6 +92,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 				</div>
 			</c:if>
+			 -->
 			
 			<form id="form1" action="${appRoot }/foodBoard/addCate" method="post" enctype="multipart/form-data">
 				<div class="modal fade" id="exampleModal" tabindex="-1"

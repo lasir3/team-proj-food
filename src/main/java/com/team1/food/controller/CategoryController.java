@@ -53,31 +53,33 @@ public class CategoryController {
 							  @RequestParam(name = "addFile") MultipartFile file, Principal principal,  
 							  RedirectAttributes rttr) {
 		// 카테고리명이 비어있지 않고 파일사이즈가 0보다 클경우 진행
-		if (!dto.getCateName().isEmpty() && file.getSize() > 0) {
-			// 카테고리명 중복 체크
-			String excistFoodName = cateService.selectCateName(dto.getCateName());
-			if (excistFoodName != null) {
-				rttr.addFlashAttribute("cateFail", "중복된 카테고리명이 존재합니다.");
-			} else {
-				System.out.println("카테고리 추가기능 진행");
-				// 카테고리 이미지 파일 추가
-				if (file != null) {
-					dto.setFileName(file.getOriginalFilename());
-				}
-
-				// 작성 맴버 추가
-				dto.setMemberId(principal.getName());
-				
-				boolean success = cateService.addCate(dto, file);
+//		if (!dto.getCateName().isEmpty() && file.getSize() > 0) {
+//			// 카테고리명 중복 체크
+//			String excistFoodName = cateService.selectCateName(dto.getCateName());
+//			if (excistFoodName != null) {
+//				rttr.addFlashAttribute("cateFail", "중복된 카테고리명이 존재합니다.");
+//			} else {
+//				System.out.println("카테고리 추가기능 진행");
+//				// 카테고리 이미지 파일 추가
+//				if (file != null) {
+//					dto.setFileName(file.getOriginalFilename());
+//				}
+//
+//				// 작성 맴버 추가
+//				dto.setMemberId(principal.getName());
+//				
+//				boolean success = cateService.addCate(dto, file);
+				boolean success = true;
 				if (success) {
-					rttr.addFlashAttribute("cateSuccess", "카테고리 등록 성공했습니다.");
+					rttr.addFlashAttribute("cateMessage", "카테고리 등록 성공했습니다.");
+					System.out.println("추가성공");
 				} else {
-					rttr.addFlashAttribute("cateFail", "카테고리 등록 실패했습니다.");
+					rttr.addFlashAttribute("cateMessage", "카테고리 등록 실패했습니다.");
 				}
-			}
-		} else {
-			rttr.addFlashAttribute("cateFail", "카테고리 이름과 이미지를 입력해주세요.");
-		}
+//			}
+//		} else {
+//			rttr.addFlashAttribute("cateMessage", "카테고리 이름과 이미지를 입력해주세요.");
+//		}
 
 		return "redirect:foodCateList";
 	}
@@ -109,12 +111,12 @@ public class CategoryController {
 				success = cateService.updateCate(dto, dto.getFileName(), modifyFile);
 			}
 			if (success) {
-				rttr.addFlashAttribute("cateSuccess", "카테고리 수정에 성공하였습니다.");
+				rttr.addFlashAttribute("cateMessage", "카테고리 수정에 성공하였습니다.");
 			} else {
-				rttr.addFlashAttribute("cateFail", "카테고리 수정에 실패하였습니다.");
+				rttr.addFlashAttribute("cateMessage", "카테고리 수정에 실패하였습니다.");
 			}
 		} else {
-			rttr.addFlashAttribute("cateFail", "카테고리 이름과 이미지를 입력해주세요.");
+			rttr.addFlashAttribute("cateMessage", "카테고리 이름과 이미지를 입력해주세요.");
 		}
 		rttr.addAttribute("cateIndex", dto.getCateIndex());
 		return "redirect:foodList";
@@ -131,11 +133,11 @@ public class CategoryController {
 		boolean success = cateService.deleteCate(dto.getCateIndex());
 
 		if (success) {
-			rttr.addFlashAttribute("cateSuccess", "카테고리가 삭제 되었습니다.");
+			rttr.addFlashAttribute("cateMessage", "카테고리가 삭제 되었습니다.");
 			System.out.println("삭제성공");
 			return "redirect:foodCateList";
 		} else {
-			rttr.addFlashAttribute("cateFail", "카테고리가 삭제되지 않았습니다.");
+			rttr.addFlashAttribute("cateMessage", "카테고리가 삭제되지 않았습니다.");
 			System.out.println("삭제실패");
 			return "redirect:foodCateList";
 		}
