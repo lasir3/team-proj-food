@@ -13,10 +13,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
-<script src="${appRoot }/resources/summernote/summernote-lite.js"></script>
-<script src="${appRoot }/resources/summernote/summernote-ko-KR.js"></script>
-<link rel="stylesheet" href="${appRoot }/resources/summernote/summernote-lite.css">
-
 <style>
    .foodname {
        font-size: 48px;
@@ -153,42 +149,55 @@
 	});
 </script>
 
-
+<style>
+    .wrap {
+		width: flex;
+    }
+    .wrap textarea {
+		width: 100%;
+		resize: none;
+		overflow-y: hidden; /* prevents scroll bar flash */
+		padding: 1.1em; /* prevents text jump on Enter keypress */
+		padding-bottom: 1em;
+		line-height: 1.6;
+    }
+    textarea {
+		border: none;
+		background-color: transparent;
+		resize: none;
+		outline: none;
+	}
+  </style>
+    
 <title>Insert title here</title>
+
 </head>
 <body>
 	<my:navBar></my:navBar>
 	<div class="container mt-5">
 		<div class="col">
-			<div class="container mt-5">
-				<div class="row">
-					<div class="col-8">
-						<div class="foodname">${foodDto.foodName}</div>
-						<div class="catename">
-							&nbsp;
-							<a href="foodList?cateIndex=${foodDto.cateIndex }">${foodDto.cateName}로 이동</a>
-						</div>
+			<div class="row">
+				<div class="col-8">
+					<div class="foodname">
+						${foodDto.foodName}
 					</div>
-					<div class="col d-md-flex justify-content-md-end mt-5">
-						<button type="button" class="btn btn-warning"
-							id="FoodEdit-Button1">내용 수정</button>
+					<div class="catename">
+						&nbsp;
+						<a href="foodList?cateIndex=${foodDto.cateIndex }">${foodDto.cateName}로 이동</a>
 					</div>
 				</div>
+				<div class="col d-md-flex justify-content-md-end mt-5">
+						<a href="foodEdit?foodIndex=${foodDto.foodIndex }">수정</a>
+				</div>
 			</div>
-			<br />
-			<br />
-			<div class="container">
-				<textarea class="summernote1" name="editordata"></textarea>
+			<div class="row wrap mt-5">
+				<br />
+				<!-- 본문 내용 -->
+				<div>${foodDto.content }</div>
 			</div>
-			<br />
-			<script>
-				$('.summernote1').summernote({
-					height : 450,
-					lang : "ko-KR"
-				});
-			</script>
+		</div>
 			<hr />
-			<h1>
+			<h1 class="mt-5">
 				하위 레시피 목록
 				<span id="numOfRecipe1"></span>
 				개

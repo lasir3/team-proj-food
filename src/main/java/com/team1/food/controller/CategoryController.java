@@ -46,6 +46,14 @@ public class CategoryController {
 		model.addAttribute("foodListPage", list);
 		model.addAttribute("cateDto", dto);
 	}
+	
+	// 카테고리 수정 페이지
+	@GetMapping("foodEdit")
+	public void foodEditPage(@RequestParam(name = "foodIndex", defaultValue = "") int foodIndex, Model model) {
+		FoodDto dto = cateService.getPageByIndex(foodIndex);
+		// 수정용 파일명 전송
+		model.addAttribute("foodDto", dto);
+	}
 
 	// 카테고리 추가
 	@PostMapping("addCate")

@@ -212,12 +212,13 @@ public class CategoryService {
 	public int getVoteSum(int subRecipeIndex) {
 		return mapper.selectVoteSum(subRecipeIndex);
 	}
-
+	
 	// subRecipeIndex에 해당하는 memberId의 추천수 가져오기 
 	public int getVoteNum(VoteDto dto, Principal principal) {
 		return mapper.selectVoteNum(dto.getSubRecipeIndex(), principal.getName());
 	}
 
+	// 추천 증가 버튼 누를때 서비스
 	public boolean setVoteUp(VoteDto dto, int voteNum, Principal principal) {
 		return mapper.updateVoteNum(dto.getSubRecipeIndex(), voteNum, principal.getName()) == 1;
 	}

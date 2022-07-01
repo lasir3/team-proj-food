@@ -183,7 +183,6 @@
 				<c:if test="${not empty list.foodName }">
 					<div class="card-body">
 						<a href="foodPage?foodIndex=${list.foodIndex }" class="btn btn-primary">${list.foodName }</a>
-						<div>${list.content }</div>
 					</div>
 				</c:if>
 				</c:forEach>

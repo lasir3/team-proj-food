@@ -56,8 +56,7 @@
 					<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
 						<button type="button" class="btn btn-primary me-md-0 mt-3"
 							id="CateAdd-Button1" data-bs-toggle="modal"
-							data-bs-target="#addModal" data-bs-whatever="@mdo">카테고리
-							추가</button>
+							data-bs-target="#addModal" data-bs-whatever="@mdo">카테고리 추가</button>
 					</div>
 				</div>
 			</sec:authorize>
