@@ -53,33 +53,32 @@ public class CategoryController {
 							  @RequestParam(name = "addFile") MultipartFile file, Principal principal,  
 							  RedirectAttributes rttr) {
 		// 카테고리명이 비어있지 않고 파일사이즈가 0보다 클경우 진행
-//		if (!dto.getCateName().isEmpty() && file.getSize() > 0) {
-//			// 카테고리명 중복 체크
-//			String excistFoodName = cateService.selectCateName(dto.getCateName());
-//			if (excistFoodName != null) {
-//				rttr.addFlashAttribute("cateFail", "중복된 카테고리명이 존재합니다.");
-//			} else {
-//				System.out.println("카테고리 추가기능 진행");
-//				// 카테고리 이미지 파일 추가
-//				if (file != null) {
-//					dto.setFileName(file.getOriginalFilename());
-//				}
-//
-//				// 작성 맴버 추가
-//				dto.setMemberId(principal.getName());
-//				
-//				boolean success = cateService.addCate(dto, file);
-				boolean success = true;
+		if (!dto.getCateName().isEmpty() && file.getSize() > 0) {
+			// 카테고리명 중복 체크
+			String excistFoodName = cateService.selectCateName(dto.getCateName());
+			if (excistFoodName != null) {
+				rttr.addFlashAttribute("cateFail", "중복된 카테고리명이 존재합니다.");
+			} else {
+				System.out.println("카테고리 추가기능 진행");
+				// 카테고리 이미지 파일 추가
+				if (file != null) {
+					dto.setFileName(file.getOriginalFilename());
+				}
+
+				// 작성 맴버 추가
+				dto.setMemberId(principal.getName());
+				
+				boolean success = cateService.addCate(dto, file);
 				if (success) {
 					rttr.addFlashAttribute("cateMessage", "카테고리 등록 성공했습니다.");
 					System.out.println("추가성공");
 				} else {
 					rttr.addFlashAttribute("cateMessage", "카테고리 등록 실패했습니다.");
 				}
-//			}
-//		} else {
-//			rttr.addFlashAttribute("cateMessage", "카테고리 이름과 이미지를 입력해주세요.");
-//		}
+			}
+		} else {
+			rttr.addFlashAttribute("cateMessage", "카테고리 이름과 이미지를 입력해주세요.");
+		}
 
 		return "redirect:foodCateList";
 	}
@@ -89,7 +88,7 @@ public class CategoryController {
 	public String modifyCategory(FoodCateDto dto, 
 			@RequestParam(name = "modifyFile") MultipartFile modifyFile, /* Principal principal, */
 			RedirectAttributes rttr) {
-		boolean success = false;
+		boolean success = true;
 		// FoodCateDto oldCateByMember = cateService.getCateIndexByMember(dto.getCateIndex());
 		
 		// 카테고리명이 비어있지 않고 파일사이즈가 0보다 클경우 진행
@@ -130,8 +129,8 @@ public class CategoryController {
 //		FoodCateDto oldCateByMember = cateService.getCateIndexByMember(dto.getCateIndex());
 		// 게시물 작성자(memberId)와 principal의 name과 비교해서 같을 때만 진행.
 //		if (oldBoard.getMemberId().equals(principal.getName())) {
+		
 		boolean success = cateService.deleteCate(dto.getCateIndex());
-
 		if (success) {
 			rttr.addFlashAttribute("cateMessage", "카테고리가 삭제 되었습니다.");
 			System.out.println("삭제성공");
@@ -145,7 +144,7 @@ public class CategoryController {
 //		} else { 
 //			rttr.addFlashAttribute("message", "권한이 없습니다.");
 //		}
-		// 아니면 리턴.
+//		// 아니면 리턴.
 //		return "redirect:foodList";
 	}
 	
@@ -196,8 +195,6 @@ public class CategoryController {
 	 @PutMapping(path = "voteUp", produces = "text/plain;charset=UTF-8")
 	 @ResponseBody
 	 public ResponseEntity<String> voteUp(@RequestBody VoteDto dto, Principal principal) {
-		 System.out.println("$$%$%$%$%$%$%$%$%$%$%$");
-		 System.out.println(dto);
 		 if (principal == null) {
 			return ResponseEntity.status(401).build();
 		 } else {
@@ -212,8 +209,10 @@ public class CategoryController {
 			 }
 			 
 			 if (success) {
+				 System.out.println("투표성공");
 				 return ResponseEntity.ok("추천수가 변경되었습니다.");
 			 } else {
+				 System.out.println("투표실패");
 				 return ResponseEntity.status(500).body("");
 			 }
 		 }

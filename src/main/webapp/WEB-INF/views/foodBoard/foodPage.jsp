@@ -128,10 +128,9 @@
 											contentType : "application/json",
 											success : function(voteNumData) {
 												console.log("추천수 증가");
-												// modal에 텍스트 표시기능 추가해야함 (207)
-												$('#modalMessage1').on('shown.bs.modal', function () {
-													$('#myInput').trigger('focus')
-												})
+												console.log(voteNumData);
+												$("#modalMessage1").modal('show');
+												$("#modalBodyMessage1").text(voteNumData);
 												subRecipeList();
 											},
 											error : function() {
@@ -207,8 +206,8 @@
 							<h5 class="modal-title">알림</h5>
 							<button type="button" class="btn-close" data-bs-dismiss="modal"	aria-label="Close"></button>
 						</div>
-						<div class="modal-body">
-							<p class="text"></p>
+						<div class="modal-body input">
+							<p id="modalBodyMessage1" class="text"></p>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
