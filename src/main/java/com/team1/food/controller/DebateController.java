@@ -32,50 +32,25 @@ public class DebateController {
 	public void listDebate(Model model,
 			@RequestParam(name = "page", defaultValue = "1") int page,
 			@RequestParam(name = "type", defaultValue = "")String type,
-			@RequestParam(name = "keyword", defaultValue = "") String keyword) {
+			@RequestParam(name = "keyword", defaultValue = "") String keyword){
 
 		int rowPerPage = 10;
 
 		int totalRecords = service.countDebate(type, keyword);
 		int end = (totalRecords - 1) / rowPerPage + 1;
-
+		
 		PageInfoDto pageInfo = new PageInfoDto();
 		pageInfo.setCurrent(page);
 		pageInfo.setEnd(end);
+		
 		
 		List<DebateDto> list = service.listDebatePage(page, rowPerPage, type, keyword);
 		/*List<DebateDto> search = service.searchDebate(type, keyword);*/
 		//			List<DebateDto> list = service.listDebate();
 		
-		System.out.println(list);
-		
 		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("debateList", list);
 	}
-	
-	@RequestMapping("all")
-	public void allDebate(Model model,
-			@RequestParam(name = "page", defaultValue="1")int page,
-			@RequestParam(name = "type", defaultValue="")String type,
-			@RequestParam(name = "keyword", defaultValue="")String keyword,
-			@RequestParam(name = "close", defaultValue= "false")boolean close){
-		
-		int rowPerPage = 10;
-		
-		int totalRecords = service.countAllDebate(type, keyword);
-		int end = (totalRecords - 1) / rowPerPage + 1;
-		
-		PageInfoDto pageInfo = new PageInfoDto();
-		pageInfo.setCurrent(page);
-		pageInfo.setEnd(end);
-		
-		List<DebateDto> allDebate = service.AllDebate(page, rowPerPage, type, keyword, close);
-		
-		model.addAttribute("pageInfo", pageInfo);
-		model.addAttribute("allDebate", allDebate);
-	}
-	 
-	
 	
 	@RequestMapping("close")
 	public void closeDebate(Model model,
@@ -232,4 +207,18 @@ public class DebateController {
 	
 			return "redirect:/debate/close";
 		}
+	
+
+		/*@RequestMapping("get")
+		public String viewCount(@ModelAttribute("DebateDto") DebateDto dto, Model model) {
+		
+			// 조회수 증가
+			service.viewCount(dto.getId());
+			
+		    List<DebateDto> list = service.detailProject(dto.getId());
+		
+		    model.addAttribute("list", list);
+		    
+			return "redirect:/debate/list";
+		}*/
 }

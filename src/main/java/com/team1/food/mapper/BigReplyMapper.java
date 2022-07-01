@@ -24,4 +24,6 @@ public interface BigReplyMapper {
 
 	void deleteByCloseId(int id);
 
+	/*	void viewCount(int debateId);*/
+
 }

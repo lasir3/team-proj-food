@@ -39,6 +39,7 @@
 							<th>항목</th>
 							<th>작성자</th>
 							<th><i class="fa-solid fa-calendar"></i></th>
+							<th>조회수</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -64,6 +65,7 @@
 									</td>
 							 <td>${close.writerNickName }</td>
 									<td>${close.prettyInserted }</td>
+									<td>${close.hit }</td>
 								</tr>
 							</c:if>
 						</c:forEach>

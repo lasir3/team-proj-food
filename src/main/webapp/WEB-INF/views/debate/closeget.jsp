@@ -262,14 +262,15 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 	<my:navBar current="list" />
-	<c:url value="/debate/list" var="listUrl"></c:url>
+	<c:url value="/debate/close" var="listUrl"></c:url>
 
 	<div class="container">
 		<div class="row">
 			<div class="col">
 				<h5>
-					<a href="${listUrl }" style="text-decoration-line: none">토론</a>
+					<%-- <a href="${listUrl }" style="text-decoration-line: none">토론</a> --%>
 					
 					
 					<sec:authorize access="isAuthenticated()">
@@ -300,7 +301,7 @@
  				    	<a href="#" style="text-decoration-line: none; font-size: 25px;" id="title-a">${debate.title }</a>
 						<input style= "border: none; background: transparent; font-size:25px;"
 							type="text" name="title" required class="d-none"
-						 value="${debate.title }"readonly ></input>
+						 value="${debate.title }"readonly ><a href="${listUrl }" style="text-decoration-line: none;">(토론)</a></input>
 					</div>		
 				<!-- 	<button id="close-submit1" class="btn btn-primary d-none">토론 닫기</button> -->
 					<!-- <button id="modify-submit1" class="btn btn-primary d-none">수정</button> -->

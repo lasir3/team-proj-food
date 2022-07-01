@@ -53,6 +53,7 @@
 							<th>
 								<i class="fa-solid fa-calendar"></i>
 							</th>
+							<th>조회수</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -77,7 +78,8 @@
 								
 							  <td>${debate.writerNickName }</td>
 								<td>${debate.prettyInserted }</td>
-							</tr>
+								<td>${debate.hit }</td>
+								</tr>
 						</c:forEach>
 					</tbody>
 				</table>

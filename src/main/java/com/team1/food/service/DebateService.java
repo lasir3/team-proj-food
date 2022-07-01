@@ -25,7 +25,9 @@ public class DebateService {
 	}
 
 	public DebateDto getDebateById(int id) {
+		mapper.viewCount(id);
 		DebateDto debate = mapper.selectDebateById(id);
+		
 		return debate;
 	}
 
@@ -78,8 +80,9 @@ public class DebateService {
 	}
 
 	public DebateDto getCloseById(int id) {
-		DebateDto close = mapper.selectCloseById(id);
 		
+		DebateDto close = mapper.selectCloseById(id);
+						  mapper.closeViewCount(id);
 		return close;
 	}
 	
@@ -88,17 +91,6 @@ public class DebateService {
 		int cnt = mapper.updateClose(id);
 		
 		return cnt == 1;
-	}
-
-	public int countAllDebate(String type, String keyword) {
-		// TODO Auto-generated method stub
-		return mapper.countAllDebate(type, keyword);
-	}
-
-	public List<DebateDto> AllDebate(int page, int rowPerPage, String type, String keyword, boolean close) {
-		int from = (page - 1) * rowPerPage;
-		
-		return mapper.AllDebate(from, rowPerPage, type, "%" + keyword + "%", close);
 	}
 
 	public DebateDto getRemoveById(int id) {
@@ -111,4 +103,9 @@ public class DebateService {
 		
 		return mapper.deleteClose(id) == 1;
 	}
+
+	/*public int viewCount(int hit) {
+		// TODO Auto-generated method stub
+		return mapper.viewCount(hit);
+	}	*/
 }
