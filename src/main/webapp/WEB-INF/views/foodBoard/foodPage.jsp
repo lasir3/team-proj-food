@@ -92,6 +92,7 @@
 									</div>
 								`); // end of html
 								
+								/*
 								// 하위 레시피 리스트를 추천수 순으로 정렬
 								subElementArr.push(subElement);
 								subElementArr.sort(function(a, b) {
@@ -101,7 +102,9 @@
 								});
 								subListElement.empty();
 								subListElement.append(subElementArr); // sublist에 각 항목 추가
-						
+								*/
+								subListElement.append(subElement); // sublist에 각 항목 추가
+
 								///// 삭제...
 								
 								//// 삭제...
@@ -126,7 +129,9 @@
 											success : function(voteNumData) {
 												console.log("추천수 증가");
 												// modal에 텍스트 표시기능 추가해야함 (207)
-												$("#modalMessage1").modal("show").find("modal-body").text(voteNumData);
+												$('#modalMessage1').on('shown.bs.modal', function () {
+													$('#myInput').trigger('focus')
+												})
 												subRecipeList();
 											},
 											error : function() {
@@ -162,8 +167,7 @@
 						<div class="foodname">${foodDto.foodName}</div>
 						<div class="catename">
 							&nbsp;
-							<a href="foodList?cateIndex=${foodDto.cateIndex }">${foodDto.cateName}로
-								이동</a>
+							<a href="foodList?cateIndex=${foodDto.cateIndex }">${foodDto.cateName}로 이동</a>
 						</div>
 					</div>
 					<div class="col d-md-flex justify-content-md-end mt-5">
