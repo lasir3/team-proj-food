@@ -20,6 +20,13 @@
 	referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <title>Insert title here</title>
+ <style>
+input{width:150px; padding:5px; border:1px solid #dedede}
+input:read-only{background-color:#dedede}                      /* read-only style */
+select{padding:7px; vertical-align:middle}
+</style>
+
+
 <script>
 	$(document).ready(function() {
 		// 중복,암호 확인 변수
@@ -187,6 +194,44 @@
 				$("#submitButton1").attr("disabled", "");
 			}
 		}
+		 
+		$("#userEmail1").keyup(function() {
+			if ($("#userEmail1").val().length > 0 ){
+				$("#mail-Check-Btn").removeAttr("disabled");
+			} else {
+				$("#mail-Check-Btn").attr("disabled", "");
+			}			
+		});
+		
+		/* function selectEmail(ele){
+		    var $ele = $(ele);
+		    var $userEmail2 = $('input[name=userEmail2]');
+			console.log($userEmail2);
+		    // '1'인 경우 직접입력
+		    if($ele.val() == "1"){
+		        $userEmail2.attr('readonly', false);
+		        $userEmail2.val('');
+		    } else {
+		        $userEmail2.attr('readonly', true);
+		        $userEmail2.val($ele.val());
+		    }
+		}
+		 */
+		
+		 $("#selectEmail").change(function(){
+			let value = $("#selectEmail").val();
+			value = $("#selectEmail").val();
+			
+			if(value == 1){
+				$("#userEmail2").removeAttr("readonly");
+				$("#userEmail2").val("");								
+			} else{
+				$("#userEmail2").val(value);	
+				$("#userEmail2").attr("readonly","");
+			}
+			
+		 });
+		 
    	
 });
 
@@ -198,7 +243,7 @@
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-12 col-lg-6">
-				<h1>회원 가입</h1>
+				<h1>회원가입</h1>
 
 				<form id="form1"
 					action="${pageContext.request.contextPath }/member/signup"
@@ -232,15 +277,19 @@
 					<div class="form-group email-form"> -->
 	 <label for="email">이메일</label>
 	 <div class="input-group">
-	<input type="text" class="form-control" name="email" id="userEmail1" placeholder="이메일" />
-	<select class="form-control" name="userEmail2" id="userEmail2" >
-	<option>@naver.com</option>
-	<option>@daum.net</option>
-	<option>@gmail.com</option>
-	</select>
+	<input type="text"  name="email" id="userEmail1" placeholder="이메일" />
+	@ <input type="text"  name= "userEmail2" id="userEmail2" readonly="readonly"/>
+	<br />
+    <select name="select_email"  id="selectEmail">
+        <option value="" selected>선택하세요</option>
+        <option value="naver.com">naver.com</option>
+        <option value="gmail.com">gmail.com</option>
+        <option value="hanmail.com">hanmail.com</option>
+        <option value="1">직접입력</option>
+    </select>
 	   
 <div class="input-group-addon">
-	<button type="button" class="btn btn-primary" id="mail-Check-Btn">본인인증</button>
+	<button type="button" class="btn btn-primary" id="mail-Check-Btn" disabled>본인인증</button>
 </div>
 	<div class="mail-check-box">
 <input class="form-control mail-check-input" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">

@@ -11,6 +11,11 @@
 <c:url value="/foodBoard/foodCateList" var="foodBoard"></c:url>
 <c:url value="/member/memberlist" var="memberlistUrl"></c:url>
 <c:url value="/member/memberget" var="membergetUrl"></c:url>
+<c:url value="/foodBoard/foodList?cateIndex=38" var="foodList1"></c:url>
+<c:url value="/foodBoard/foodList?cateIndex=40" var="foodList2"></c:url>
+<c:url value="/foodBoard/foodList?cateIndex=41" var="foodList3"></c:url>
+<c:url value="/foodBoard/foodList?cateIndex=46" var="foodList4"></c:url>
+<c:url value="/foodBoard/foodList?cateIndex=47" var="foodList5"></c:url>
 
 <%-- 회원정보링크 --%>
 <sec:authorize access="isAuthenticated()">
@@ -37,11 +42,30 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="${foodBoard }">Home</a>
           </li>
+          
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              요리카테고리
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
+              <li><a class="dropdown-item" href="${foodList1 }">한국음식</a></li>
+              <li><a class="dropdown-item" href="${foodList2 }">중국음식</a></li>
+              <li><a class="dropdown-item" href="${foodList3 }">베트남음식</a></li>
+              <li><a class="dropdown-item" href="${foodList4 }">미국음식</a></li>
+              <li><a class="dropdown-item" href="${foodList5 }">프랑스음식</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#">기타등등</a></li>
+            </ul>
+          </li>
+          
             <sec:authorize access="not isAuthenticated()">
             <li class="nav-item">
                <a href="${loginUrl }" class="nav-link">로그인</a>
             </li>
             </sec:authorize>
+            
             <sec:authorize access="not isAuthenticated()">
             <li class="nav-item">
                <a href="${signupUrl }"
@@ -53,7 +77,7 @@
             <sec:authorize access="isAuthenticated()">
             <li class="nav-item">
                <a href="${membergetUrl }"
-                  class="nav-link ${current == 'memberget' ? 'active' : '' }">회원정보</a>
+                  class="nav-link ${current == 'memberget' ? 'active' : '' }">회원정보변경</a>
             </li>
             </sec:authorize>
 
@@ -75,20 +99,7 @@
                <form action="${logoutUrl }" id="logoutform1" method="post"></form>
             </div>        
             
-            
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              요리카테고리
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
-              <li><a class="dropdown-item" href="#">나라별</a></li>
-              <li><a class="dropdown-item" href="#">재료별</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item" href="#">기타등등</a></li>
-            </ul>
-          </li>
+           
         </ul>
       </div>
     </div>

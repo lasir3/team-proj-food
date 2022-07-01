@@ -14,12 +14,16 @@
 <c:url value="/debate/list" var="debateUrl"></c:url>
 <c:url value="/debate/write" var="debateWriteUrl"></c:url>
 <c:url value="/debate/close" var="debateCloseUrl"></c:url>
-<c:url value="/debate/all" var="debateAllUrl"></c:url>
 <c:url value="/admin/main" var="adminMainUrl"></c:url>
 <c:url value="/admin/notice" var="adminNoticeUrl"></c:url>
 <c:url value="/admin/report" var="adminReportUrl"></c:url>
 <c:url value="/admin/restArea" var="adminRestAreaUrl"></c:url>
 <c:url value="/admin/ask" var="adminAskUrl"></c:url>
+<c:url value="/foodBoard/foodList?cateIndex=38" var="foodList1"></c:url>
+<c:url value="/foodBoard/foodList?cateIndex=40" var="foodList2"></c:url>
+<c:url value="/foodBoard/foodList?cateIndex=41" var="foodList3"></c:url>
+<c:url value="/foodBoard/foodList?cateIndex=46" var="foodList4"></c:url>
+<c:url value="/foodBoard/foodList?cateIndex=47" var="foodList5"></c:url>
 
 
 <%-- 회원정보링크 --%>
@@ -42,14 +46,20 @@
                   data-bs-toggle="dropdown" aria-expanded="false"> 카테고리 </a>
                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   <li>
-                     <a class="dropdown-item" href="${foodCateListUrl }">나라별</a>
+                     <a class="dropdown-item" href="${foodList1 }">한국음식</a>
                   </li>
                   <li>
-                     <a class="dropdown-item" href="#">재료별</a>
+                     <a class="dropdown-item" href="${foodList2 }">중국음식</a>
                   </li>
                   <li>
-                     <a class="dropdown-item" href="#">기타 등등</a>
+                     <a class="dropdown-item" href="${foodList3 }">베트남음식</a>
                   </li>
+                  <li>
+                     <a class="dropdown-item" href="${foodList4 }">미국음식</a>
+                  </li>
+                  <li>
+                     <a class="dropdown-item" href="${foodList5 }">프랑스요리</a>
+                  </li>                  
                </ul>
             </li>
 
@@ -92,9 +102,7 @@
                   <li>
                      <a class="dropdown-item" href="${debateWriteUrl }">토론글쓰기</a>
                   </li>
-                  <li>
-                  	<a class="dropdown-item" href="${debateAllUrl }">전체토론목록</a>
-                  </li>
+
                </ul>
             </li>
            

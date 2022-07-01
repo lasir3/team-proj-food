@@ -185,7 +185,7 @@
 		<div class="row justify-content-center">
 			<div class="col-12 col-lg-6">
 	
-				<h1>회원 정보 보기</h1>
+				<h1>회원정보 변경하기</h1>
 				
 
 				
