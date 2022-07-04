@@ -4,6 +4,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -85,24 +87,20 @@
 					data-bs-target="#exampleModal" data-bs-whatever="@mdo">카테고리
 					추가</button>
 			</div>
-			
-			<!-- 카테고리 등록 여부에 따른 메시지 띄우기 -->
-			<!-- Modal로 수정 예정 -->
-			<c:if test="${not empty cateFail }">
-				<div class="alert alert-danger alert-dismissible fade show" role="alert">
-					<strong>${cateFail }</strong>
-					<button type="button" class="btn-close" data-bs-dismiss="alert"	aria-label="Close"></button>
+
+			<sec:authorize access="hasRole('ADMIN')">
+				<div class="col">
+					<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
+						<button type="button" class="btn btn-primary me-md-0 mt-3"
+							id="CateAdd-Button1" data-bs-toggle="modal"
+							data-bs-target="#addModal" data-bs-whatever="@mdo">카테고리 추가</button>
+					</div>
 				</div>
-			</c:if>
-			<c:if test="${not empty cateSuccess }">
-				<div class="alert alert-primary alert-dismissible fade show" role="alert">
-					<strong>${cateSuccess }</strong>
-					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
-			</c:if>
-			
-			<form id="form1" action="${appRoot }/foodBoard/addCate" method="post" enctype="multipart/form-data">
-				<div class="modal fade" id="exampleModal" tabindex="-1"
+			</sec:authorize>
+
+			<form id="form1" action="${appRoot }/foodBoard/addCate" method="post"
+				enctype="multipart/form-data">
+				<div class="modal fade" id="addModal" tabindex="-1"
 					aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -114,37 +112,74 @@
 							<div class="modal-body">
 								<div class="mb-3">
 									<label for="category-name" class="col-form-label">카테고리명:</label>
-									<input type="text" class="form-control" id="category-name" name="cateName" />
+									<input type="text" class="form-control" id="category-name"
+										name="cateName" />
 								</div>
 								<div class="mb-3">
 									<label for="file-text" class="col-form-label">배경이미지:</label>
-									<input type="file" accept="image/*" id="file-text" name="addFile" />
+									<input type="file" accept="image/*" id="file-text"
+										name="addFile" />
 								</div>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary"
 									data-bs-dismiss="modal">취소</button>
-								<button type="submit" class="btn btn-primary" id="add-submit1">추가</button>
+								<button type="submit" class="btn btn-primary" id="add-submit1"
+									data-dismiss="modal">추가</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</form>
 
-			<c:forEach items="${foodCateList }" var="cateList" varStatus="indexNum">
+
+			<c:forEach items="${foodCateList }" var="cateList"
+				varStatus="indexNum">
 				<div class="col-sm-4">
 					<div class="card text-center mb-5 shadow bg-body rounded">
-						<img src="${imageUrl }/foodWikiFile/FoodCateTable/${cateList.cateIndex }/${cateList.fileName }"
+						<img
+							src="${imageUrl }/foodWikiFile/FoodCateTable/${cateList.cateIndex }/${cateList.fileName }"
 							class="card-img-top embed-responsive-item" alt="...">
 						<div class="card-body">
 							<h5 class="card-title">${cateList.cateName }</h5>
-							<a href="foodList?cateIndex=${cateList.cateIndex }" class="btn btn-primary">카테고리로 이동</a>
+							<a href="foodList?cateIndex=${cateList.cateIndex }"
+								class="btn btn-primary">카테고리로 이동</a>	
 						</div>
 					</div>
 				</div>
 			</c:forEach>
 		</div>
 	</div>
+
+	<!-- 카테고리 등록 여부에 따른 메시지 띄우기 -->
+		<!-- 안내 메시지용 Modal -->
+	<c:if test="${not empty cateMessage }">
+		<!-- Modal -->
+		<div class="modal fade" id="modalMessage1" tabindex="-1"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modalMessage1Label">알림</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p>${cateMessage }</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">닫기</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			let m = new bootstrap.Modal(document.getElementById('modalMessage1'), {});
+			m.show();
+		</script>
+	</c:if>
 	<a id="back-to-top" href="#" class="btn btn-primary btn-sm back-to-top-css" role="button" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"><i class="fa-solid fa-angles-up"></i></span></a>
 </body>
 </html>

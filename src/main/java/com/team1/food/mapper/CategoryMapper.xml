@@ -13,7 +13,7 @@
 	</select>
 	
 	<select id="selectFoodList" resultType="com.team1.food.domain.FoodDto">
-		SELECT foodName, cateName, foodIndex
+		SELECT foodName, cateName, foodIndex, T.content content
 		FROM FoodTable T RIGHT JOIN FoodCateTable C ON C.cateIndex = T.cateIndex
 		WHERE C.cateIndex = #{cateIndex}
 	</select>
@@ -104,4 +104,51 @@
 		INSERT INTO FoodTable (foodName, memberId, cateIndex) 
 		VALUES (#{foodName}, #{memberId}, #{cateIndex})
 	</insert>
+	
+	<select id="selectCateNameByIndex" resultType="string">
+		SELECT cateName FROM FoodCateTable
+		WHERE cateIndex = #{cateIndex}
+	</select>
+	
+	<select id="selectFoodName" resultType="string">
+		SELECT foodName FROM FoodTable
+		WHERE foodName = #{foodName}
+	</select>
+	
+	<select id="selectSubFoodList" resultType="com.team1.food.domain.SubFoodDto">
+		SELECT subRecipeIndex, 
+			   foodIndex, 
+			   subRecipeName, 
+			   memberId, 
+			   content, 
+			   inserted
+		FROM SubRecipeTable 
+		WHERE foodIndex = #{foodIndex}
+	</select>
+	
+	<select id="selectVoteSum" resultType="int">
+		SELECT sum(voteCount) 
+		FROM VoteRecipeTable 
+		WHERE subRecipeIndex = #{subRecipeIndex}
+	</select>
+	
+	<select id="selectVoteNum" resultType="int">
+		SELECT voteCount
+		FROM VoteRecipeTable
+		WHERE subRecipeIndex = #{subRecipeIndex} 
+		AND memberId = #{memberId}
+	</select>
+	
+	<update id="updateVoteNum">
+		UPDATE VoteRecipeTable
+		SET voteCount = #{voteCount}
+		WHERE subRecipeIndex = #{subRecipeIndex} 
+		AND memberId = #{memberId}
+	</update>
+	
+	<update id="updateFood">
+		UPDATE FoodTable
+		SET foodName = #{foodName}, content = #{content}
+		WHERE foodIndex = #{foodIndex}
+	</update>
 </mapper>

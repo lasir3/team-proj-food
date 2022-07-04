@@ -1,6 +1,7 @@
 package com.team1.food.service;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -181,5 +182,46 @@ public class CategoryService {
 
 	public boolean addFoodTable(FoodDto dto) {
 		return mapper.insertFood(dto) == 1;
+	}
+
+	// 카테고리명 중복검사 메소드
+	public String searchCateName(String cateName) {
+		return mapper.selectCateName(cateName);
+	}
+	
+	// 인덱스 번호로 이름을 가져와 수정할 카테고리명과 비교하기위한 메소드
+	public String selectCateNameByIndex(int cateIndex) {
+		return mapper.selectCateNameByIndex(cateIndex);
+	}
+
+	// 음식명 중복 검사 메소드
+	public String selectFoodName(String foodName) {
+		return mapper.selectFoodName(foodName);
+	}
+
+	// foodIndex 번호로 하위 레시피 리스트 호출
+	public List<SubFoodDto> getSubDtoList(int foodIndex) {
+		return mapper.selectSubFoodList(foodIndex);
+	}
+
+	// subRecipeIndex 번호로 추천수 합계 계산
+	public int getVoteSum(int subRecipeIndex) {
+		return mapper.selectVoteSum(subRecipeIndex);
+	}
+	
+	// subRecipeIndex에 해당하는 memberId의 추천수 가져오기 
+	public int getVoteNum(VoteDto dto, Principal principal) {
+		return mapper.selectVoteNum(dto.getSubRecipeIndex(), principal.getName());
+	}
+
+	// 추천 버튼 누를때 서비스
+	public boolean setVoteNum(VoteDto dto, int voteNum, Principal principal) {
+		return mapper.updateVoteNum(dto.getSubRecipeIndex(), voteNum, principal.getName()) == 1;
+	}
+
+	// 음식 테이블 수정 서비스
+	public boolean updateFoodTable(FoodDto dto) {
+		int cnt = mapper.updateFood(dto);
+		return cnt == 1;
 	}
 }
