@@ -32,7 +32,7 @@ public interface CategoryMapper {
 
 	FoodCateDto selectCateDto(int cateIndex);
 
-//	FoodCateDto selectCateByIndex(int i);
+	FoodCateDto selectCateByIndex(int i);
 
 	String selectFileNameByCateIndex(int i);
 

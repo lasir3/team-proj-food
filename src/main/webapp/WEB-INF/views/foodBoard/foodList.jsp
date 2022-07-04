@@ -1,8 +1,8 @@
 <%@ page import="com.team1.food.domain.*"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,50 +47,31 @@
 
 </head>
 <body>
+<my:navBar2></my:navBar2>
 	<my:navBar></my:navBar>
 	<div class="container mt-5">
 		<div class="row">
-			<div class="col-8">
-				<div class="catetext" >${cateDto.cateName }</div>
-				<div class="maintext">&nbsp;<a href="foodCateList">메인 페이지로 이동</a></div>
-			</div>
+			<div class="catetext" >${cateDto.cateName }</div>
+			<div class="maintext">&nbsp;<a href="foodCateList">메인 페이지로</a></div>
+			
+			<div class="mb-5"> - 이 위키는 ${cateDto.cateName }에 해당하는 요리에 관한 페이지입니다.</div>
+			
 			<!-- 카테고리 수정, 삭제 버튼 -->
-			<sec:authorize access="hasRole('ADMIN')">
-				<div class="col d-md-flex justify-content-md-end mt-5" >
-					<div class="btn-group btn-group-toggle" data-toggle="buttons">
-						<button type="button" class="btn btn-warning" data-bs-toggle="modal"
-							data-bs-target="#modifyModal">카테고리 수정</button>
-						<button type="button" class="btn btn-danger" data-bs-toggle="modal"
-							data-bs-target="#deleteModal">카테고리 삭제</button>
-					</div>
-				</div>
-			</sec:authorize>
-			<div class="mb-5"> - 이 위키는 ${cateDto.cateName }에 관한 페이지입니다.</div>
-			<div class="mb-5"> ${cateDto.content }</div>
+			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
+				<button type="button" class="btn btn-warning me-md-0 mb-1"
+					id="CateAdd-Button1" data-bs-toggle="modal"
+					data-bs-target="#modifyModal" 
+					data-bs-whatever="@mdo">카테고리 수정</button>
+				<button type="button" class="btn btn-danger me-md-0 mb-1" 
+					id="CateAdd-Button1"  
+					data-bs-toggle="modal" 
+					data-bs-target="#deleteModal">카테고리 삭제</button>
+			</div>
+			
 			<!-- 카테고리 수정 여부에 따른 메시지 띄우기 -->
-			<!-- Modal로 수정 예정 -->
-<%-- 			<c:if test="${not empty message }">
-				<div class="alert alert-danger alert-dismissible fade show" role="alert">
-					<strong>${message }</strong>
-					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
-			</c:if>
-			<c:if test="${not empty cateFail }">
-				<div class="alert alert-danger alert-dismissible fade show" role="alert">
-					<strong>${cateFail }</strong>
-					<button type="button" class="btn-close" data-bs-dismiss="alert"	aria-label="Close"></button>
-				</div>
-			</c:if>
-			<c:if test="${not empty cateSuccess }">
-				<div class="alert alert-primary alert-dismissible fade show" role="alert">
-					<strong>${cateSuccess }</strong>
-					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
-			</c:if> --%>
-		
 			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4" >
 				<form id="form1" action="${appRoot }/foodBoard/modifyCate" method="post" enctype="multipart/form-data">
-					<!-- 카테고리 수정용 dto hidden 타입으로 입력 <--></-->
+					<!-- 카테고리 수정용 dto hidden 타입으로 입력 -->
 					<input type="hidden" name="cateIndex" value="${cateDto.cateIndex }" />
 					<input type="hidden" name="fileName" value="${cateDto.fileName }" />
 					
@@ -216,7 +197,7 @@
 		<script>
 			let m = new bootstrap.Modal(document.getElementById('modalMessage1'), {});
 			m.show();
-			</script>
+		</script>
 	</c:if>
 </body>
 </html>

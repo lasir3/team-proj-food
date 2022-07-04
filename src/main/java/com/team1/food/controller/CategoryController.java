@@ -80,14 +80,22 @@ public class CategoryController {
 	// 카테고리 추가
 	@PostMapping("addCate")
 	public String addCategory(FoodCateDto dto, 
-							  @RequestParam(name = "addFile") MultipartFile file, Principal principal,  
+						      @RequestParam(name = "cateName") String cateName, 
+							  @RequestParam(name = "addFile") MultipartFile file, /* Principal principal, */ 
 							  RedirectAttributes rttr) {
-		// 카테고리명이 비어있지 않고 파일사이즈가 0보다 클경우 진행
-		if (!dto.getCateName().isEmpty() && file.getSize() > 0) {
-			// 카테고리명 중복 체크
-			String excistFoodName = cateService.selectCateName(dto.getCateName());
-			if (excistFoodName != null) {
-				rttr.addFlashAttribute("cateFail", "중복된 카테고리명이 존재합니다.");
+		if (cateName != null && !cateName.isEmpty() && file.getSize() > 0) {
+			// 카테고리 이미지 파일 추가
+			if (file != null) {
+				dto.setFileName(file.getOriginalFilename());
+			}
+			
+			// 작성 맴버 추가
+			// dto.setMemberId(principal.getName());
+			dto.setMemberId("admin");
+			
+			boolean success = cateService.addCate(dto, file);
+			if(success) {
+				rttr.addFlashAttribute("cateSuccess", "카테고리 등록 성공했습니다.");
 			} else {
 				System.out.println("카테고리 추가기능 진행");
 				// 카테고리 이미지 파일 추가
@@ -109,7 +117,6 @@ public class CategoryController {
 		} else {
 			rttr.addFlashAttribute("cateMessage", "카테고리 이름과 이미지를 입력해주세요.");
 		}
-
 		return "redirect:foodCateList";
 	}
 	
@@ -200,7 +207,7 @@ public class CategoryController {
 		rttr.addAttribute("cateIndex", dto.getCateIndex());
 		return "redirect:foodList";
 	}
-	
+
 	// 음식 페이지 메소드
 	@GetMapping("foodPage")
 	public void getFoodPage(@RequestParam(name = "foodIndex", defaultValue = "") int foodIndex, Model model) {

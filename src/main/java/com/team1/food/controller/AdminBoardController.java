@@ -2,13 +2,7 @@ package com.team1.food.controller;
 
 import java.beans.Transient;
 import java.security.Principal;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.jsp.tagext.PageData;
@@ -16,7 +10,6 @@ import javax.servlet.jsp.tagext.PageData;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -28,7 +21,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.team1.food.domain.AdminBoardDto;
 import com.team1.food.domain.AdminBoardPageDto;
-import com.team1.food.domain.AdminLeaveDto;
 import com.team1.food.service.AdminBoardService;
 import com.team1.food.service.AdminReplyService;
 
@@ -197,9 +189,8 @@ public class AdminBoardController {
 			String datepicker1,
 			String datepicker2
 			) {
-	
-		/*** 글 등록 ***/
-		
+		System.out.println(datepicker1);
+		System.out.println(datepicker2);
 		
 		dto.setMemberId(principal.getName());
 		
@@ -211,44 +202,21 @@ public class AdminBoardController {
 			rttr.addFlashAttribute("createMessage", "글이 등록되지 않았습니다.");
 		}
 		
-		/*** 휴가 기간 값이 있을 때에만 휴가자 테이블에 등록 ***/
-		if(datepicker1 != "" && datepicker2 != "") {
-			AdminLeaveDto leave = getLeaveDto(principal.getName(), datepicker1, datepicker2);
-			AdminBoardDto dto2 = service.selectLastRestArea(principal.getName());
-			leave.setBoardId(dto2.getId());
-			service.insertLeave(leave);
-		}
-		
 		return "redirect:/admin/restArea";
 	}
 	
-	
 	// 쉼터 글 보기
+	
 	@GetMapping("getRestArea")
 	public void getRestArea(int id, Model model) {
 		AdminBoardDto dto = service.getRestAreaBoardById(id);
-		AdminLeaveDto leaveDto = service.selectLeaveByBoardId(id);
 		
 		model.addAttribute("board", dto);
-		model.addAttribute("leave", leaveDto);
 	}
 	
-	// 쉼터 글 수정
 	@PostMapping("updateRestArea")
 	public String updateRestArea(AdminBoardDto dto,
-			String leaveId,
-			RedirectAttributes rttr,
-			Principal principal,
-			String datepicker1,
-			String datepicker2
-			) {
-		
-		// 휴가 기간 값이 있을 경우 휴가자 테이블 정보 수정
-		if(dto.getState() == 1 && datepicker1 != "" && datepicker2 != "") {
-			AdminLeaveDto leave = getLeaveDto(principal.getName(), datepicker1, datepicker2);
-			leave.setId(Integer.parseInt(leaveId));
-			service.updateLeave(leave);
-		}
+			RedirectAttributes rttr) {
 		
 		boolean success = service.updateRestAreaBoard(dto);
 		
@@ -266,13 +234,7 @@ public class AdminBoardController {
 	@Transactional
 	@PostMapping("deleteRestArea")
 	public String deleteRestArea(AdminBoardDto dto,
-			RedirectAttributes rttr,
-			String leaveId) {
-		
-		// 휴가 글 삭제할때에는 휴가정보도 삭제
-		if(dto.getState() == 1 && leaveId != "") {
-			service.deleteLeave(Integer.parseInt(leaveId));
-		}
+			RedirectAttributes rttr) {
 		
 		replyService.deleteReplyByBoardId(dto.getId(), "restAreaId");
 		boolean success = service.deleteRestAreaBoardById(dto.getId());
@@ -507,36 +469,17 @@ public class AdminBoardController {
 	}
 	
 	// 값이 세팅된 pageDto 가져오기
-	private AdminBoardPageDto getPageDtoWithState(
-			String type,
-			String keyword, 
-			int page, 
-			String tableName,
-			int state) {
-		AdminBoardPageDto dto = new AdminBoardPageDto();
-		dto.setPage(page);
-		dto.setRowPerPage(rowPerPage);
-		int totalRow = service.boardCountWithState(type, keyword, tableName, state);
-		dto.setTotalRow(totalRow);
-		return dto;
-	}
-	
-	// 값 세팅된 leaveDto 가져오기
-	public AdminLeaveDto getLeaveDto(String memberId, String dateString1, String dateString2) {
-		Date date1 = null;
-		Date date2 = null;
-		
-		try {				
-			date1 = new SimpleDateFormat("yyyy-MM-dd").parse(dateString1);
-			date2 = new SimpleDateFormat("yyyy-MM-dd").parse(dateString2);
-			AdminLeaveDto leave = new AdminLeaveDto();
-			leave.setMemberId(memberId);
-			leave.setStart(date1);
-			leave.setEnd(date2);
-			return leave;
-		}catch(ParseException e){
-			e.printStackTrace();
+		private AdminBoardPageDto getPageDtoWithState(
+				String type,
+				String keyword, 
+				int page, 
+				String tableName,
+				int state) {
+			AdminBoardPageDto dto = new AdminBoardPageDto();
+			dto.setPage(page);
+			dto.setRowPerPage(rowPerPage);
+			int totalRow = service.boardCountWithState(type, keyword, tableName, state);
+			dto.setTotalRow(totalRow);
+			return dto;
 		}
-		return null;
-	}
 }

@@ -8,8 +8,7 @@
 		SELECT cateIndex, 
 			   cateName, 
 			   memberId, 
-			   F.fileName fileName,
-			   content
+			   F.fileName fileName
 		FROM FoodCateTable C LEFT JOIN CateFileTable F ON C.cateIndex = F.cateId
 	</select>
 	
@@ -35,9 +34,9 @@
 	    AND fileName = #{fileName}
 	</delete>
 	
-<!-- 	<select id="selectCateByIndex" resultType="com.team1.food.domain.FoodCateDto">
+	<select id="selectCateByIndex" resultType="com.team1.food.domain.FoodCateDto">
 		SELECT cateIndex, cateName, memberId FROM FoodCateTable WHERE cateIndex = #{cateIndex}
-	</select> -->
+	</select>
 	
 	<select id="selectFileNameByCateIndex" resultType="string">
 		SELECT F.fileName fileName
@@ -60,8 +59,7 @@
 		SELECT cateIndex, 
 			   cateName, 
 			   memberId, 
-			   F.fileName fileName,
-			   content
+			   F.fileName fileName
 		FROM FoodCateTable C LEFT JOIN CateFileTable F ON C.cateIndex = F.cateId
 		WHERE C.cateIndex = #{cateIndex}
 	</select>
@@ -95,7 +93,7 @@
 		SELECT foodIndex, 
 			   foodName, 
 			   C.memberId memberId, 
-			   F.content content, 
+			   content, 
 			   C.cateIndex cateIndex,
 			   C.cateName cateName 
 		FROM FoodTable F RIGHT JOIN FoodCateTable C ON F.cateIndex = C.cateIndex

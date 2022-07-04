@@ -95,6 +95,11 @@ public class MemberService {
 
     }
 
+	public int hasMemberEamil(String email) {
+		return mapper.countMemberEmail(email);
+		
+	}
+
 }
 
 

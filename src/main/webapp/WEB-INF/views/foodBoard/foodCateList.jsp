@@ -27,7 +27,15 @@
 	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 	crossorigin="anonymous"></script>
 <title>Insert title here</title>
-
+<style>
+	.back-to-top-css {
+    cursor: pointer;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: none;
+}
+</style>
 <script>
 	$(document).ready(function() {
 		$("#add-submit1").click(function(e) {
@@ -39,18 +47,47 @@
 			}
 		});
 	});
+	
+	//화면 맨위로 이동
+    $(document).ready(function () {
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 50) {
+                $('#back-to-top').fadeIn();
+            } else {
+                $('#back-to-top').fadeOut();
+            }
+        });
+        // scroll body to 0px on click
+        $('#back-to-top').click(function () {
+            $('#back-to-top').tooltip('hide');
+            $('body,html').animate({
+                scrollTop: 0
+            }, 400);
+            return false;
+        });
+
+        $('#back-to-top').tooltip('show');
+
+    });
+
 </script>
 
 </head>
 <body>
-	<my:navBar current="foodCateList"></my:navBar>
+<my:navBar2></my:navBar2>
+<my:navBar current="foodCateList"></my:navBar>
 	<div class="container mt-5">
 		<div class="row">
 			<h1 class="mb-4">요리위키에 오신것을 환영합니다!!</h1>
 			<div class="mb-5">이 위키는 요리에 관한 위키입니다.</div>
-			<div class="col">
-				<h2 class="mb-4">카테고리 목록</h2>
+			<h2 class="mb-4">카테고리 목록</h2>
+			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
+				<button type="button" class="btn btn-primary me-md-0 mb-1"
+					id="CateAdd-Button1" data-bs-toggle="modal"
+					data-bs-target="#exampleModal" data-bs-whatever="@mdo">카테고리
+					추가</button>
 			</div>
+
 			<sec:authorize access="hasRole('ADMIN')">
 				<div class="col">
 					<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
@@ -60,21 +97,6 @@
 					</div>
 				</div>
 			</sec:authorize>
-
-			<!--  삭제 예정
-			<c:if test="${not empty cateFail }">
-				<div class="alert alert-danger alert-dismissible fade show" role="alert">
-					<strong>${cateFail }</strong>
-					<button type="button" class="btn-close" data-bs-dismiss="alert"	aria-label="Close"></button>
-				</div>
-			</c:if>
-			<c:if test="${not empty cateSuccess }">
-				<div class="alert alert-primary alert-dismissible fade show" role="alert">
-					<strong>${cateSuccess }</strong>
-					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
-			</c:if>
-			 -->
 
 			<form id="form1" action="${appRoot }/foodBoard/addCate" method="post"
 				enctype="multipart/form-data">
@@ -121,7 +143,7 @@
 						<div class="card-body">
 							<h5 class="card-title">${cateList.cateName }</h5>
 							<a href="foodList?cateIndex=${cateList.cateIndex }"
-								class="btn btn-primary">카테고리로 이동</a>
+								class="btn btn-primary">카테고리로 이동</a>	
 						</div>
 					</div>
 				</div>
@@ -156,7 +178,8 @@
 		<script>
 			let m = new bootstrap.Modal(document.getElementById('modalMessage1'), {});
 			m.show();
-			</script>
+		</script>
 	</c:if>
+	<a id="back-to-top" href="#" class="btn btn-primary btn-sm back-to-top-css" role="button" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"><i class="fa-solid fa-angles-up"></i></span></a>
 </body>
 </html>

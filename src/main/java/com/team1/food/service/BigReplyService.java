@@ -22,6 +22,7 @@ public class BigReplyService {
 
 	public List<BigReplyDto> getBigReplyByDebateId(int debateId) {
 		
+		/* mapper.viewCount(debateId);*/
 		return mapper.selectAllDebateId(debateId, null);
 	}
 

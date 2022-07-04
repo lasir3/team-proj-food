@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" integrity="sha512-GQGU0fMMi238uA+a/bdWJfpUGKUkBdgfFdgBm72SUQ6BeyWjoY/ton0tEjH+OSH9iP4Dfh+7HM0I9f5eR0L/4w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="//code.jquery.com/jquery-latest.min.js"></script>
 <title>Insert title here</title>
 <script>
 $(document).ready(function(){
@@ -72,7 +73,7 @@ $(document).ready(function(){
 						<!-- 댓글 내용 -->
 						<div class="listDisplayContainer\${list[i].id}">
 							<div class="fw-bold">
-								<i class="fa-solid fa-comment"></i>
+								<i style="color:#33cc33;" class="fa-solid fa-comment "></i>
 								\${list[i].prettyInserted}
 								
 								<span id="modifyButtonWrapper\${list[i].id }">
@@ -80,13 +81,14 @@ $(document).ready(function(){
 							</div>
 							
 							<span class="badge bg-light text-dark">
-							<i class="fa-solid fa-user"></i>
+							<i style="font-size: 15pt; color:#33cc33;" class="fa-solid fa-user "></i>
 							\${list[i].writerNickName}
 							</span>
 							
-							<span id="replyContent\${list[i].id}"></span>
+							<span style="font-weight:bold; font-size: 13pt; color: #262626;" id="replyContent\${list[i].id}"></span>
 						</div>
 						
+
 						<!-- 댓글 수정 폼(숨김) -->
 						<div id="replyEditFormContainer\${list[i].id }"
 							style="display: none;">
@@ -114,7 +116,7 @@ $(document).ready(function(){
 					if(list[i].own){
 						$("#modifyButtonWrapper" + list[i].id).html(`
 							<!-- 댓글 수정 시작 버튼 -->
-							<span class="reply-edit-toggle-button badge bg-info text-dark" 
+							<span  class="reply-edit-toggle-button badge bg-info text-dark" 
 								id="replyEditToggleButton\${list[i].id }"
 								data-reply-id="\${list[i].id }" >
 								
@@ -255,7 +257,7 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-	
+	<my:navBar2></my:navBar2>
 	<my:navBar></my:navBar>
 	
 	<div class="container">

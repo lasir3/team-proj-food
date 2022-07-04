@@ -56,26 +56,11 @@ $(document).ready(function(){
 		
 	});
 
-	/* 현재 state 값 1일때에만 '휴가 기간' 폼 보이기 */
-	let state = $("#stateSelect1").val();
-	if(state == 1){		
-		$("#leaveForm1").removeClass('d-none');
-	}
-	
-	$("#stateSelect1").change(function(){
-		state = $("#stateSelect1").val();
-		if(state == 1){		
-			$("#leaveForm1").removeClass('d-none');
-		} else{
-			$("#leaveForm1").addClass('d-none');
-		}
-	});
-	
 }); 
 </script>			
 </head>
 <body>
-
+<my:navBar2></my:navBar2>
 	<my:navBar></my:navBar>
 
 	<div class="container">
@@ -84,21 +69,20 @@ $(document).ready(function(){
 			
 				<h1>쉼터 글 작성</h1>
 				<form action="${appRoot }/admin/insertRestArea" method="post">
-					<!-- 글 세분류  -->
-					<select id="stateSelect1" name="state" class="form-select">
+					<select name="state" class="form-select">
 						<option value="1" ${param.state != 1 && param.state != 2 ? 'selected' : '' }>휴가</option>
 						<option value="2" ${param.state == 1 ? 'selected' : '' }>사퇴</option>
 						<option value="3" ${param.state == 2 ? 'selected' : '' }>경고</option>
 					</select>
+					
 					<!-- 제목 -->
 					<div>
 						<label class="form-label" for="input1" >제목</label>
 						<input class="form-control" id="input1" name="title" type="text" required/>
 					</div>
 					
-					
-					<!-- 휴가 기간 -->
-					<div class="row d-none" id="leaveForm1">
+					<!-- 기간 -->
+					<div class="row">
 						<label class="form-label" for="datepicker1" >기간</label>
 						<div class="col">
 							<input class="form-control" type="text" id="datepicker1" name="datepicker1"/>
@@ -107,8 +91,9 @@ $(document).ready(function(){
 						<div class="col">
 							<input class="form-control" type="text" id="datepicker2" name="datepicker2"/>
 						</div>
-					</div>	
-					
+						<!-- <input class="d-none" type="date" id="break" name="break" /> -->		
+					</div>				
+					<button id="testButton">테스트버튼</button>
 					<!-- 본문 -->
 					<div>
 						<label class="form-label" for="textarea1" >본문</label>

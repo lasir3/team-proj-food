@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.team1.food.domain.AdminBoardDto;
 import com.team1.food.domain.AdminBoardPageDto;
-import com.team1.food.domain.AdminLeaveDto;
 import com.team1.food.mapper.AdminBoardMapper;
 
 @Service
@@ -193,27 +192,6 @@ public class AdminBoardService {
 		int cnt = mapper.updateBoardState(id, state, tableName);
 		return cnt == 1;
 		
-	}
-
-	public void insertLeave(AdminLeaveDto leave) {
-		mapper.insertLeave(leave);
-	}
-
-	public void updateLeave(AdminLeaveDto leave) {
-		mapper.updateLeave(leave);
-	}
-
-	public AdminBoardDto selectLastRestArea(String memberId) {
-		return mapper.selectLastRestArea(memberId);
-	}
-
-
-	public AdminLeaveDto selectLeaveByBoardId(int boardId) {
-		return mapper.selectLeaveByBoardId(boardId);
-	}
-
-	public void deleteLeave(int id) {
-		mapper.deleteLeave(id);
 	}
 
 	

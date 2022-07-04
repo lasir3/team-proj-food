@@ -15,8 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.team1.food.domain.FoodCateDto;
 import com.team1.food.domain.FoodDto;
-import com.team1.food.domain.SubFoodDto;
-import com.team1.food.domain.VoteDto;
 import com.team1.food.mapper.CategoryMapper;
 
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -73,6 +71,7 @@ public class CategoryService {
 		}
 		return cnt == 1;
 	}
+	
 
 	// AwsS3 파일 삭제
 	private void deleteFromAwsS3(int id, String file) {
@@ -106,52 +105,56 @@ public class CategoryService {
 		}
 	}
 
-	// 미사용 메소드
-//	// 카테고리 인덱스번호 호출 메소드
-//	public FoodCateDto getCateByIndex(int i) {
-//		FoodCateDto dto = mapper.selectCateByIndex(i);
-//		String fileName = mapper.selectFileNameByCateIndex(i);
-//		dto.setFileName(fileName);
-//		return dto;
-//	}
+	// 카테고리 인덱스번호 호출 메소드
+	public FoodCateDto getCateByIndex(int i) {
+		FoodCateDto dto = mapper.selectCateByIndex(i);
+		String fileName = mapper.selectFileNameByCateIndex(i);
+		dto.setFileName(fileName);
+		return dto;
+	}
 
 	// 카테고리 수정 메소드
 	@Transactional
 	public boolean updateCate(FoodCateDto dto, String nowFileName, MultipartFile modifyFile) {
-		// 파일 수정 메소드
-		modifyFile(dto, nowFileName, modifyFile);
+		// 기존 파일 삭제
+		System.out.println("카테고리 인덱스 번호 : " + dto.getCateIndex());
+		if (nowFileName != null) {
+			deleteFromAwsS3(dto.getCateIndex(), nowFileName);
+			// File 테이블의 컬럼 삭제
+			mapper.deleteCateFileByCateIndex(dto.getCateIndex(), nowFileName);
+		}
+		
+		// 삭제한 File 테이블 컬럼 추가 및 파일 등록
+		if (modifyFile != null) {
+			mapper.insertCateFile(dto.getCateIndex(), modifyFile.getOriginalFilename());
+			saveFileAwsS3(dto.getCateIndex(), modifyFile); // s3에 업로드
+			System.out.println("파일수정 성공");
+		}
 		
 		// 카테고리명 변경
 		int cnt = mapper.updateCate(dto);
 		System.out.println("카테고리수정 성공");
 		return cnt == 1;
 	}
+
+//	public List<String> getCateNameList(String string) {
+//		return mapper.selectCateNameList(string);
+//	}
 	
-	// 카테고리명이 같을때 File 레코드만 수정하는 메소드
-	public boolean updateCateFile(FoodCateDto dto, String nowFileName, MultipartFile modifyFile) {
-		// 파일 수정 메소드
-		modifyFile(dto, nowFileName, modifyFile);
-		return true;
+	// 카테고리 페이지의 인덱스 번호를 이용해 DTO 입력 메소드
+	public FoodCateDto selectCateDto(int cateIndex) {
+		return mapper.selectCateDto(cateIndex);
+	}
+	
+	// 카테고리명 중복검사 메소드
+	public String selectCateName(String cateName) {
+		return mapper.selectCateName(cateName);
 	}
 
-	// 공통 파일 수정 메소드 분리
-	public void modifyFile(FoodCateDto dto, String nowFileName, MultipartFile modifyFile) {
-		// 기존 파일 삭제
-		System.out.println("카테고리 인덱스 번호 : " + dto.getCateIndex());
-		if (nowFileName != null) {
-			deleteFromAwsS3(dto.getCateIndex(), nowFileName);
-		}
-		// 삭제한 File 테이블 컬럼 추가 및 파일 등록
-		if (modifyFile != null) {
-			// File 테이블 레코드 삭제
-			mapper.deleteCateFileByCateIndex(dto.getCateIndex(), nowFileName);
-			// File 테이블 레코드 추가
-			mapper.insertCateFile(dto.getCateIndex(), modifyFile.getOriginalFilename());
-			saveFileAwsS3(dto.getCateIndex(), modifyFile); // s3에 업로드
-			System.out.println("파일수정 성공");
-		}
-	}
-	
+//	public int selectCateIndexFromCateName(String cateName) {
+//		return mapper.selectCateIndexFromCateName(cateName);
+//	}
+
 	// 카테고리 삭제 메소드
 	@Transactional
 	public boolean deleteCate(int cateIndex) {
@@ -173,23 +176,16 @@ public class CategoryService {
 		return mapper.deleteCate(cateIndex) == 1;
 	}
 
-	// 카테고리 페이지의 인덱스 번호를 이용해 DTO 입력 메소드
-	public FoodCateDto selectCateDto(int cateIndex) {
-		return mapper.selectCateDto(cateIndex);
-	}
-	
-	// 인덱스 번호로 음식 페이지 가져오는 메소드
 	public FoodDto getPageByIndex(int foodIndex) {
 		return mapper.selectFoodDto(foodIndex);
 	}
 
-	// 음식 테이블 추가 메소드
 	public boolean addFoodTable(FoodDto dto) {
 		return mapper.insertFood(dto) == 1;
 	}
 
 	// 카테고리명 중복검사 메소드
-	public String selectCateName(String cateName) {
+	public String searchCateName(String cateName) {
 		return mapper.selectCateName(cateName);
 	}
 	
@@ -228,5 +224,4 @@ public class CategoryService {
 		int cnt = mapper.updateFood(dto);
 		return cnt == 1;
 	}
-
 }

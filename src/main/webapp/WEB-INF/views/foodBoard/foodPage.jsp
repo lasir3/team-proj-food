@@ -214,7 +214,7 @@
 
 </head>
 <body>
-	<my:navBar></my:navBar>
+
 	<div class="container mt-5">
 		<div class="col">
 			<div class="row">
