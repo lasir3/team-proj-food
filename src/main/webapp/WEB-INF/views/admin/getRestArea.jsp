@@ -89,24 +89,7 @@ $(document).ready(function(){
 			$("#reportForm1").removeClass('d-none');
 			$("#reportInput1").val("${warning.userId}");
 			$("#reportInput2").val("${warning.reason}");
-		}
-		
-		/* $("#stateSelect1").change(function(){
-			state = $("#stateSelect1").val();
-			if(state == 1){		
-				$("#leaveForm1").removeClass('d-none');
-			} else{
-				$("#leaveForm1").addClass('d-none');
-			}
-			
-			if(state == 3){		
-				$("#reportForm1").removeClass('d-none');
-			} else{
-				$("#reportForm1").addClass('d-none');
-			}
-			
-		}); */
-		
+		}	
 		
 	});
 	
