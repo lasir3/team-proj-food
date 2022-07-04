@@ -3,6 +3,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,16 +58,18 @@
 			<div class="mb-5"> - 이 위키는 ${cateDto.cateName }에 해당하는 요리에 관한 페이지입니다.</div>
 			
 			<!-- 카테고리 수정, 삭제 버튼 -->
-			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
-				<button type="button" class="btn btn-warning me-md-0 mb-1"
-					id="CateAdd-Button1" data-bs-toggle="modal"
-					data-bs-target="#modifyModal" 
-					data-bs-whatever="@mdo">카테고리 수정</button>
-				<button type="button" class="btn btn-danger me-md-0 mb-1" 
-					id="CateAdd-Button1"  
-					data-bs-toggle="modal" 
-					data-bs-target="#deleteModal">카테고리 삭제</button>
-			</div>
+			<sec:authorize access="hasRole('ADMIN')">
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
+					<button type="button" class="btn btn-warning me-md-0 mb-1"
+						id="CateAdd-Button1" data-bs-toggle="modal"
+						data-bs-target="#modifyModal" 
+						data-bs-whatever="@mdo">카테고리 수정</button>
+					<button type="button" class="btn btn-danger me-md-0 mb-1" 
+						id="CateAdd-Button1"  
+						data-bs-toggle="modal" 
+						data-bs-target="#deleteModal">카테고리 삭제</button>
+				</div>
+			</sec:authorize>
 			
 			<!-- 카테고리 수정 여부에 따른 메시지 띄우기 -->
 			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4" >
@@ -199,5 +202,12 @@
 			m.show();
 		</script>
 	</c:if>
+	<a id="back-to-top" href="#"
+		class="btn btn-primary btn-sm back-to-top-css" role="button"
+		data-toggle="tooltip" data-placement="left">
+		<span class="glyphicon glyphicon-chevron-up">
+			<i class="fa-solid fa-angles-up"></i>
+		</span>
+	</a>
 </body>
 </html>

@@ -196,6 +196,10 @@
     height:30px;
     border:none;
 }
+.container-disable { 
+      /* 클릭 불가능 none */
+      pointer-events : none;
+    }
 </style>
 
 <script>
@@ -205,16 +209,15 @@
 	    sTextarea.style.height = bsize+"px"; 
 	    sTextarea.style.height = csize;
 	}
-	document.getElementById('textarea_size').onmousedown = function(e){
-		  e.preventDefault();
-	}
+	
 </script>
     
 <title>Insert title here</title>
 
 </head>
 <body>
-
+<my:navBar2></my:navBar2>
+	<my:navBar></my:navBar>
 	<div class="container mt-5">
 		<div class="col">
 			<div class="row">
@@ -232,7 +235,7 @@
 						<button type="button" class="btn btn-warning" onclick="location.href='foodEdit?foodIndex=${foodDto.foodIndex }'">카테고리 수정</button>
 					</sec:authorize>
 				</div>
-				<div class="mt-5">
+				<div class="mt-5 container-disable">
 					<!-- 본문 내용 -->
 					<textarea name="cma_test1" id="cma_test1" class="textarea_size"
 					onchange="cmaTextareaSize('cma_test1', 30);" onkeyup="cmaTextareaSize('cma_test1', 30);">${foodDto.content }</textarea>
@@ -269,6 +272,12 @@
 			</div>
 		</div>
 	</div>
-
+	<a id="back-to-top" href="#"
+		class="btn btn-primary btn-sm back-to-top-css" role="button"
+		data-toggle="tooltip" data-placement="left">
+		<span class="glyphicon glyphicon-chevron-up">
+			<i class="fa-solid fa-angles-up"></i>
+		</span>
+	</a>
 </body>
 </html>
