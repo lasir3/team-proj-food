@@ -28,7 +28,7 @@
 	crossorigin="anonymous"></script>
 <title>Insert title here</title>
 <style>
-	.back-to-top-css {
+.back-to-top-css {
     cursor: pointer;
     position: fixed;
     bottom: 30px;
@@ -81,13 +81,7 @@
 			<h1 class="mb-4">요리위키에 오신것을 환영합니다!!</h1>
 			<div class="mb-5">이 위키는 요리에 관한 위키입니다.</div>
 			<h2 class="mb-4">카테고리 목록</h2>
-			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
-				<button type="button" class="btn btn-primary me-md-0 mb-1"
-					id="CateAdd-Button1" data-bs-toggle="modal"
-					data-bs-target="#exampleModal" data-bs-whatever="@mdo">카테고리
-					추가</button>
-			</div>
-
+			
 			<sec:authorize access="hasRole('ADMIN')">
 				<div class="col">
 					<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
@@ -180,6 +174,12 @@
 			m.show();
 		</script>
 	</c:if>
-	<a id="back-to-top" href="#" class="btn btn-primary btn-sm back-to-top-css" role="button" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"><i class="fa-solid fa-angles-up"></i></span></a>
+	<a id="back-to-top" href="#"
+		class="btn btn-primary btn-sm back-to-top-css" role="button"
+		data-toggle="tooltip" data-placement="left">
+		<span class="glyphicon glyphicon-chevron-up">
+			<i class="fa-solid fa-angles-up"></i>
+		</span>
+	</a>
 </body>
 </html>
