@@ -21,13 +21,18 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <title>Insert title here</title>
 </head>
+<style>
+.one{
+display:inline; }
+</style>
 <body>
+<my:navBar2></my:navBar2>
 <my:navBar current="login"></my:navBar>
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-12 col-lg-6">
 				<h1>로그인 </h1>
-				<form action="${pageContext.request.contextPath }/login" method="post">
+				<form action="${pageContext.request.contextPath }/login" method="post" class="one">
 					<label for="usernameInput1" class="form-label">
 						아이디 
 					</label>
@@ -46,8 +51,14 @@
 						</label>
 					</div>
 					<input class="btn btn-primary" type="submit" value="로그인" />
+
+
 				</form>
-			
+			<form action="${pageContext.request.contextPath }/member/signup" id="signup1" class="one">
+				<button class="btn btn-primary" form="signup1">
+					회원가입
+				</button>
+			</form>
 			</div>
 		</div>
 	</div>

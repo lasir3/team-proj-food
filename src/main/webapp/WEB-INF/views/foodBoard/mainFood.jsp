@@ -26,6 +26,7 @@
 </style>
 </head>
 <body>
+
 	<div class="row">
 		<div class="mb-1 foodname">${foodDto.foodName}</div>
 		<div class="mb-5 catename">&nbsp;<a href="foodList?cateIndex=${foodDto.cateIndex }">${foodDto.cateName}</a></div>

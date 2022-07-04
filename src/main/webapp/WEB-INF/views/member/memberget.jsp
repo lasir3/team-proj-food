@@ -177,6 +177,7 @@
 </script>
 </head>
 <body>
+<my:navBar2></my:navBar2>
 	<my:navBar current="memberget"></my:navBar>
 	<div class="container">
 	
@@ -184,7 +185,7 @@
 		<div class="row justify-content-center">
 			<div class="col-12 col-lg-6">
 	
-				<h1>회원 정보 보기</h1>
+				<h1>회원정보 변경하기</h1>
 				
 
 				
@@ -197,19 +198,19 @@
 					<label for="passwordInput1" class="form-label">
 					암호
 					</label>
-					<input class="form-control" id="passwordInput1" type="text" value=""  />
+					<input class="form-control" id="passwordInput1" type="text" value="" placeholder="새비밀번호를 입력해주세요." />
 					
 					<label for="passwordInput2" class="form-label">
 					암호확인
 					</label>
-					<input class="form-control" id="passwordInput2" type="text" value=""  />
+					<input class="form-control" id="passwordInput2" type="text" value="" placeholder="새비밀번호를 입력해주세요."  />
 					<p class="form-text" id="passwordMessage1"></p>
 					
 					<label for="emailInput1" class="form-label">
 					이메일
 					</label>
 					<div class="input-group">
-						<input class="form-control" id="emailInput1" type="email" value="${member.email }" /> 
+						<input class="form-control" id="emailInput1" type="email" value="${member.email }" readonly/> 
 						<button class="btn btn-secondary" id="emailCheckButton1" disabled>이메일중복확인</button>
 					</div>
 					<p class="form-text" id="emailMessage1"></p>

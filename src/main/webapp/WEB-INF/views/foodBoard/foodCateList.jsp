@@ -25,7 +25,15 @@
 	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 	crossorigin="anonymous"></script>
 <title>Insert title here</title>
-
+<style>
+	.back-to-top-css {
+    cursor: pointer;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: none;
+}
+</style>
 <script>
 	$(document).ready(function() {
 		$("#add-submit1").click(function(e) {
@@ -37,10 +45,34 @@
 			}
 		});
 	});
+	
+	//화면 맨위로 이동
+    $(document).ready(function () {
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 50) {
+                $('#back-to-top').fadeIn();
+            } else {
+                $('#back-to-top').fadeOut();
+            }
+        });
+        // scroll body to 0px on click
+        $('#back-to-top').click(function () {
+            $('#back-to-top').tooltip('hide');
+            $('body,html').animate({
+                scrollTop: 0
+            }, 400);
+            return false;
+        });
+
+        $('#back-to-top').tooltip('show');
+
+    });
+
 </script>
 
 </head>
 <body>
+<my:navBar2></my:navBar2>
 <my:navBar current="foodCateList"></my:navBar>
 	<div class="container mt-5">
 		<div class="row">
@@ -113,5 +145,6 @@
 			</c:forEach>
 		</div>
 	</div>
+	<a id="back-to-top" href="#" class="btn btn-primary btn-sm back-to-top-css" role="button" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"><i class="fa-solid fa-angles-up"></i></span></a>
 </body>
 </html>

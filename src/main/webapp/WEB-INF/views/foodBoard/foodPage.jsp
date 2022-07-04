@@ -20,7 +20,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<my:navBar></my:navBar>
+
 	<div class="container mt-5">
 		<jsp:include page="mainFood.jsp" flush="false"></jsp:include>
 		<hr />

@@ -289,8 +289,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	
-	<my:navBar current="list" />
+
+<my:navBar2></my:navBar2>
 	<c:url value="/debate/close" var="listUrl"></c:url>
 
 	<div class="container">

@@ -29,6 +29,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<my:navBar2></my:navBar2>
 	<my:navBar current="debate"></my:navBar>
 	<!-- .container>.row>.col>h1{글 작성} -->
 	<div class="container">
