@@ -62,4 +62,6 @@ public interface CategoryMapper {
 
 	int updateVoteNum(@Param("subRecipeIndex") int subRecipeIndex, @Param("voteCount") int voteNum, @Param("memberId") String memberId);
 
+	int updateFood(FoodDto dto);
+
 }

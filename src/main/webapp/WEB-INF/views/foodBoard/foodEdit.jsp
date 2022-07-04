@@ -1,5 +1,8 @@
+<%@ page import="com.team1.food.domain.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,12 +15,30 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div>
-		<label class="form-label" for="textarea1">본문</label>
-		<form action="${appRoot}/foodBoard/modifyFoodPage" method="post">
-			<textarea class="form-control" name="body" id="textarea1" cols="100" rows="10">${foodDto.content }</textarea>
-			<button type="submit" id="editButton1">수정</button>
-		</form>
+	<my:navBar></my:navBar>
+	<div class="container mt-5">
+		<div class="col">
+			<div class="row">
+				<form action="${appRoot}/foodBoard/modifyFoodPage" method="post">
+					<input type="hidden" name="foodIndex" value="${foodDto.foodIndex }" />
+
+					<div>
+						<label class="form-label" for="input1">요리 이름 : </label>
+						<input class="form-control" type="text" name="foodName" required
+							id="foodName" value="${foodDto.foodName}" />
+					</div>
+
+					<div>
+						<label class="form-label mt-5" for="textarea1">레시피 : </label>
+						<textarea class="form-control" name="content" id="content" 
+							cols="100" rows="10">${foodDto.content }</textarea>
+					</div>
+					<div class="mt-3">
+						<button type="submit" class="btn btn-secondary" id="editButton1">수정</button>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
 
 </body>

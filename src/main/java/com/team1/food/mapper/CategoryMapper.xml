@@ -147,4 +147,10 @@
 		WHERE subRecipeIndex = #{subRecipeIndex} 
 		AND memberId = #{memberId}
 	</update>
+	
+	<update id="updateFood">
+		UPDATE FoodTable
+		SET foodName = #{foodName}, content = #{content}
+		WHERE foodIndex = #{foodIndex}
+	</update>
 </mapper>

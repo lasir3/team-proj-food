@@ -218,9 +218,15 @@ public class CategoryService {
 		return mapper.selectVoteNum(dto.getSubRecipeIndex(), principal.getName());
 	}
 
-	// 추천 증가 버튼 누를때 서비스
-	public boolean setVoteUp(VoteDto dto, int voteNum, Principal principal) {
+	// 추천 버튼 누를때 서비스
+	public boolean setVoteNum(VoteDto dto, int voteNum, Principal principal) {
 		return mapper.updateVoteNum(dto.getSubRecipeIndex(), voteNum, principal.getName()) == 1;
+	}
+
+	// 음식 테이블 수정 서비스
+	public boolean updateFoodTable(FoodDto dto) {
+		int cnt = mapper.updateFood(dto);
+		return cnt == 1;
 	}
 
 }

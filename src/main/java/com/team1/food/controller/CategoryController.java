@@ -37,6 +37,10 @@ public class CategoryController {
 		model.addAttribute("foodCateList", list);
 	}
 
+	@RequestMapping("summernote")
+	public void summernote() {
+	}
+	
 	// 카테고리 음식 리스트
 	@GetMapping("foodList")
 	public void getCateFoodList(@RequestParam(name = "cateIndex", defaultValue = "") int cateIndex, Model model) {
@@ -47,13 +51,31 @@ public class CategoryController {
 		model.addAttribute("cateDto", dto);
 	}
 	
-	// 카테고리 수정 페이지
-	@GetMapping("foodEdit")
+	// 카테고리 수정 페이지 호출
+	@RequestMapping("foodEdit")
 	public void foodEditPage(@RequestParam(name = "foodIndex", defaultValue = "") int foodIndex, Model model) {
 		FoodDto dto = cateService.getPageByIndex(foodIndex);
 		// 수정용 파일명 전송
 		model.addAttribute("foodDto", dto);
 	}
+	
+	// food Page 수정 메소드
+	@PostMapping("modifyFoodPage")
+	public String modifyFood(FoodDto dto, RedirectAttributes rttr) {
+		int foodIndex = dto.getFoodIndex();
+		System.out.println(dto.getFoodIndex());
+		System.out.println(dto.getFoodName());
+		System.out.println(dto.getContent());
+		boolean success = cateService.updateFoodTable(dto);
+		if (success) {
+			System.out.println("음식 수정 성공");
+		} else {
+			System.out.println("음식 수정 실패");
+		}
+		rttr.addAttribute("foodIndex", foodIndex);
+		return "redirect:foodPage";
+	}
+
 
 	// 카테고리 추가
 	@PostMapping("addCate")
@@ -156,7 +178,6 @@ public class CategoryController {
 //		return "redirect:foodList";
 	}
 	
-	
 	// 음식테이블 추가 메소드
 	@PostMapping("addFood")
 	public String addFood(FoodDto dto, Principal principal, RedirectAttributes rttr) {
@@ -194,36 +215,66 @@ public class CategoryController {
 		return cateService.getSubDtoList(foodIndex);
 	}
 
-	 @GetMapping("voteSum")
-	 @ResponseBody
-	 public int voteList(int subRecipeIndex) {
-	 	return cateService.getVoteSum(subRecipeIndex);
-	 }
-	 
-	 @PutMapping(path = "voteUp", produces = "text/plain;charset=UTF-8")
-	 @ResponseBody
-	 public ResponseEntity<String> voteUp(@RequestBody VoteDto dto, Principal principal) {
-		 if (principal == null) {
+	// 총 추천수 합계
+	@GetMapping("voteSum")
+	@ResponseBody
+	public int voteList(int subRecipeIndex) {
+		return cateService.getVoteSum(subRecipeIndex);
+	}
+
+	// 추천 수 증가 클릭
+	@PutMapping(path = "voteUp", produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> voteUp(@RequestBody VoteDto dto, Principal principal) {
+		if (principal == null) {
 			return ResponseEntity.status(401).build();
-		 } else {
-			 int getVoteNum = cateService.getVoteNum(dto, principal);
-			 boolean success = false;
-			 if	(getVoteNum == 1) {
-				 // 투표 취소 (1 -> 0 으로 변경)
-				 success = cateService.setVoteUp(dto, 0, principal);
-			 } else {
-				 // 투표수 증가 (0 -> 1)
-				 success = cateService.setVoteUp(dto, 1, principal);
-			 }
-			 
-			 if (success) {
-				 System.out.println("투표성공");
-				 return ResponseEntity.ok("추천수가 변경되었습니다.");
-			 } else {
-				 System.out.println("투표실패");
-				 return ResponseEntity.status(500).body("");
-			 }
-		 }
-	 }
+		} else {
+			int getVoteNum = cateService.getVoteNum(dto, principal);
+			boolean success = false;
+			if (getVoteNum == 1) {
+				// 투표 취소 (1 -> 0 으로 변경)
+				success = cateService.setVoteNum(dto, 0, principal);
+			} else {
+				// 투표수 증가 (-1, 0 -> 1)
+				success = cateService.setVoteNum(dto, 1, principal);
+			}
+
+			if (success) {
+				System.out.println("투표성공");
+				return ResponseEntity.ok("추천수가 변경되었습니다.");
+			} else {
+				System.out.println("투표실패");
+				return ResponseEntity.status(500).body("");
+			}
+		}
+	}
 	
+	// 추천 수 감소 클릭
+	@PutMapping(path = "voteDown", produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> voteDown(@RequestBody VoteDto dto, Principal principal) {
+		if (principal == null) {
+			return ResponseEntity.status(401).build();
+		} else {
+			int getVoteNum = cateService.getVoteNum(dto, principal);
+			boolean success = false;
+			if (getVoteNum == -1 ) {
+				// 투표 취소 (-1 -> 0 으로 변경)
+				success = cateService.setVoteNum(dto, 0, principal);
+			} else {
+				// 투표수 감소 (1, 0 -> -1)
+				success = cateService.setVoteNum(dto, -1, principal);
+			}
+
+			if (success) {
+				System.out.println("투표성공");
+				return ResponseEntity.ok("추천수가 변경되었습니다.");
+			} else {
+				System.out.println("투표실패");
+				return ResponseEntity.status(500).body("");
+			}
+		}
+	}
+	
+
 }

@@ -71,14 +71,14 @@
 										<input type="hidden" name="voteCountNumber1" value="\${voteCount }" /> 
 										<div class="col-1">
 											<div class="row">
-												<button id="vote-Up-Button1" class="vote-Up-Button1 btn btn-link" type="button"><i class="arrow fa-solid fa-square-caret-up"></i></button>
+												<button class="vote-Up-Button1 btn btn-link" type="button"><i class="arrow fa-solid fa-square-caret-up"></i></button>
 												<br />
 											</div>
 											<!-- 추천수 합계 표시 -->
 											<div class="row arrow"><h1 class="voteCountHeader">\${voteCount }</h1></div>
 											
 											<div class="row">
-												<button id="vote-Down-Button1" class="btn btn-link" type="button"><i class="arrow fa-solid fa-square-caret-down"></i></button>
+												<button class="vote-Down-Button1 btn btn-link" type="button"><i class="arrow fa-solid fa-square-caret-down"></i></button>
 											</div>
 										</div>
 										<div class="col-11">
@@ -108,7 +108,6 @@
 								subElement.find(".vote-Up-Button1").click((function(subelem) {
 									const elem = subelem;
 									return function(e) {
-										console.log("9wy94234927349879")
 										e.preventDefault();
 										// div 태그의 Id 검색
 										// const divElem = $("#voteDisplayContainer").find("div");
@@ -130,7 +129,8 @@
 												subRecipeList();
 											},
 											error : function() {
-												$("#voteMessage1").show().text("추천수가 변경되지 않았습니다.").fadeOut(3000);
+												$("#modalMessage1").modal('show')
+												$("#modalBodyMessage1").text("추천수가 변경되지 않았습니다. 로그인이 필요합니다.");
 												console.log("문제 발생");
 											},
 											complete : function() {
@@ -138,8 +138,46 @@
 											}
 										});
 									}
+									
+								})(subElement)); // click event handler
+								
+								subElement.find(".vote-Down-Button1").click((function(subelem) {
+									const elem = subelem;
+									return function(e) {
+										e.preventDefault();
+										// div 태그의 Id 검색
+										// const divElem = $("#voteDisplayContainer").find("div");
+										const voteNumData = {
+											subRecipeIndex : elem.find("[name=subIndex1]").val(),
+											voteCount : elem.find("[name=voteCountNumber1]").val(),
+											// 여기서 
+										};
+										$.ajax({
+											url : "${appRoot }/foodBoard/voteDown",
+											type : "put",
+											data : JSON.stringify(voteNumData),
+											contentType : "application/json",
+											success : function(voteNumData) {
+												console.log("추천수 감소");
+												console.log(voteNumData);
+												$("#modalMessage1").modal('show');
+												$("#modalBodyMessage1").text(voteNumData);
+												subRecipeList();
+											},
+											error : function() {
+												$("#modalMessage1").modal('show')
+												$("#modalBodyMessage1").text("추천수가 변경되지 않았습니다. 로그인이 필요합니다.");
+												console.log("문제 발생");
+											},
+											complete : function() {
+												console.log("요청 완료");
+											}
+										});
+									}
+									
 								})(subElement)); // click event handler
 							} // end of ajax function
+							
 						}); // end of ajax
 					} // end of for
 				} //end of ajax function
@@ -150,24 +188,27 @@
 </script>
 
 <style>
-    .wrap {
-		width: flex;
-    }
-    .wrap textarea {
-		width: 100%;
-		resize: none;
-		overflow-y: hidden; /* prevents scroll bar flash */
-		padding: 1.1em; /* prevents text jump on Enter keypress */
-		padding-bottom: 1em;
-		line-height: 1.6;
-    }
-    textarea {
-		border: none;
-		background-color: transparent;
-		resize: none;
-		outline: none;
+.textarea_size {
+    resize:none;
+    line-height:150%;
+    width:100%;
+    overflow-y:hidden;
+    height:30px;
+    border:none;
+}
+</style>
+
+<script>
+	function cmaTextareaSize(obj, bsize) { // 객체명, 기본사이즈
+	    var sTextarea = document.getElementById(obj);
+	    var csize = (sTextarea.scrollHeight >= bsize) ? sTextarea.scrollHeight+"px" : bsize+"px";
+	    sTextarea.style.height = bsize+"px"; 
+	    sTextarea.style.height = csize;
 	}
-  </style>
+	document.getElementById('textarea_size').onmousedown = function(e){
+		  e.preventDefault();
+	}
+</script>
     
 <title>Insert title here</title>
 
@@ -187,44 +228,45 @@
 					</div>
 				</div>
 				<div class="col d-md-flex justify-content-md-end mt-5">
-						<a href="foodEdit?foodIndex=${foodDto.foodIndex }">수정</a>
+					<sec:authorize access="hasRole('ADMIN')">
+						<button type="button" class="btn btn-warning" onclick="location.href='foodEdit?foodIndex=${foodDto.foodIndex }'">카테고리 수정</button>
+					</sec:authorize>
 				</div>
-			</div>
-			<div class="row wrap mt-5">
-				<br />
-				<!-- 본문 내용 -->
-				<div>${foodDto.content }</div>
-			</div>
-		</div>
-			<hr />
-			<h1 class="mt-5">
-				하위 레시피 목록
-				<span id="numOfRecipe1"></span>
-				개
-			</h1>
-			<!-- <div class="alert alert-primary" style="display: none;" id="voteMessage1"></div> -->
-			<div class="container mt-5">
-				<div id="subRecipeList1" class="list-group"></div>
-			</div>
-
-			<!-- 안내 메시지용 Modal -->
-			<div id="modalMessage1" class="modal fade" tabindex="-1">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">알림</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal"	aria-label="Close"></button>
-						</div>
-						<div class="modal-body input">
-							<p id="modalBodyMessage1" class="text"></p>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+				<div class="mt-5">
+					<!-- 본문 내용 -->
+					<textarea name="cma_test1" id="cma_test1" class="textarea_size"
+					onchange="cmaTextareaSize('cma_test1', 30);" onkeyup="cmaTextareaSize('cma_test1', 30);">${foodDto.content }</textarea>
+					<script>cmaTextareaSize('cma_test1', 30);</script>
+				</div>
+				<hr />
+				<h1 class="mt-5">
+					하위 레시피 목록
+					<span id="numOfRecipe1"></span>
+					개
+				</h1>
+				<!-- <div class="alert alert-primary" style="display: none;" id="voteMessage1"></div> -->
+				<div class="container mt-5">
+					<div id="subRecipeList1" class="list-group"></div>
+				</div>
+			
+				<!-- 안내 메시지용 Modal -->
+				<div id="modalMessage1" class="modal fade" tabindex="-1">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">알림</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"	aria-label="Close"></button>
+							</div>
+							<div class="modal-body input">
+								<p id="modalBodyMessage1" class="text"></p>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			
 		</div>
 	</div>
 
