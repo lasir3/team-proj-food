@@ -54,18 +54,19 @@
 	</delete>
 
 	<select id="countDebate" resultType="int">
-		SELECT COUNT(id) FROM Debate
+		SELECT COUNT(id) FROM Debate d
+		WHERE close = 0
 		<if test="keyword != '%%'">
 			<choose>
 				<when test="type == 'all'">
-					WHERE title LIKE #{keyword } OR
+					AND title LIKE #{keyword } OR
 					      body LIKE #{keyword }
 				</when>
 				<when test="type == 'title'">
-					WHERE title LIKE #{keyword }
+					AND title LIKE #{keyword }
 				</when>
 				<when test="type == 'body'">
-					WHERE  body LIKE #{keyword }
+					AND body LIKE #{keyword }
 				</when>
 			</choose>
 		</if> 
@@ -77,8 +78,11 @@
 		d.title title,
 		d.inserted inserted,
 		COUNT(r.id) numOfReply,
+		m.nickName writerNickName,
+		d.hit hit,
 		d.close
 		FROM Debate d LEFT JOIN BigReply r ON d.id = r.debateId
+						   JOIN Member m ON d.memberId = m.id
 		WHERE d.close = 0
 		<if test="keyword != '%%'">
 			<choose>
@@ -108,8 +112,11 @@
 		d.title title,
 		d.inserted inserted,
 		COUNT(r.id) numOfReply,
+		m.nickName writerNickName,
+		d.hit hit,
 		d.close
 		FROM Debate d LEFT JOIN BigReply r ON d.id = r.debateId
+		JOIN Member m ON d.memberId = m.id
 		WHERE d.close = 1
 		<if test="keyword != '%%'">
 			<choose>
@@ -127,7 +134,7 @@
 		</if>
 		
 		GROUP BY d.id
-		ORDER BY d.id DESC
+		ORDER BY d.inserted DESC
 		LIMIT #{from},#{row}
 	</select>
 	
@@ -170,13 +177,15 @@
 		WHERE id = #{id}
 	</update>
 	
-	<select id="AllDebate" resultType="com.team1.food.domain.DebateDto">
+	<!-- <select id="AllDebate" resultType="com.team1.food.domain.DebateDto">
 		SELECT d.id id,
 		d.title title,
 		d.inserted inserted,
 		COUNT(r.id) numOfReply,
+		m.nickName writerNickName,
 		d.close
 		FROM Debate d LEFT JOIN BigReply r ON d.id = r.debateId
+			JOIN Member m ON d.memberId = m.id
 		<if test="keyword != '%%'">
 			<choose>
 				<when test="type == 'all'">
@@ -190,14 +199,16 @@
 					WHERE  d.body LIKE #{keyword }			
 				</when>
 			</choose>
-		</if> 
-		
+		</if>
+		<if test="close != ''">
+		AND close = #{close}
+		</if>
 		GROUP BY d.id
 		ORDER BY d.id DESC
 		LIMIT #{from},#{row}
-	</select>
+	</select> -->
 	
-	<select id="countAllDebate" resultType="int">
+	<!-- <select id="countAllDebate" resultType="int">
 		SELECT COUNT(id) FROM Debate
 		<if test="keyword != '%%'">
 			<choose>
@@ -214,7 +225,38 @@
 			</choose>
 		</if> 
 	</select>
-
+	 -->
+	<delete id="deleteClose">
+		DELETE FROM Debate
+		WHERE id = #{id }
+	</delete>
+	
+	<select id="removeClose"
+		resultType="com.team1.food.domain.DebateDto">
+		SELECT b.id,
+		b.title,
+		b.body,
+		b.inserted,
+		b.memberId,
+		m.nickName writerNickName,
+		COUNT(r.id) numOfReply
+		FROM Debate b LEFT JOIN BigReply r ON b.id = r.debateId
+		JOIN Member m ON b.memberId = m.id
+		WHERE b.id = #{id}
+	</select>
+	
+	<update id="viewCount">
+	UPDATE Debate
+	SET hit = hit + 1
+	WHERE id = #{id }
+	</update>
+	
+	<update id="closeViewCount">
+	UPDATE Debate
+	SET hit = hit + 1
+	WHERE id = #{id }
+	</update>
+	
 </mapper>
 
 

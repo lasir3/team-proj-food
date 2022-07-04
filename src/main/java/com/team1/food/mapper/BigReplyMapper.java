@@ -21,4 +21,9 @@ public interface BigReplyMapper {
 	int updateBigReply(BigReplyDto dto);
 
 	List<BigReplyDto> selectAllCloseId(@Param("debateId")int debateId, @Param("memberId")String memberId);
+
+	void deleteByCloseId(int id);
+
+	/*	void viewCount(int debateId);*/
+
 }

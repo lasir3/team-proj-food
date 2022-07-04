@@ -25,6 +25,7 @@
 	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 	crossorigin="anonymous"></script>
 <script>
+
 $(document).ready(function() {
 	$("#edit-button1").click(function() {
 		$("#input1").removeAttr("readonly");
@@ -36,8 +37,6 @@ $(document).ready(function() {
 		$("#title-a").addClass("d-none");
 	});
 	
-
-
 	$("#delete-submit1").click(function(e) {
 		e.preventDefault();
 
@@ -95,10 +94,7 @@ $(document).ready(function() {
 									<div class="fw-bold">
 								<div id="replyDisplayContainer\${list[i].id }">
 							 
-										
-										
-										
-									</div>
+								</div>
 									
 								</div>
 							<div id="replyEditFormContainer\${list[i].id }"
@@ -264,8 +260,32 @@ $(document).ready(function() {
 		});
 	});
 });
+
+
 </script>
 
+  <style>
+    .wrap {
+      width: flex;
+    }
+    .wrap textarea {
+      width: 100%;
+      resize: none;
+      overflow-y: hidden; /* prevents scroll bar flash */
+      padding: 1.1em; /* prevents text jump on Enter keypress */
+      padding-bottom: 0.2em;
+      line-height: 1.6;
+    }
+  </style>
+  <script>
+    $(document).ready(function() {
+      $('.wrap').on( 'keyup', 'textarea', function (e){
+        $(this).css('height', 'auto' );
+        $(this).height( this.scrollHeight );
+      });
+      $('.wrap').find( 'textarea' ).keyup();
+    });
+  </script>
 
 <title>Insert title here</title>
 </head>
@@ -273,14 +293,12 @@ $(document).ready(function() {
 <my:navBar2></my:navBar2>
 	<my:navBar current="debate" />
 	<c:url value="/debate/list" var="listUrl"></c:url>
+	<c:url value="/foodBoard/foodPage?foodIndex=1" var="foodUrl"></c:url>
 
 	<div class="container">
 		<div class="row">
 			<div class="col">
-				<h5>
-					<a href="${listUrl }" style="text-decoration-line: none">토론</a>
-					
-					
+				<h5>					
 					<sec:authorize access="isAuthenticated()">
 						<sec:authentication property="principal" var="principal" />
 
@@ -310,30 +328,34 @@ $(document).ready(function() {
 					<input type="hidden" name="id" value="${debate.id }" />
 
  				    <div>	
- 				    	<a href="#" style="text-decoration-line: none; font-size: 25px;" id="title-a">${debate.title }</a>
+ 				    	<a href="${foodUrl }" style="text-decoration-line: none; font-size: 25px;" id="title-a">${debate.title }</a>
 						<input style= "border: none; background: transparent; font-size:25px;"
 							type="text" name="title" required class="d-none"
-							id="input1" value="${debate.title }"readonly ></input>
+							id="input1" value="${debate.title }"readonly ><a href="${listUrl }" style="text-decoration-line: none;">(토론)</a></input>
 					</div>		
 					<button id="modify-submit1" class="btn btn-primary d-none">수정</button>
 					<button id="delete-submit1" class="btn btn-danger d-none">삭제</button>
 					<!-- <button id="close-submit1" class="btn btn-secondary d-none">토론 닫기</button> -->
  			
-					
+					<div class="wrap">
 					<div>
-						<label class="form-label" for="textarea1"><div class="card">
-					<div class="card-header" style="background-color: skyblue; type="text" value="${debate.writerNickName }" >
-						${debate.writerNickName }
-						
-					<!-- 	<label for="input2" class="form-label">작성일시</label> -->
-						<span type="readonly"	>${debate.prettyInserted }</span>
+						<label class="form-label" for="textarea1"><!-- <div class="card"> --></label>
+
+						<div class="card-header" style="background-color: skyblue" >
+							${debate.writerNickName }
+							
+						<!-- 	<label for="input2" class="form-label">작성일시</label> -->
+							<span>${debate.prettyInserted }</span>
+						</div>
 					</div>
-					</div></label>
-						<textarea style="text-overflow:clip;"class="form-control mb-3" name="body" id="textarea1"
-						 cols="30" rows="5"readonly>${debate.body }</textarea>
-						 
+						<textarea class="form-control mb-3" name="body" id="textarea1"
+						 readonly>${debate.body }</textarea>
 					</div>
 					
+					<!-- 삭제
+					style="text-overflow:clip;"
+					<!--  onInput="this.parentNode.dataset.replicatedValue = this.value" -->
+						 
 				
 				<%-- 	<div>
 						<label for="input3" class="form-label">작성자</label>
@@ -370,7 +392,6 @@ $(document).ready(function() {
 						</div>
 					</div>
 				</form>
-
 			</div>
 		</div>
 	</div>

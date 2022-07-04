@@ -24,7 +24,7 @@
 
 		<div class="row">
 			<div class="col">
-				<h5>닫힌 토론</h5> 
+				<h1>닫힌 토론</h1> 
 				<c:if test="${not empty message }">
 					<div class="alert alert-primary">
 						${message }
@@ -37,7 +37,9 @@
 						<tr>
 							<th>글 번호</th>
 							<th>항목</th>
+							<th>작성자</th>
 							<th><i class="fa-solid fa-calendar"></i></th>
+							<th>조회수</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -53,7 +55,7 @@
 										
 										<a href="${getUrl }" class="text-decoration-none">
 											<div style="height:100%; width=100%">
-										<span class="badge rounded-pill text-bg-success">닫힌토론</span>
+											<span class="badge rounded-pill bg-danger">닫힌토론</span>
 											<span class="text-body">${close.title }</span>
 											<span class="numOfReply">[${close.numOfReply }]</span>
 											</div>
@@ -61,8 +63,9 @@
 						
 										
 									</td>
-								<%--   <td>${debate.memberId }</td>   --%>
+							 <td>${close.writerNickName }</td>
 									<td>${close.prettyInserted }</td>
+									<td>${close.hit }</td>
 								</tr>
 							</c:if>
 						</c:forEach>
