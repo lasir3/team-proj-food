@@ -11,10 +11,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" integrity="sha512-GQGU0fMMi238uA+a/bdWJfpUGKUkBdgfFdgBm72SUQ6BeyWjoY/ton0tEjH+OSH9iP4Dfh+7HM0I9f5eR0L/4w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-<!-- jquery ui  -->
-<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-<!--  -->
 <title>Insert title here</title>
 <script>
 $(document).ready(function(){
@@ -25,63 +21,7 @@ $(document).ready(function(){
 		$("#input1").removeAttr("readonly");
 		$("#textarea1").removeAttr("readonly");
 		$("#modify-complete1").removeClass("d-none");
-		
-		/* 데이트 피커 한글화  */
-		$.datepicker.setDefaults({
-	        dateFormat: 'yy-mm-dd',
-	        prevText: '이전 달',
-	        nextText: '다음 달',
-	        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-	        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-	        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-	        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-	        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-	        showMonthAfterYear: true,
-	        yearSuffix: '년'
-	    });
-		
-		// 데이트 피커
-		$( "#datepicker1" ).datepicker();
-		$( "#datepicker2" ).datepicker();
-		
-		let break1, break2;
-		
-		$("#datepicker1").change(function(){
-			break1 = $( "#datepicker1" ).datepicker("getDate");
-			
-			if(break2 != null && break1 > break2){
-				$("#datepicker2").datepicker("setDate", break1);
-				break2 = $( "#datepicker2" ).datepicker("getDate");
-			}
-		});
-		
-		$("#datepicker2").change(function(){
-			break2 = $( "#datepicker2" ).datepicker("getDate");
-			if(break1 != null && break1 > break2){
-				$("#datepicker2").datepicker("setDate", break1);
-				break2 = $( "#datepicker2" ).datepicker("getDate");
-			}
-			
-		});
-		
-		/* 현재 state 값 1일때에만 '휴가 기간' 폼 보이기 */
-		$("#stateSelect1").removeClass('d-none');
-		let state = $("#stateSelect1").val();
-		if(state == 1){		
-			$("#leaveForm1").removeClass('d-none');
-		}
-		
-		$("#stateSelect1").change(function(){
-			state = $("#stateSelect1").val();
-			if(state == 1){		
-				$("#leaveForm1").removeClass('d-none');
-			} else{
-				$("#leaveForm1").addClass('d-none');
-			}
-		});
 	});
-	
-	
 	
 	/* 글 삭제 버튼 클릭*/
 	$("#delete-submit1").click(function(e){
@@ -316,42 +256,17 @@ $(document).ready(function(){
 					</div>
 				</c:if>
 				
+				<!-- 제목, 본문  -->
+				
 				<form id="form1" action="${appRoot }/admin/updateRestArea" method="post">
 					<input type="hidden" name="id" value="${board.id }"/>
-					<input type="hidden" name="leaveId" value="${leave.id }" />
-					<!-- 글 세분류  -->
-					<select id="stateSelect1" name="state" class="form-select d-none">
-						<c:if test="${board.state == 1 }">
-							<option value="1" ${param.state != 1 && param.state != 2 ? 'selected' : '' }>휴가</option>
-						</c:if>
-						<c:if test="${board.state == 2 }">						
-							<option value="2" ${param.state == 1 ? 'selected' : '' }>사퇴</option>
-						</c:if>
-						<c:if test="${board.state == 3 }">						
-							<option value="3" ${param.state == 2 ? 'selected' : '' }>경고</option>
-						</c:if>
-					</select>
 					
-					<!-- 제목  -->
 					<div>
 						<label class="form-label" for="input1">제목</label>
 						<input class="form-control" id="input1" type="text" name="title" 
 							 value="${board.title }" readonly required/>
 					</div>
-					
-					<!-- 휴가 기간 -->
-					<div class="row d-none" id="leaveForm1">
-						<label class="form-label" for="datepicker1" >기간</label>
-						<div class="col">
-							<input class="form-control" type="text" id="datepicker1" name="datepicker1" value="${leave.startDate}"/>
-						</div>
-						<div class="col col-lg-1 text-center">-</div>
-						<div class="col">
-							<input class="form-control" type="text" id="datepicker2" name="datepicker2" value="${leave.endDate}"/>
-						</div>
-					</div>	
-					
-					<!-- 본문  -->
+			
 					<div>
 						<label class="form-label" for="textarea1">본문</label>
 						<textarea class="form-control" id="textarea1" name="content" 

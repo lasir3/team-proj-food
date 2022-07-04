@@ -8,8 +8,7 @@
 		SELECT cateIndex, 
 			   cateName, 
 			   memberId, 
-			   F.fileName fileName,
-			   content
+			   F.fileName fileName
 		FROM FoodCateTable C LEFT JOIN CateFileTable F ON C.cateIndex = F.cateId
 	</select>
 	
@@ -35,9 +34,9 @@
 	    AND fileName = #{fileName}
 	</delete>
 	
-<!-- 	<select id="selectCateByIndex" resultType="com.team1.food.domain.FoodCateDto">
+	<select id="selectCateByIndex" resultType="com.team1.food.domain.FoodCateDto">
 		SELECT cateIndex, cateName, memberId FROM FoodCateTable WHERE cateIndex = #{cateIndex}
-	</select> -->
+	</select>
 	
 	<select id="selectFileNameByCateIndex" resultType="string">
 		SELECT F.fileName fileName
@@ -60,8 +59,7 @@
 		SELECT cateIndex, 
 			   cateName, 
 			   memberId, 
-			   F.fileName fileName,
-			   content
+			   F.fileName fileName
 		FROM FoodCateTable C LEFT JOIN CateFileTable F ON C.cateIndex = F.cateId
 		WHERE C.cateIndex = #{cateIndex}
 	</select>
@@ -95,7 +93,7 @@
 		SELECT foodIndex, 
 			   foodName, 
 			   C.memberId memberId, 
-			   F.content content, 
+			   content, 
 			   C.cateIndex cateIndex,
 			   C.cateName cateName 
 		FROM FoodTable F RIGHT JOIN FoodCateTable C ON F.cateIndex = C.cateIndex
@@ -106,31 +104,4 @@
 		INSERT INTO FoodTable (foodName, memberId, cateIndex) 
 		VALUES (#{foodName}, #{memberId}, #{cateIndex})
 	</insert>
-	
-	<select id="selectCateNameByIndex" resultType="string">
-		SELECT cateName FROM FoodCateTable
-		WHERE cateIndex = #{cateIndex}
-	</select>
-	
-	<select id="selectFoodName" resultType="string">
-		SELECT foodName FROM FoodTable
-		WHERE foodName = #{foodName}
-	</select>
-	
-	<select id="selectSubFoodList" resultType="com.team1.food.domain.SubFoodDto">
-		SELECT subRecipeIndex, 
-			   foodIndex, 
-			   subRecipeName, 
-			   memberId, 
-			   content, 
-			   inserted
-		FROM SubRecipeTable 
-		WHERE foodIndex = #{foodIndex}
-	</select>
-	
-	<select id="selectVoteSum" resultType="com.team1.food.domain.VoteDto">
-		SELECT voteRecipeIndex, sum(voteCount) voteSum 
-		FROM VoteRecipeTable 
-		WHERE subRecipeIndex = #{subRecipeIndex}
-	</select>
 </mapper>

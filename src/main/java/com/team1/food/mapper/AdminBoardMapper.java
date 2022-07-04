@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import com.team1.food.domain.AdminBoardDto;
-import com.team1.food.domain.AdminLeaveDto;
 
 public interface AdminBoardMapper {
 
@@ -44,8 +43,6 @@ public interface AdminBoardMapper {
 	int updateRestAreaBoard(AdminBoardDto dto);
 
 	int deleteRestAreaBoardById(int id);
-	
-	AdminBoardDto selectLastRestArea(String memberId);
 	
 	/* 문의 */
 	
@@ -99,16 +96,6 @@ public interface AdminBoardMapper {
 			@Param("id")int id, 
 			@Param("state")int state, 
 			@Param("tableName")String tableName);
-
-	void insertLeave(AdminLeaveDto leave);
-
-	void updateLeave(AdminLeaveDto leave);
-
-	AdminLeaveDto selectLeaveByBoardId(int boardId);
-
-	void deleteLeave(int id);
-
-	
 
 
 }

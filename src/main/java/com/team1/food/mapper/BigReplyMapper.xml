@@ -83,6 +83,12 @@
 	DELETE FROM BigReply
 	WHERE debateId = #{debateId}
 	</delete>
+	
+	<!-- <update id="viewCount">
+	UPDATE Debate
+	SET hit = hit + 1
+	WHERE id = #{id }
+	</update> -->
 
 </mapper>
 
