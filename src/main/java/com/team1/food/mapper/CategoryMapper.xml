@@ -93,7 +93,7 @@
 		SELECT foodIndex, 
 			   foodName, 
 			   C.memberId memberId, 
-			   content, 
+			   F.content content, 
 			   C.cateIndex cateIndex,
 			   C.cateName cateName 
 		FROM FoodTable F RIGHT JOIN FoodCateTable C ON F.cateIndex = C.cateIndex

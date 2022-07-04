@@ -19,5 +19,4 @@
 	      	<input type="search" class="form-control" size=15 name="keyword"/>
 	      	<button class="btn btn-outline-success"><i class="fa-solid fa-magnifying-glass"></i></button>
       	</div>
- 
       </form>

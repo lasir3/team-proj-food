@@ -86,6 +86,7 @@
 				<div class="d-inline-flex p-2">
 				<my:search search="list" />
 				</div>
+				
 				<my:pageNation path="list" />
 				</div>
 			</div>
