@@ -94,10 +94,7 @@ $(document).ready(function() {
 									<div class="fw-bold">
 								<div id="replyDisplayContainer\${list[i].id }">
 							 
-										
-										
-										
-									</div>
+								</div>
 									
 								</div>
 							<div id="replyEditFormContainer\${list[i].id }"
@@ -269,7 +266,7 @@ $(document).ready(function() {
 
   <style>
     .wrap {
-      width: auto;
+      width: flex;
     }
     .wrap textarea {
       width: 100%;

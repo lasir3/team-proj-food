@@ -134,7 +134,7 @@
 		</if>
 		
 		GROUP BY d.id
-		ORDER BY d.id DESC
+		ORDER BY d.inserted DESC
 		LIMIT #{from},#{row}
 	</select>
 	
