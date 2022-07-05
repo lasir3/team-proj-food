@@ -34,7 +34,7 @@
    </c:url>
 </sec:authorize>
 
-<nav class="navbar sticky-top navbar-expand-md navbar-light mb-3" style="background-color: #e3f2fd;" >
+<nav class="navbar sticky-top navbar-expand-md navbar-light mb-3" style="background-color: #78E150;" >
    <div class="container-fluid container">
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">

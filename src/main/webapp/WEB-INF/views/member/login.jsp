@@ -47,7 +47,7 @@ display:inline; }
 						<input class="form-check-input" type="checkbox" name="remember-me" id="rememberMeCheck1" />
 						
 						<label for="rememberMeCheck1" class="form-check-label">
-							자동로그인
+							로그인 상태 유지
 						</label>
 					</div>
 					<input class="btn btn-primary" type="submit" value="로그인" />

@@ -73,7 +73,7 @@ $(document).ready(function(){
 						<!-- 댓글 내용 -->
 						<div class="listDisplayContainer\${list[i].id}">
 							<div class="fw-bold">
-								<i style="color:#33cc33;" class="fa-solid fa-comment "></i>
+								<i class="fa-solid fa-comment "></i>
 								\${list[i].prettyInserted}
 								
 								<span id="modifyButtonWrapper\${list[i].id }">
@@ -81,7 +81,7 @@ $(document).ready(function(){
 							</div>
 							
 							<span class="badge bg-light text-dark">
-							<i style="font-size: 15pt; color:#33cc33;" class="fa-solid fa-user "></i>
+							<i class="fa-solid fa-user "></i>
 							\${list[i].writerNickName}
 							</span>
 							
