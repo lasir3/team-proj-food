@@ -1,4 +1,4 @@
-package com.team1.food.domain;
+ package com.team1.food.domain;
 
 import java.time.LocalDateTime;
 

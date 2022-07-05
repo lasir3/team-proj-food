@@ -119,8 +119,7 @@
 		 	title, 
 		 	content, 
 		 	memberId, 
-		 	inserted,
-		 	state
+		 	inserted
 	FROM RestArea
 	WHERE id = #{id}
 	</select>
@@ -142,17 +141,6 @@
 	WHERE id = #{id}
 	</delete>
 	
-	<select id="selectLastRestArea" resultType="com.team1.food.domain.AdminBoardDto">
-	SELECT id,
-		content,
-		memberId,
-		inserted,
-		state
-	FROM RestArea
-	WHERE memberId = #{memberId}
-	ORDER BY id DESC
-	LIMIT 1
-	</select>
 	
 	<!-- 문의  -->
 	

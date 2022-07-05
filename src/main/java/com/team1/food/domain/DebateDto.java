@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class DebateDto {
+	private boolean close;
 	private String memberId;
 	private int id;
 	private String title;
@@ -13,6 +14,7 @@ public class DebateDto {
 	private LocalDateTime inserted;
 	private String writerNickName;
 	private int numOfReply;
+	private int hit;
 	
 	public String getPrettyInserted() {
 		// 24시간 이내면 시간만
@@ -23,5 +25,5 @@ public class DebateDto {
 		} else {
 			return inserted.toLocalDate().toString();
 		}
-	}	
+	}
 }

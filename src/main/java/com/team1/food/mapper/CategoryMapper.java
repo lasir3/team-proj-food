@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.team1.food.domain.FoodCateDto;
 import com.team1.food.domain.FoodDto;
+import com.team1.food.domain.SubFoodDto;
 
 @Mapper
 public interface CategoryMapper {
@@ -48,5 +49,25 @@ public interface CategoryMapper {
 	FoodDto selectFoodDto(int foodIndex);
 
 	int insertFood(FoodDto dto);
+
+	String selectCateNameByIndex(int cateIndex);
+
+	String selectFoodName(String foodName);
+
+	List<SubFoodDto> selectSubFoodList(int foodIndex);
+
+	int selectVoteSum(int subRecipeIndex);
+
+	int selectVoteNum(@Param("subRecipeIndex") int subRecipeIndex, @Param("memberId") String memberId);
+
+	int updateVoteNum(@Param("subRecipeIndex") int subRecipeIndex, @Param("voteCount") int voteNum, @Param("memberId") String memberId);
+
+	int updateFood(FoodDto dto);
+
+	List<FoodCateDto> selectSearchCateList(String keyword);
+
+	List<FoodDto> selectSearchFoodList(String keyword);
+
+	List<SubFoodDto> selectSearchRecipeList(String keyword);
 
 }

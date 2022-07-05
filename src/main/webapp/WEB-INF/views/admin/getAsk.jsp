@@ -225,7 +225,7 @@ $(document).ready(function(){
 				listReply();
 			},
 			error: function(){
-				$("#replyMessage1").show().text("댓글을 작성할 수 없습니다").fadeOut(3000);
+				$("#replyMessage1").show().text("로그인을 해주세요.").fadeOut(3000);
 				console.log("문제 발생");
 			},
 			complete: function(){
@@ -245,7 +245,7 @@ $(document).ready(function(){
 </style>
 </head>
 <body>
-	
+	<my:navBar2></my:navBar2>
 	<my:navBar></my:navBar>
 	
 	<div class="container">

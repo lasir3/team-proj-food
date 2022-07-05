@@ -36,6 +36,20 @@
 	
 	</select>
 	
+	<select id="selectAllCloseId" resultType="com.team1.food.domain.BigReplyDto">
+	
+	SELECT r.id, 
+		   r.debateId,
+	       r.board,
+	       m.nickName writerNickName,
+	       r.inserted,
+	       IF (m.id = #{memberId}, 1, 0) own
+	FROM BigReply r JOIN Member m ON r.memberId = m.id
+	WHERE r.debateId = #{debateId}
+	ORDER BY r.id
+	
+	</select>
+	
 	<update id="updateBigReply">
 	UPDATE BigReply
 	SET board = #{board}
@@ -64,6 +78,17 @@
 		   
 		   
 	</select>
+	
+	<delete id="deleteByCloseId">
+	DELETE FROM BigReply
+	WHERE debateId = #{debateId}
+	</delete>
+	
+	<!-- <update id="viewCount">
+	UPDATE Debate
+	SET hit = hit + 1
+	WHERE id = #{id }
+	</update> -->
 
 </mapper>
 

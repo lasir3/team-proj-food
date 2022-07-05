@@ -153,7 +153,7 @@ $(document).ready(function(){
 </script>			
 </head>
 <body>
-
+<my:navBar2></my:navBar2>
 	<my:navBar></my:navBar>
 
 	<div class="container">
@@ -168,6 +168,7 @@ $(document).ready(function(){
 						<option value="2" ${param.state == 1 ? 'selected' : '' }>사퇴</option>
 						<option value="3" ${param.state == 2 ? 'selected' : '' }>경고</option>
 					</select>
+					
 					<!-- 제목 -->
 					<div>
 						<label class="form-label" for="input1" >제목</label>

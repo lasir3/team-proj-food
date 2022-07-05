@@ -2,13 +2,7 @@ package com.team1.food.controller;
 
 import java.beans.Transient;
 import java.security.Principal;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.jsp.tagext.PageData;
@@ -246,8 +240,8 @@ public class AdminBoardController {
 		return "redirect:/admin/restArea";
 	}
 	
-	
 	// 쉼터 글 보기
+	
 	@GetMapping("getRestArea")
 	public void getRestArea(int id, Model model) {
 		AdminBoardDto dto = service.getRestAreaBoardById(id);
@@ -260,7 +254,6 @@ public class AdminBoardController {
 		
 	}
 	
-	// 쉼터 글 수정
 	@PostMapping("updateRestArea")
 	public String updateRestArea(AdminBoardDto dto,
 			String leaveId,
@@ -573,36 +566,17 @@ public class AdminBoardController {
 	}
 	
 	// 값이 세팅된 pageDto 가져오기
-	private AdminBoardPageDto getPageDtoWithState(
-			String type,
-			String keyword, 
-			int page, 
-			String tableName,
-			int state) {
-		AdminBoardPageDto dto = new AdminBoardPageDto();
-		dto.setPage(page);
-		dto.setRowPerPage(rowPerPage);
-		int totalRow = service.boardCountWithState(type, keyword, tableName, state);
-		dto.setTotalRow(totalRow);
-		return dto;
-	}
-	
-	// 값 세팅된 leaveDto 가져오기
-	public AdminLeaveDto getLeaveDto(String memberId, String dateString1, String dateString2) {
-		Date date1 = null;
-		Date date2 = null;
-		
-		try {				
-			date1 = new SimpleDateFormat("yyyy-MM-dd").parse(dateString1);
-			date2 = new SimpleDateFormat("yyyy-MM-dd").parse(dateString2);
-			AdminLeaveDto leave = new AdminLeaveDto();
-			leave.setMemberId(memberId);
-			leave.setStart(date1);
-			leave.setEnd(date2);
-			return leave;
-		}catch(ParseException e){
-			e.printStackTrace();
+		private AdminBoardPageDto getPageDtoWithState(
+				String type,
+				String keyword, 
+				int page, 
+				String tableName,
+				int state) {
+			AdminBoardPageDto dto = new AdminBoardPageDto();
+			dto.setPage(page);
+			dto.setRowPerPage(rowPerPage);
+			int totalRow = service.boardCountWithState(type, keyword, tableName, state);
+			dto.setTotalRow(totalRow);
+			return dto;
 		}
-		return null;
-	}
 }

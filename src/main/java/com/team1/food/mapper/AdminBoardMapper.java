@@ -47,8 +47,6 @@ public interface AdminBoardMapper {
 
 	int deleteRestAreaBoardById(int id);
 	
-	AdminBoardDto selectLastRestArea(String memberId);
-	
 	/* 문의 */
 	
 	List<AdminBoardDto> selectAskBoardAll(

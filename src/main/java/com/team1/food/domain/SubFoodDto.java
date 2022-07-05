@@ -5,11 +5,12 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-public class CloseDto {
-	private int id;
+public class SubFoodDto {
+	private int subRecipeIndex;
+	private int foodIndex;
+	private String subRecipeName;
 	private String memberId;
-	private String title;
-	private String body;
+	private String content;
 	private LocalDateTime inserted;
 	
 	public String getPrettyInserted() {

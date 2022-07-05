@@ -3,6 +3,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,8 +24,31 @@
    }
 </style>
 
+<script>
+	$(document).ready(function() {
+		$("#modify-submit1").click(function(e) {
+			e.preventDefault();
+
+			if (confirm("수정하시겠습니까?")) {
+				let form1 = $("#form1");
+				form1.submit();
+			}
+		});
+		
+		$("#remove-submit1").click(function(e) {
+			e.preventDefault();
+
+			if (confirm("삭제하시겠습니까?")) {
+				let form2 = $("#form2");
+				form2.submit();
+			}
+		});
+	});
+</script>
+
 </head>
 <body>
+<my:navBar2></my:navBar2>
 	<my:navBar></my:navBar>
 	<div class="container mt-5">
 		<div class="row">
@@ -34,38 +58,25 @@
 			<div class="mb-5"> - 이 위키는 ${cateDto.cateName }에 해당하는 요리에 관한 페이지입니다.</div>
 			
 			<!-- 카테고리 수정, 삭제 버튼 -->
-			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
-				<button type="button" class="btn btn-warning me-md-0 mb-1"
-					id="CateAdd-Button1" data-bs-toggle="modal"
-					data-bs-target="#modifyModal" 
-					data-bs-whatever="@mdo">카테고리 수정</button>
-				<button type="button" class="btn btn-danger me-md-0 mb-1" 
-					id="CateAdd-Button1"  
-					data-bs-toggle="modal" 
-					data-bs-target="#deleteModal">카테고리 삭제</button>
-			</div>
+			<sec:authorize access="hasRole('ADMIN')">
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
+					<button type="button" class="btn btn-warning me-md-0 mb-1"
+						id="CateAdd-Button1" data-bs-toggle="modal"
+						data-bs-target="#modifyModal" 
+						data-bs-whatever="@mdo">카테고리 수정</button>
+					<button type="button" class="btn btn-danger me-md-0 mb-1" 
+						id="CateAdd-Button1"  
+						data-bs-toggle="modal" 
+						data-bs-target="#deleteModal">카테고리 삭제</button>
+				</div>
+			</sec:authorize>
 			
 			<!-- 카테고리 수정 여부에 따른 메시지 띄우기 -->
-			<!-- Modal로 수정 예정 -->
-			<c:if test="${not empty cateFail }">
-				<div class="alert alert-danger alert-dismissible fade show" role="alert">
-					<strong>${cateFail }</strong>
-					<button type="button" class="btn-close" data-bs-dismiss="alert"	aria-label="Close"></button>
-				</div>
-			</c:if>
-			<c:if test="${not empty cateSuccess }">
-				<div class="alert alert-primary alert-dismissible fade show" role="alert">
-					<strong>${cateSuccess }</strong>
-					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
-			</c:if>
-		
 			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4" >
 				<form id="form1" action="${appRoot }/foodBoard/modifyCate" method="post" enctype="multipart/form-data">
 					<!-- 카테고리 수정용 dto hidden 타입으로 입력 -->
 					<input type="hidden" name="cateIndex" value="${cateDto.cateIndex }" />
 					<input type="hidden" name="fileName" value="${cateDto.fileName }" />
-					
 					
 					<div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
@@ -86,7 +97,7 @@
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary"	data-bs-dismiss="modal">취소</button>
-									<button type="submit" class="btn btn-primary" id="add-submit1">수정</button>
+									<button type="submit" class="btn btn-primary" id="modify-submit1">수정</button>
 								</div>
 							</div>
 						</div>
@@ -95,7 +106,7 @@
 			</div>
 
 			<!-- 삭제버튼 클릭시 modal -->
-			<form id="form1" action="${appRoot }/foodBoard/deleteCate" method="post" >
+			<form id="form2" action="${appRoot }/foodBoard/deleteCate" method="post" >
 				<!-- 카테고리 수정용 dto hidden 타입으로 입력 -->
 				<input type="hidden" name="cateIndex" value="${cateDto.cateIndex }" />
 				<input type="hidden" name="fileName" value="${cateDto.fileName }" />
@@ -111,7 +122,7 @@
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary"	data-bs-dismiss="modal">취소</button>
-								<button type="submit" class="btn btn-danger" id="remove1">삭제</button>
+								<button type="submit" class="btn btn-danger" id="remove-submit1">삭제</button>
 							</div>
 						</div>
 					</div>
@@ -122,10 +133,12 @@
 
 			<!-- 음식 추가 버튼 -->
 			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4" >
-				<button type="button" class="btn btn-primary me-md-0 mb-1"
-					id="CateAdd-Button1" data-bs-toggle="modal"
-					data-bs-target="#addFoodModal" data-bs-whatever="@mdo">음식 추가</button>
-				<form id="form1" action="${appRoot }/foodBoard/addFood" method="post">
+				<sec:authorize access="hasRole('ADMIN')">
+					<button type="button" class="btn btn-primary me-md-0 mb-1"
+						id="CateAdd-Button1" data-bs-toggle="modal"
+						data-bs-target="#addFoodModal" data-bs-whatever="@mdo">음식 추가</button>
+				</sec:authorize>
+				<form id="form3" action="${appRoot }/foodBoard/addFood" method="post">
 					<input type="hidden" name="cateIndex" value="${cateDto.cateIndex }" />
 					<div class="modal fade" id="addFoodModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
@@ -142,7 +155,7 @@
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary"	data-bs-dismiss="modal">취소</button>
-									<button type="submit" class="btn btn-primary" id="add-submit1">추가</button>
+									<button type="submit" class="btn btn-primary" id="add-food-submit1">추가</button>
 								</div>
 							</div>
 						</div>
@@ -160,5 +173,41 @@
 			</div>
 		</div>
 	</div>
+	
+	<c:if test="${not empty cateMessage }">
+		<!-- 안내 메시지용 Modal -->
+		<!-- Modal -->
+		<div class="modal fade" id="modalMessage1" tabindex="-1"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modalMessage1Label">알림</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p>${cateMessage }</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">닫기</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			let m = new bootstrap.Modal(document.getElementById('modalMessage1'), {});
+			m.show();
+		</script>
+	</c:if>
+	<a id="back-to-top" href="#"
+		class="btn btn-primary btn-sm back-to-top-css" role="button"
+		data-toggle="tooltip" data-placement="left">
+		<span class="glyphicon glyphicon-chevron-up">
+			<i class="fa-solid fa-angles-up"></i>
+		</span>
+	</a>
 </body>
 </html>

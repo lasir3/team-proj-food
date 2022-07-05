@@ -22,6 +22,7 @@ public class BigReplyService {
 
 	public List<BigReplyDto> getBigReplyByDebateId(int debateId) {
 		
+		/* mapper.viewCount(debateId);*/
 		return mapper.selectAllDebateId(debateId, null);
 	}
 
@@ -44,6 +45,7 @@ public class BigReplyService {
 
 	public boolean updateBigReply(BigReplyDto dto, Principal principal) {
 		BigReplyDto old = mapper.selectBigReplyById(dto.getId());
+		
 
 		if (old.getMemberId().equals(principal.getName())) {
 			// 댓글 작성자와 로그인한 유저가 같을 때만 수정
@@ -52,5 +54,10 @@ public class BigReplyService {
 			// 그렇지 않으면 return false;
 			return false;
 		}
+	}
+
+	public List<BigReplyDto> getBigReplyByCloseId(int debateId) {
+		// TODO Auto-generated method stub
+		return mapper.selectAllCloseId(debateId, null);
 	}
 }

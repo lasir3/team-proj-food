@@ -25,8 +25,7 @@
 	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 	crossorigin="anonymous"></script>
 <script>
-
-$(document).ready(function() {
+ $(document).ready(function() {
 	$("#edit-button1").click(function() {
 		$("#input1").removeAttr("readonly");
 		$("#textarea1").removeAttr("readonly");
@@ -35,14 +34,16 @@ $(document).ready(function() {
 		$("#close-submit1").removeClass("d-none");
 		$("#input1").removeClass("d-none");
 		$("#title-a").addClass("d-none");
-	});
+	}); 
 	
+
+
 	$("#delete-submit1").click(function(e) {
 		e.preventDefault();
 
 		if (confirm("삭제하시겠습니까?")) {
 			let form1 = $("#form1");
-			let actionAttr = "${appRoot}/debate/remove";
+			let actionAttr = "${appRoot}/debate/removeclose";
 			form1.attr("action", actionAttr);
 
 			form1.submit();
@@ -53,10 +54,9 @@ $(document).ready(function() {
 	$("#close-submit1").click(function(e){
 		e.preventDefault();
 		
-		if(confirm("토론을 종료 하시겠습니까?")) {
-			console.log("hello");
+		if(confirm("닫힌 토론으로 보내시겠습니까?")) {
 			let form2 = $("#form2");
-			let actionAttr = "${appRoot}/debate/updateclose";
+			let actionAttr = "${appRoot}/debate/close";
 			form2.attr("action", actionAttr);
 			
 			form2.submit();
@@ -94,7 +94,10 @@ $(document).ready(function() {
 									<div class="fw-bold">
 								<div id="replyDisplayContainer\${list[i].id }">
 							 
-								</div>
+										
+										
+										
+									</div>
 									
 								</div>
 							<div id="replyEditFormContainer\${list[i].id }"
@@ -105,10 +108,10 @@ $(document).ready(function() {
 										<input type="hidden" name="id" value="\${list[i].id }" />
 										<input class="form-control" value="\${list[i].board }"
 											type="text" name="board" required />
-										<button data-reply-id="\${list[i].id}" 
+										 <button data-reply-id="\${list[i].id}" 
 										        class="reply-modify-submit btn btn-outline-secondary">
 											<i class="fa-solid fa-comment-dots"></i>
-										</button>
+										</button> 
 									</div>
 								</form>
 							</div>
@@ -118,17 +121,10 @@ $(document).ready(function() {
 					$("#replyContent" + list[i].id).text(list[i].board);
 					
 					// own이 true일 때만 수정,삭제 버튼 보이기
-					if (list[i].own) {
+						if (list[i].own) {
 						$("#modifyButtonWrapper" + list[i].id).html(`
-							<span class="reply-edit-toggle-button badge bg-info text-dark"
-								id="replyEditToggleButton\${list[i].id }"
-								data-reply-id="\${list[i].id }">
-								<i class="fa-solid fa-pen-to-square"></i>
 							</span>
-							<span class="reply-delete-button badge bg-danger"
-								data-reply-id="\${list[i].id }">
-								<i class="fa-solid fa-trash-can"></i>
-							</span>
+							
 						`);
 					}
 					
@@ -195,7 +191,7 @@ $(document).ready(function() {
 
 					if (confirm(message)) {
 						// $("#replyDeleteInput1").val(replyId);
-						// $("#replyDeleteForm1").submit();
+						 $("#replyDeleteForm1").submit();
 						
 						$.ajax({
 							url : "${appRoot}/reply/delete/" + replyId,
@@ -260,13 +256,11 @@ $(document).ready(function() {
 		});
 	});
 });
-
-
 </script>
 
-  <style>
+<style>
     .wrap {
-      width: auto;
+      width: flex;
     }
     .wrap textarea {
       width: 100%;
@@ -285,23 +279,30 @@ $(document).ready(function() {
       });
       $('.wrap').find( 'textarea' ).keyup();
     });
+    
+    var stringVal = "Hello world",
+     exp  /java/;
+    string.search(exp);
   </script>
+
 
 <title>Insert title here</title>
 </head>
 <body>
+
 <my:navBar2></my:navBar2>
-	<my:navBar current="debate" />
-	<c:url value="/debate/list" var="listUrl"></c:url>
-	<c:url value="/foodBoard/foodPage?foodIndex=1" var="foodUrl"></c:url>
+	<c:url value="/debate/close" var="listUrl"></c:url>
 
 	<div class="container">
 		<div class="row">
 			<div class="col">
-				<h5>					
+				<h5>
+					<%-- <a href="${listUrl }" style="text-decoration-line: none">토론</a> --%>
+					
+					
 					<sec:authorize access="isAuthenticated()">
 						<sec:authentication property="principal" var="principal" />
-
+ 
 						<c:if test="${principal.username == debate.memberId }">
 							<button id="edit-button1" class="btn btn-secondary">
 								<i class="fa-solid fa-pen-to-square"></i>
@@ -316,10 +317,6 @@ $(document).ready(function() {
 				<c:if test="${not empty message }">
 					<div class="alert alert-primary">${message }</div>
 				</c:if>
-					<form action="" id="form2" method="post">
-					<button id="close-submit1" class="btn btn-primary d-none">토론 종료</button>
-						<input type="hidden" name="id" value="${debate.id }" />
-					</form>
 			
 				<form id="form1" action="${appRoot }/debate/modify" method="post"
 					enctype="multipart/form-data">
@@ -328,15 +325,17 @@ $(document).ready(function() {
 					<input type="hidden" name="id" value="${debate.id }" />
 
  				    <div>	
- 				    	<a href="${foodUrl }" style="text-decoration-line: none; font-size: 25px;" id="title-a">${debate.title }</a>
+ 				    	<a href="stringVal" style="text-decoration-line: none; font-size: 25px;" id="title-a">${debate.title }</a>
 						<input style= "border: none; background: transparent; font-size:25px;"
 							type="text" name="title" required class="d-none"
-							id="input1" value="${debate.title }"readonly ><a href="${listUrl }" style="text-decoration-line: none;">(토론)</a></input>
+						 value="${debate.title }"readonly ><a href="${listUrl }" style="text-decoration-line: none;">(닫힌토론)</a></input>
 					</div>		
-					<button id="modify-submit1" class="btn btn-primary d-none">수정</button>
+				<!-- 	<button id="close-submit1" class="btn btn-primary d-none">토론 닫기</button> -->
+					<!-- <button id="modify-submit1" class="btn btn-primary d-none">수정</button> -->
 					<button id="delete-submit1" class="btn btn-danger d-none">삭제</button>
 					<!-- <button id="close-submit1" class="btn btn-secondary d-none">토론 닫기</button> -->
  			
+					
 					<div class="wrap">
 					<div>
 						<label class="form-label" for="textarea1"><!-- <div class="card"> --></label>
@@ -350,13 +349,8 @@ $(document).ready(function() {
 					</div>
 						<textarea class="form-control mb-3" name="body" id="textarea1"
 						 readonly>${debate.body }</textarea>
-						 	
 					</div>
 					
-					<!-- 삭제
-					style="text-overflow:clip;"
-					<!--  onInput="this.parentNode.dataset.replicatedValue = this.value" -->
-						 
 				
 				<%-- 	<div>
 						<label for="input3" class="form-label">작성자</label>
@@ -393,6 +387,7 @@ $(document).ready(function() {
 						</div>
 					</div>
 				</form>
+
 			</div>
 		</div>
 	</div>
@@ -415,11 +410,11 @@ $(document).ready(function() {
 					<div class="input-group">
 						<input type="hidden" name="debateId" value="${debate.id }" />
 						<input id="insertReplyContentInput1" class="form-control"
-							type="text" name="board" required />
-						<button id="addReplySubmitButton1"
+							type="text" name="board" required readonly  placeholder="댓글을 입력할수없습니다." />
+						<!-- <button id="addReplySubmitButton1"
 							class="btn btn-outline-secondary">
 							<i class="fa-solid fa-comment-dots"></i>
-						</button>
+						</button> -->
 					</div>
 				</form>
 			</div>
