@@ -118,7 +118,7 @@ public class MemberController {
         
         if (success) {
             rttr.addFlashAttribute("message", "회원 탈퇴 되었습니다.");
-            return "redirect:/member/memberlist";
+            return "redirect:/member/login";
         } else {
             rttr.addAttribute("id", dto.getId());
             return "redirect:/member/memberget";

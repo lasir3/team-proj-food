@@ -102,7 +102,7 @@ select{padding:7px; vertical-align:middle}
 			});
 		}); */
 		$('#mail-Check-Btn').click(function() {
-			const eamil = $('#userEmail1').val() + $('#userEmail2').val(); // 이메일 주소값 얻어오기!
+			const eamil = $('#userEmail1').val() + "@" + $('#userEmail2').val(); // 이메일 주소값 얻어오기!
 			console.log('완성된 이메일 : ' + eamil); // 이메일 오는지 확인
 			const checkInput = $('.mail-check-input') // 인증번호 입력하는곳 
 			
@@ -278,7 +278,7 @@ select{padding:7px; vertical-align:middle}
 	 <label for="email">이메일</label>
 	 <div class="input-group">
 	<input type="text"  name="email" id="userEmail1" placeholder="이메일" />
-	@ <input type="text"  name= "userEmail2" id="userEmail2" readonly="readonly"/>
+	@<input type="text"  name= "userEmail2" id="userEmail2" readonly="readonly"/>
 	<br />
     <select name="select_email"  id="selectEmail">
         <option value="" selected>선택하세요</option>

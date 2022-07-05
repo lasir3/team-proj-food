@@ -233,7 +233,7 @@
 
 				<div class="mt-3">
 					<button class="btn btn-secondary" id="modifySubmitButton1" data-bs-toggle="modal" data-bs-target="#modal2" disabled>수정</button>
-					<button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal1">삭제</button>
+					<button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal1">회원탈퇴</button>
 				</div>
 			
 				<div>
@@ -256,7 +256,7 @@
       <div class="modal-body">
 	      <form id="form1" action="${pageContext.request.contextPath }/member/remove" method="post">
 	        <input type="hidden" value="${member.id }" name="id" />
-	        암호 : <input type="text" name="password" />
+	        암호 : <input type="text" name="password" placeholder="기존암호를 입력해주세요"/>
 	      </form>
       </div>
       <div class="modal-footer">
