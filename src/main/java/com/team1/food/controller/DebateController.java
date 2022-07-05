@@ -32,16 +32,17 @@ public class DebateController {
 	public void listDebate(Model model,
 			@RequestParam(name = "page", defaultValue = "1") int page,
 			@RequestParam(name = "type", defaultValue = "")String type,
-			@RequestParam(name = "keyword", defaultValue = "") String keyword) {
+			@RequestParam(name = "keyword", defaultValue = "") String keyword){
 
 		int rowPerPage = 10;
 
 		int totalRecords = service.countDebate(type, keyword);
 		int end = (totalRecords - 1) / rowPerPage + 1;
-
+		
 		PageInfoDto pageInfo = new PageInfoDto();
 		pageInfo.setCurrent(page);
 		pageInfo.setEnd(end);
+		
 		
 		List<DebateDto> list = service.listDebatePage(page, rowPerPage, type, keyword);
 		/*List<DebateDto> search = service.searchDebate(type, keyword);*/
@@ -50,29 +51,6 @@ public class DebateController {
 		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("debateList", list);
 	}
-	
-	@RequestMapping("all")
-	public void allDebate(Model model,
-			@RequestParam(name = "page", defaultValue="1")int page,
-			@RequestParam(name = "type", defaultValue="")String type,
-			@RequestParam(name = "keyword", defaultValue="")String keyword) {
-		
-		int rowPerPage = 10;
-		
-		int totalRecords = service.countAllDebate(type, keyword);
-		int end = (totalRecords - 1) / rowPerPage + 1;
-		
-		PageInfoDto pageInfo = new PageInfoDto();
-		pageInfo.setCurrent(page);
-		pageInfo.setEnd(end);
-		
-		List<DebateDto> allDebate = service.AllDebate(page, rowPerPage, type, keyword);
-		
-		model.addAttribute("pageInfo", pageInfo);
-		model.addAttribute("allDebate", allDebate);
-	}
-	 
-	
 	
 	@RequestMapping("close")
 	public void closeDebate(Model model,
@@ -205,4 +183,42 @@ public class DebateController {
 		return "redirect:/debate/list";
 	}
 	
+	@PostMapping("removeclose")
+		public String removeClose(DebateDto dto, Principal principal, RedirectAttributes rttr) {
+	
+			// 게시물 정보 얻고
+			DebateDto oldBoard = service.getRemoveById(dto.getId());
+			// 게시물 작성자(memberId)와 principal의 name과 비교해서 같을 때만 진행.
+			if (oldBoard.getMemberId().equals(principal.getName())) {
+				boolean success = service.deleteClose(dto.getId());
+	
+				if (success) {
+					rttr.addFlashAttribute("message", "글이 삭제 되었습니다.");
+	
+				} else {
+					rttr.addFlashAttribute("message", "글이 삭제 되지않았습니다.");
+				}
+	 
+			} else {
+				rttr.addFlashAttribute("message", "권한이 없습니다.");
+				rttr.addAttribute("id", dto.getId());
+				return "redirect:/debate/closeget";
+			}
+	
+			return "redirect:/debate/close";
+		}
+	
+
+		/*@RequestMapping("get")
+		public String viewCount(@ModelAttribute("DebateDto") DebateDto dto, Model model) {
+		
+			// 조회수 증가
+			service.viewCount(dto.getId());
+			
+		    List<DebateDto> list = service.detailProject(dto.getId());
+		
+		    model.addAttribute("list", list);
+		    
+			return "redirect:/debate/list";
+		}*/
 }

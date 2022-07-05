@@ -1,15 +1,12 @@
 package com.team1.food.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.team1.food.domain.FoodCateDto;
 import com.team1.food.domain.FoodDto;
-import com.team1.food.domain.SubFoodDto;
-import com.team1.food.domain.VoteDto;
 
 @Mapper
 public interface CategoryMapper {
@@ -34,7 +31,7 @@ public interface CategoryMapper {
 
 	FoodCateDto selectCateDto(int cateIndex);
 
-//	FoodCateDto selectCateByIndex(int i);
+	FoodCateDto selectCateByIndex(int i);
 
 	String selectFileNameByCateIndex(int i);
 
@@ -51,13 +48,5 @@ public interface CategoryMapper {
 	FoodDto selectFoodDto(int foodIndex);
 
 	int insertFood(FoodDto dto);
-
-	String selectCateNameByIndex(int cateIndex);
-
-	String selectFoodName(String foodName);
-
-	List<SubFoodDto> selectSubFoodList(int foodIndex);
-
-	VoteDto selectVoteSum(int subRecipeIndex);
 
 }

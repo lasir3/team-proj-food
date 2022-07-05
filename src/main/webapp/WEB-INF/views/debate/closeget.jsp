@@ -29,9 +29,9 @@
 	$("#edit-button1").click(function() {
 		$("#input1").removeAttr("readonly");
 		$("#textarea1").removeAttr("readonly");
-		/* $("#modify-submit1").removeClass("d-none"); */
-		/* $("#delete-submit1").removeClass("d-none");
-		$("#close-submit1").removeClass("d-none"); */
+		$("#modify-submit1").removeClass("d-none");
+		$("#delete-submit1").removeClass("d-none");
+		$("#close-submit1").removeClass("d-none");
 		$("#input1").removeClass("d-none");
 		$("#title-a").addClass("d-none");
 	}); 
@@ -43,7 +43,7 @@
 
 		if (confirm("삭제하시겠습니까?")) {
 			let form1 = $("#form1");
-			let actionAttr = "${appRoot}/debate/remove";
+			let actionAttr = "${appRoot}/debate/removeclose";
 			form1.attr("action", actionAttr);
 
 			form1.submit();
@@ -191,7 +191,7 @@
 
 					if (confirm(message)) {
 						// $("#replyDeleteInput1").val(replyId);
-						// $("#replyDeleteForm1").submit();
+						 $("#replyDeleteForm1").submit();
 						
 						$.ajax({
 							url : "${appRoot}/reply/delete/" + replyId,
@@ -258,29 +258,56 @@
 });
 </script>
 
+<style>
+    .wrap {
+      width: flex;
+    }
+    .wrap textarea {
+      width: 100%;
+      resize: none;
+      overflow-y: hidden; /* prevents scroll bar flash */
+      padding: 1.1em; /* prevents text jump on Enter keypress */
+      padding-bottom: 0.2em;
+      line-height: 1.6;
+    }
+  </style>
+  <script>
+    $(document).ready(function() {
+      $('.wrap').on( 'keyup', 'textarea', function (e){
+        $(this).css('height', 'auto' );
+        $(this).height( this.scrollHeight );
+      });
+      $('.wrap').find( 'textarea' ).keyup();
+    });
+    
+    var stringVal = "Hello world",
+     exp  /java/;
+    string.search(exp);
+  </script>
+
 
 <title>Insert title here</title>
 </head>
 <body>
+
 <my:navBar2></my:navBar2>
-	<my:navBar current="list" />
-	<c:url value="/debate/list" var="listUrl"></c:url>
+	<c:url value="/debate/close" var="listUrl"></c:url>
 
 	<div class="container">
 		<div class="row">
 			<div class="col">
 				<h5>
-					<a href="${listUrl }" style="text-decoration-line: none">토론</a>
+					<%-- <a href="${listUrl }" style="text-decoration-line: none">토론</a> --%>
 					
 					
 					<sec:authorize access="isAuthenticated()">
 						<sec:authentication property="principal" var="principal" />
-<%-- 
+ 
 						<c:if test="${principal.username == debate.memberId }">
 							<button id="edit-button1" class="btn btn-secondary">
 								<i class="fa-solid fa-pen-to-square"></i>
 							</button>
-						</c:if> --%>
+						</c:if>
 					</sec:authorize>
 
 				</h5>
@@ -298,29 +325,30 @@
 					<input type="hidden" name="id" value="${debate.id }" />
 
  				    <div>	
- 				    	<a href="#" style="text-decoration-line: none; font-size: 25px;" id="title-a">${debate.title }</a>
+ 				    	<a href="stringVal" style="text-decoration-line: none; font-size: 25px;" id="title-a">${debate.title }</a>
 						<input style= "border: none; background: transparent; font-size:25px;"
 							type="text" name="title" required class="d-none"
-						 value="${debate.title }"readonly ></input>
+						 value="${debate.title }"readonly ><a href="${listUrl }" style="text-decoration-line: none;">(닫힌토론)</a></input>
 					</div>		
-					<button id="close-submit1" class="btn btn-primary d-none">토론 닫기</button>
-					<button id="modify-submit1" class="btn btn-primary d-none">수정</button>
+				<!-- 	<button id="close-submit1" class="btn btn-primary d-none">토론 닫기</button> -->
+					<!-- <button id="modify-submit1" class="btn btn-primary d-none">수정</button> -->
 					<button id="delete-submit1" class="btn btn-danger d-none">삭제</button>
 					<!-- <button id="close-submit1" class="btn btn-secondary d-none">토론 닫기</button> -->
  			
 					
+					<div class="wrap">
 					<div>
-						<label class="form-label" for="textarea1"><div class="card">
-					<div class="card-header" style="background-color: skyblue; type="text" value="${debate.writerNickName }" >
-						${debate.writerNickName }
-						
-					<!-- 	<label for="input2" class="form-label">작성일시</label> -->
-						<span type="readonly"	>${debate.prettyInserted }</span>
+						<label class="form-label" for="textarea1"><!-- <div class="card"> --></label>
+
+						<div class="card-header" style="background-color: skyblue" >
+							${debate.writerNickName }
+							
+						<!-- 	<label for="input2" class="form-label">작성일시</label> -->
+							<span>${debate.prettyInserted }</span>
+						</div>
 					</div>
-					</div></label>
-						<textarea style="text-overflow:clip;"class="form-control mb-3" name="body" id="textarea1"
-						 cols="30" rows="5"readonly>${debate.body }</textarea>
-						 
+						<textarea class="form-control mb-3" name="body" id="textarea1"
+						 readonly>${debate.body }</textarea>
 					</div>
 					
 				
