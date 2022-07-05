@@ -64,4 +64,10 @@ public interface CategoryMapper {
 
 	int updateFood(FoodDto dto);
 
+	List<FoodCateDto> selectSearchCateList(String keyword);
+
+	List<FoodDto> selectSearchFoodList(String keyword);
+
+	List<SubFoodDto> selectSearchRecipeList(String keyword);
+
 }

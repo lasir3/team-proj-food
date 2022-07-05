@@ -37,10 +37,6 @@ public class CategoryController {
 		model.addAttribute("foodCateList", list);
 	}
 
-	@RequestMapping("summernote")
-	public void summernote() {
-	}
-	
 	// 카테고리 음식 리스트
 	@GetMapping("foodList")
 	public void getCateFoodList(@RequestParam(name = "cateIndex", defaultValue = "") int cateIndex, Model model) {
@@ -49,6 +45,22 @@ public class CategoryController {
 		// 수정용 파일명 전송
 		model.addAttribute("foodListPage", list);
 		model.addAttribute("cateDto", dto);
+	}
+	
+	// 검색시 카테고리, 음식, 레시피 리스트 응답 메소드
+	@RequestMapping("searchList")
+	public void searchList(@RequestParam(name = "keyword", defaultValue = "") String keyword, Model model) {
+		System.out.println(keyword);
+		List<FoodCateDto> cateList = cateService.getSearchCateList(keyword);
+		List<FoodDto> foodList = cateService.getSearchFoodList(keyword);
+		List<SubFoodDto> recipeList = cateService.getSearchRecipeList(keyword);
+		System.out.println("검색 서비스 작동");
+		System.out.println(cateList.toString());
+		System.out.println(foodList.toString());
+		System.out.println(recipeList.toString());
+		model.addAttribute("cateList", cateList);
+		model.addAttribute("foodList", foodList);
+		model.addAttribute("recipeList", recipeList);
 	}
 	
 	// 카테고리 수정 페이지 호출

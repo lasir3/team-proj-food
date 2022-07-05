@@ -1,9 +1,7 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="sec"
-   uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ attribute name="current"%>
-
 
 <c:url value="/member/login" var="loginUrl"></c:url>
 <c:url value="/logout" var="logoutUrl"></c:url>
@@ -11,6 +9,8 @@
 <c:url value="/foodBoard/foodCateList" var="foodBoard"></c:url>
 <c:url value="/member/memberlist" var="memberlistUrl"></c:url>
 <c:url value="/member/memberget" var="membergetUrl"></c:url>
+
+<!-- 카테고리 탭 수정 필요 -->
 <c:url value="/foodBoard/foodList?cateIndex=38" var="foodList1"></c:url>
 <c:url value="/foodBoard/foodList?cateIndex=40" var="foodList2"></c:url>
 <c:url value="/foodBoard/foodList?cateIndex=41" var="foodList3"></c:url>
@@ -25,10 +25,24 @@
    </c:url>
 </sec:authorize>
 
-
 <nav class="navbar navbar-light " >
   <div class="container-fluid container">
+  
+  	<!-- Home 버튼 -->
     <a class="navbar-brand" href="${foodBoard }"><i class="fa-solid fa-utensils">요리위키</i></a>
+    
+    <!-- 검색바 -->
+    <!-- keyword를 가져와서 searchList Request -->
+	<form action="${appRoot }/foodBoard/searchList" class="d-flex">
+		<div class="input-group">
+			<input type="search" class="form-control" placeholder="레시피 검색" name="keyword" />
+			<button class="btn btn-outline-success">
+				<i class="fa-solid fa-magnifying-glass"></i>
+			</button>
+		</div>
+	</form>
+	
+    <!-- 햄버거 버튼 -->
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>

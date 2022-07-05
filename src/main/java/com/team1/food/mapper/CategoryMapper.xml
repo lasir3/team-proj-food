@@ -124,6 +124,7 @@
 			   inserted
 		FROM SubRecipeTable 
 		WHERE foodIndex = #{foodIndex}
+		ORDER BY subRecipeIndex
 	</select>
 	
 	<select id="selectVoteSum" resultType="int">
@@ -151,4 +152,35 @@
 		SET foodName = #{foodName}, content = #{content}
 		WHERE foodIndex = #{foodIndex}
 	</update>
+	
+	<!-- FoodCateTable 키워드 검색 후 DTO 정보 추출 -->
+	<select id="selectSearchCateList" resultType="com.team1.food.domain.FoodCateDto">
+	SELECT cateIndex,
+	 	   cateName
+	From FoodCateTable
+		<if test="keyword != '%%'">
+			WHERE cateName LIKE #{keyword }
+		</if>
+	</select>
+	
+	<!-- FoodTable 키워드 검색 후 DTO 정보 추출 -->
+	<select id="selectSearchFoodList" resultType="com.team1.food.domain.FoodDto">
+	SELECT foodIndex,
+		   foodName
+	From FoodTable
+		<if test="keyword != '%%'">
+			WHERE foodName LIKE #{keyword }
+		</if>
+	</select>
+	
+	<!-- SubRecipeTable 키워드 검색 후 DTO 정보 추출 -->
+	<select id="selectSearchRecipeList" resultType="com.team1.food.domain.SubFoodDto">
+	SELECT subRecipeIndex,
+	 	   subRecipeName,
+	 	   foodIndex
+	From SubRecipeTable
+		<if test="keyword != '%%'">
+			WHERE subRecipeName LIKE #{keyword }
+		</if>
+	</select>
 </mapper>
