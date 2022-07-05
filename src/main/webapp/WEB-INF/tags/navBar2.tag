@@ -26,15 +26,15 @@
 </sec:authorize>
 
 
-<nav class="navbar navbar-light " style="background-color: #e3f2fd;">
+<nav class="navbar navbar-light " >
   <div class="container-fluid container">
-    <a class="navbar-brand" href="${foodBoard }">요리위키</a>
+    <a class="navbar-brand" href="${foodBoard }"><i class="fa-solid fa-utensils">요리위키</i></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
       <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">요리위키</h5>
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel" ><i class="fa-solid fa-utensils">요리위키</i></h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
