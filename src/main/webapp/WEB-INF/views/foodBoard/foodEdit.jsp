@@ -41,5 +41,10 @@
 			</div>
 		</div>
 	</div>
+
+	<a href="/wiki/debate/list?type=all&keyword=${foodDto.foodName }">
+	<button type="button" class="btn btn-success">${foodDto.foodName } 토론검색</button>
+	</a>
+
 </body>
 </html>

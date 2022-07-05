@@ -5,6 +5,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -87,6 +88,7 @@
 				<div class="d-inline-flex p-2">
 				<my:search search="list" />
 				</div>
+				
 				<my:pageNation path="list" />
 				</div>
 			</div>
