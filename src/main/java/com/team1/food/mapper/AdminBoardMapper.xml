@@ -119,7 +119,8 @@
 		 	title, 
 		 	content, 
 		 	memberId, 
-		 	inserted
+		 	inserted,
+		 	state
 	FROM RestArea
 	WHERE id = #{id}
 	</select>
@@ -383,5 +384,17 @@
 			reason,
 			boardId
 	FROM Warning
+	</select>
+	
+	<select id="selectLastRestArea" resultType="com.team1.food.domain.AdminBoardDto">
+	SELECT id,
+		content,
+		memberId,
+		inserted,
+		state
+	FROM RestArea
+	WHERE memberId = #{memberId}
+	ORDER BY id DESC
+	LIMIT 1
 	</select>
 </mapper>

@@ -11,6 +11,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" integrity="sha512-GQGU0fMMi238uA+a/bdWJfpUGKUkBdgfFdgBm72SUQ6BeyWjoY/ton0tEjH+OSH9iP4Dfh+7HM0I9f5eR0L/4w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<!-- jquery ui  -->
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+<!--  -->
 <title>Insert title here</title>
 <script>
 $(document).ready(function(){
@@ -88,6 +92,8 @@ $(document).ready(function(){
 		}	
 		
 	});
+	
+	
 	
 	/* 글 삭제 버튼 클릭*/
 	$("#delete-submit1").click(function(e){
@@ -373,7 +379,7 @@ $(document).ready(function(){
 
 </head>
 <body>
-<my:navBar2></my:navBar2>
+
 	<my:navBar></my:navBar>
 	
 	<div class="container">
@@ -386,8 +392,6 @@ $(document).ready(function(){
 						${createMessage }
 					</div>
 				</c:if>
-				
-				<!-- 제목, 본문  -->
 				
 				<form id="form1" action="${appRoot }/admin/updateRestArea" method="post">
 					<input type="hidden" name="id" value="${board.id }"/>
@@ -406,6 +410,7 @@ $(document).ready(function(){
 						</c:if>
 					</select>
 					
+					<!-- 제목  -->
 					<div>
 						<label class="form-label" for="input1">제목</label>
 						<input class="form-control" id="input1" type="text" name="title" 
