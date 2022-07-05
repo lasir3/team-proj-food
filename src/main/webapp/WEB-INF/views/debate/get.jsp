@@ -266,7 +266,7 @@ $(document).ready(function() {
 
   <style>
     .wrap {
-      width: flex;
+      width: auto;
     }
     .wrap textarea {
       width: 100%;
@@ -349,6 +349,7 @@ $(document).ready(function() {
 					</div>
 						<textarea class="form-control mb-3" name="body" id="textarea1"
 						 readonly>${debate.body }</textarea>
+						 	
 					</div>
 					
 					<!-- 삭제

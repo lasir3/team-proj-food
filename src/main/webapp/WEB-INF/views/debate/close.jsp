@@ -55,9 +55,9 @@
 										
 										<a href="${getUrl }" class="text-decoration-none">
 											<div style="height:100%; width=100%">
-											<span class="badge rounded-pill bg-danger">닫힌토론</span>
-											<span class="text-body">${close.title }</span>
-											<span class="numOfReply">[${close.numOfReply }]</span>
+												<span class="badge rounded-pill bg-danger">닫힌토론</span>
+												<span class="text-body">${close.title }</span>
+												<span class="numOfReply">[${close.numOfReply }]</span>
 											</div>
 										</a>
 						
@@ -77,6 +77,6 @@
 				<my:closePageNation path="close" />
 			</div>
 		</div>
-    </
+    </div>
 </body>
 </html>

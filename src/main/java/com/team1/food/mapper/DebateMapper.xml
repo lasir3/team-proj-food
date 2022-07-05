@@ -173,7 +173,8 @@
 	
 	<update id="updateClose">
 		UPDATE Debate 
-		SET close = 1
+		SET close = 1,
+		inserted = now()
 		WHERE id = #{id}
 	</update>
 	
