@@ -21,11 +21,40 @@
 		color: black;
 		text-decoration: none;
 	}
+	.back-to-top-css {
+    cursor: pointer;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: none;
+}
 </style>
+<script>
+    $(document).ready(function () {
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 50) {
+                $('#back-to-top').fadeIn();
+            } else {
+                $('#back-to-top').fadeOut();
+            }
+        });
+        // scroll body to 0px on click
+        $('#back-to-top').click(function () {
+            $('#back-to-top').tooltip('hide');
+            $('body,html').animate({
+                scrollTop: 0
+            }, 400);
+            return false;
+        });
+
+        $('#back-to-top').tooltip('show');
+
+    });
+</script>
 <title>Insert title here</title>
 </head>
 <body>
-	
+	<my:navBar2></my:navBar2>
 	<my:navBar current="admin"></my:navBar>
 	
 	<!-- 각 구역이 보여줄 게시글 개수 -->
@@ -165,6 +194,8 @@
 		</div> <!-- end of .row  -->
 	</div> <!-- end of .container  -->
 	
+	<!-- 스크롤 맨위 버튼 -->
+	<a id="back-to-top" href="#" class="btn btn-primary btn-sm back-to-top-css" role="button" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"><i class="fa-solid fa-angles-up"></i></span></a>
 	
 </body>
 </html>
