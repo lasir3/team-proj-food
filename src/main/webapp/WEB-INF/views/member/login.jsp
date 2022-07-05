@@ -59,6 +59,7 @@ display:inline; }
 					회원가입
 				</button>
 			</form>
+			<p>${message }</p>
 			</div>
 		</div>
 	</div>
