@@ -65,27 +65,27 @@
 								const subElement = $("<li class='list-group-item' />");
 								
 								subElement.html(`
-									<div id="voteDisplayContainer" class="row">
-										<!-- 가져올 subRecipeIndex와 voteCount 정보 -->
-										<input type="hidden" name="subIndex1" value="\${subList[i].subRecipeIndex }" /> 
-										<input type="hidden" name="voteCountNumber1" value="\${voteCount }" /> 
-										<div class="col-1">
-											<div class="row">
-												<button class="vote-Up-Button1 btn btn-link" type="button"><i class="arrow fa-solid fa-square-caret-up"></i></button>
-												<br />
+										<div id="voteDisplayContainer" class="row">
+											<!-- 가져올 subRecipeIndex와 voteCount 정보 -->
+											<input type="hidden" name="subIndex1" value="\${subList[i].subRecipeIndex }" /> 
+											<input type="hidden" name="voteCountNumber1" value="\${voteCount }" /> 
+											<div class="col-1">
+												<div class="row">
+													<button class="vote-Up-Button1 btn btn-link" type="button"><i class="arrow fa-solid fa-square-caret-up"></i></button>
+													<br />
+												</div>
+												<!-- 추천수 합계 표시 -->
+												<div class="row arrow"><h1 class="voteCountHeader">\${voteCount }</h1></div>
+												
+												<div class="row">
+													<button class="vote-Down-Button1 btn btn-link" type="button"><i class="arrow fa-solid fa-square-caret-down"></i></button>
+												</div>
 											</div>
-											<!-- 추천수 합계 표시 -->
-											<div class="row arrow"><h1 class="voteCountHeader">\${voteCount }</h1></div>
-											
-											<div class="row">
-												<button class="vote-Down-Button1 btn btn-link" type="button"><i class="arrow fa-solid fa-square-caret-down"></i></button>
+											<div class="col-11">
+												<h1>\${subList[i].subRecipeName }</h1>
+												<h3>\${subList[i].content }</h3>
 											</div>
 										</div>
-										<div class="col-11">
-											<h1>\${subList[i].subRecipeName }</h1>
-											<h3>\${subList[i].content }</h3>
-										</div>
-									</div>
 								`); // end of html
 								
 								/*
@@ -185,6 +185,7 @@
 		} // end of subRecipeList
 		subRecipeList();
 	});
+	
 </script>
 
 <style>
@@ -203,6 +204,7 @@
 </style>
 
 <script>
+	// 본문 높이에 따라 유동적으로 사이즈 조절
 	function cmaTextareaSize(obj, bsize) { // 객체명, 기본사이즈
 	    var sTextarea = document.getElementById(obj);
 	    var csize = (sTextarea.scrollHeight >= bsize) ? sTextarea.scrollHeight+"px" : bsize+"px";
@@ -227,7 +229,7 @@
 					</div>
 					<div class="catename">
 						&nbsp;
-						<a href="foodList?cateIndex=${foodDto.cateIndex }">${foodDto.cateName}로 이동</a>
+						<a href="foodList?cateIndex=${foodDto.cateIndex }">${foodDto.cateName}(으)로 이동</a>
 					</div>
 				</div>
 				<div class="col d-md-flex justify-content-md-end mt-5">
@@ -235,6 +237,7 @@
 						<button type="button" class="btn btn-warning" onclick="location.href='foodEdit?foodIndex=${foodDto.foodIndex }'">카테고리 수정</button>
 					</sec:authorize>
 				</div>
+				
 				<div class="mt-5 container-disable">
 					<!-- 본문 내용 -->
 					<textarea name="cma_test1" id="cma_test1" class="textarea_size"

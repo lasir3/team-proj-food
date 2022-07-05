@@ -229,4 +229,19 @@ public class CategoryService {
 		return cnt == 1;
 	}
 
+	// 카테고리 이름 검색 서비스
+	public List<FoodCateDto> getSearchCateList(String keyword) {
+		return mapper.selectSearchCateList("%"+keyword+"%");
+	}
+	
+	// 음식 이름 검색 서비스
+	public List<FoodDto> getSearchFoodList(String keyword) {
+		return mapper.selectSearchFoodList("%"+keyword+"%");
+	}
+	
+	// 레시피 검색 서비스
+	public List<SubFoodDto> getSearchRecipeList(String keyword) {
+		return mapper.selectSearchRecipeList("%"+keyword+"%");
+	}
+
 }

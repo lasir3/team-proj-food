@@ -19,6 +19,8 @@
 <c:url value="/admin/report" var="adminReportUrl"></c:url>
 <c:url value="/admin/restArea" var="adminRestAreaUrl"></c:url>
 <c:url value="/admin/ask" var="adminAskUrl"></c:url>
+
+<!-- 수정 필요 -->
 <c:url value="/foodBoard/foodList?cateIndex=38" var="foodList1"></c:url>
 <c:url value="/foodBoard/foodList?cateIndex=40" var="foodList2"></c:url>
 <c:url value="/foodBoard/foodList?cateIndex=41" var="foodList3"></c:url>
