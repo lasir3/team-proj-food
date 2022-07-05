@@ -383,4 +383,17 @@
 		reason = #{reason}
 	WHERE boardId = #{boardId}
 	</update>
+	
+	<delete id="deleteWarning">
+	DELETE FROM Warning
+	WHERE boardId = #{boardId}
+	</delete>
+	
+	<select id="selectWarningList" resultType="com.team1.food.domain.AdminWarningDto">
+	SELECT id,
+			userId,
+			reason,
+			boardId
+	FROM Warning
+	</select>
 </mapper>

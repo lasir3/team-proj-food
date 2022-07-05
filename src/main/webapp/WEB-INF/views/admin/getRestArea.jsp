@@ -102,6 +102,8 @@ $(document).ready(function(){
 		if(confirm("삭제하시겠습니까?")){
 			let form1 = $("#form1");
 			let actionAttr = "${appRoot}/admin/deleteRestArea";
+			$("#reportInput1").val("${warning.userId}");
+			$("#reportInput2").val("${warning.reason}");
 			form1.attr("action", actionAttr);
 			form1.submit();
 		}
@@ -394,6 +396,7 @@ $(document).ready(function(){
 				<form id="form1" action="${appRoot }/admin/updateRestArea" method="post">
 					<input type="hidden" name="id" value="${board.id }"/>
 					<input type="hidden" name="leaveId" value="${leave.id }" />
+					<input type="hidden" name="state" value="${board.state }" />
 					<!-- 글 세분류  -->
 					<select id="stateSelect1" name="state" class="form-select d-none" disabled>
 						<c:if test="${board.state == 1 }">

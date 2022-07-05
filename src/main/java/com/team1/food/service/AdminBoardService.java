@@ -235,7 +235,15 @@ public class AdminBoardService {
 	}
 
 	public void updateWarning(AdminWarningDto warning) {
-		return mapper.updateWarning(warning);
+		mapper.updateWarning(warning);
+	}
+
+	public void deleteWarning(int boardId) {
+		mapper.deleteWarning(boardId);
+	}
+
+	public List<AdminWarningDto> WarningList() {
+		return mapper.selectWarningList();
 	}
 
 

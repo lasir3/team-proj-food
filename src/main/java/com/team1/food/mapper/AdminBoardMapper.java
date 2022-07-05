@@ -120,6 +120,10 @@ public interface AdminBoardMapper {
 
 	void updateWarning(AdminWarningDto warning);
 
+	void deleteWarning(int boardId);
+
+	List<AdminWarningDto> selectWarningList();
+
 	
 
 

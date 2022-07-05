@@ -238,6 +238,11 @@ $(document).ready(function(){
 	
 });
 </script>
+<style type="text/css">
+.inlineForm{
+	display: inline;
+}
+</style>
 </head>
 <body>
 	
@@ -263,7 +268,7 @@ $(document).ready(function(){
 				
 				<!-- 제목, 본문  -->
 				
-				<form id="form1" action="${appRoot }/admin/updateAsk" method="post">
+				<form id="form1" action="${appRoot }/admin/updateAsk" method="post" class="inlineForm">
 					<input type="hidden" name="id" value="${board.id }"/>
 					
 					<div>
@@ -294,6 +299,18 @@ $(document).ready(function(){
 					</sec:authorize>
 				</form>
 				
+				<!-- 문의 답변 완료 버튼 -->
+				<sec:authorize access="hasRole('ADMIN')">
+					<c:if test="${board.state == 1 }">	
+						<c:url value="updateBoardState" var="answer">
+							<c:param name="id" value="${board.id }"></c:param>
+							<c:param name="state" value="2"></c:param>
+						</c:url>
+						<form action="${answer }" method="post" class="inlineForm">
+							<button class="btn btn-success">답변완료</button>
+						</form>
+					</c:if>
+				</sec:authorize>
 			</div>
 		</div>
 	</div>
@@ -336,17 +353,6 @@ $(document).ready(function(){
 		</div>
 	</div>
 	
-	<!-- 문의 답변 완료 버튼 -->
-	<sec:authorize access="hasRole('ADMIN')">
-		<c:if test="${board.state == 1 }">	
-			<c:url value="updateBoardState" var="answer">
-				<c:param name="id" value="${board.id }"></c:param>
-				<c:param name="state" value="2"></c:param>
-			</c:url>
-			<form action="${answer }" method="post">
-				<button>답변완료</button>
-			</form>
-		</c:if>
-	</sec:authorize>
+	
 </body>
 </html>

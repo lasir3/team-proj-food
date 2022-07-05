@@ -182,11 +182,14 @@ public class AdminBoardController {
 		List<AdminBoardDto> pinnedList = service.pinnedNoticeList();
 		// 휴가 현황 가져오기
 		List<AdminLeaveDto> LeaveList = service.LeaveList();
+		// 경고 정보 가져오기
+		List<AdminWarningDto> WarningList = service.WarningList();
 		
 		model.addAttribute("pinnedBoardList", pinnedList);
 		model.addAttribute("pageInfo", pageDto);
 		model.addAttribute("boardList", list);
 		model.addAttribute("LeaveList", LeaveList);
+		model.addAttribute("WarningList", WarningList);
 	}
 	
 	// 쉼터 글 작성 시작
@@ -302,14 +305,28 @@ public class AdminBoardController {
 	@PostMapping("deleteRestArea")
 	public String deleteRestArea(AdminBoardDto dto,
 			RedirectAttributes rttr,
-			String leaveId) {
+			String leaveId,
+			String userId,
+			String reason) {
 		
-		// 휴가 글 삭제할때에는 휴가정보도 삭제
+		System.out.println(dto.getState());
+		System.out.println(userId);
+		System.out.println(reason);
+		
+		// 휴가 글 삭제 할 때 휴가정보도 삭제
 		if(dto.getState() == 1 && leaveId != "") {
 			service.deleteLeave(Integer.parseInt(leaveId));
 		}
 		
+		// 경고 글 삭제 할 때 경고정보도 삭제
+		if(dto.getState() == 3 && userId != "" && reason != "") {
+			System.out.println("실행됨");
+			service.deleteWarning(dto.getId());
+		}
+		
+		// 댓글 삭제
 		replyService.deleteReplyByBoardId(dto.getId(), "restAreaId");
+		// 글 삭제
 		boolean success = service.deleteRestAreaBoardById(dto.getId());
 		
 		if(success) {
