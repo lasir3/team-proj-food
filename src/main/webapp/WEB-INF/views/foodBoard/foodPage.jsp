@@ -223,19 +223,23 @@
 	<div class="container mt-5">
 		<div class="col">
 			<div class="row">
-				<div class="col-8">
-					<div class="foodname">
-						${foodDto.foodName}
-					</div>
-					<div class="catename">
-						&nbsp;
-						<a href="foodList?cateIndex=${foodDto.cateIndex }">${foodDto.cateName}(으)로 이동</a>
-					</div>
+				<div class="catename">
+					<button type="button" onclick="location.href='foodList?cateIndex=${foodDto.cateIndex }' "
+				class="btn-sm btn-secondary">${foodDto.cateName}(으)로 이동</button>
 				</div>
-				<div class="col d-md-flex justify-content-md-end mt-5">
+				<div class="foodname">
+					${foodDto.foodName}
+				</div>
+				<div class="col-8">
+				</div>
+				<div class="col d-md-flex justify-content-md-end btn-group">
 					<sec:authorize access="hasRole('ADMIN')">
 						<button type="button" class="btn btn-warning" onclick="location.href='foodEdit?foodIndex=${foodDto.foodIndex }'">카테고리 수정</button>
 					</sec:authorize>
+					
+					<!-- 토론 검색 버튼 -->
+					<button type="button" onclick="location.href='/wiki/debate/list?type=all&keyword=${foodDto.foodName }' "
+					class="btn btn-success">${foodDto.foodName } 토론검색</button>
 				</div>
 				
 				<div class="mt-5 container-disable">
@@ -244,6 +248,8 @@
 					onchange="cmaTextareaSize('cma_test1', 30);" onkeyup="cmaTextareaSize('cma_test1', 30);">${foodDto.content }</textarea>
 					<script>cmaTextareaSize('cma_test1', 30);</script>
 				</div>
+
+				
 				<hr />
 				<h1 class="mt-5">
 					하위 레시피 목록
