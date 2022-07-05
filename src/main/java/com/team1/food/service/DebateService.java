@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.team1.food.domain.DebateDto;
+import com.team1.food.domain.FoodCateDto;
 import com.team1.food.mapper.BigReplyMapper;
 import com.team1.food.mapper.DebateMapper;
 
@@ -102,6 +103,10 @@ public class DebateService {
 		replyMapper.deleteByCloseId(id);
 		
 		return mapper.deleteClose(id) == 1;
+	}
+
+	public List<FoodCateDto> selectCateNameList() {
+		return mapper.selectCateName();
 	}
 
 	/*public int viewCount(int hit) {

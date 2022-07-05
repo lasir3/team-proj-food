@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.team1.food.domain.DebateDto;
+import com.team1.food.domain.FoodCateDto;
 
 public interface DebateMapper {
 
@@ -51,5 +52,7 @@ public interface DebateMapper {
 		void viewCount(int id);
 
 		void closeViewCount(int id);
+
+		List<FoodCateDto> selectCateName();
 
 }

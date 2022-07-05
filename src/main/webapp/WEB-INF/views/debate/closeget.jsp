@@ -291,6 +291,7 @@
 <body>
 
 <my:navBar2></my:navBar2>
+	<my:navBar current="close" />
 	<c:url value="/debate/close" var="listUrl"></c:url>
 
 	<div class="container">

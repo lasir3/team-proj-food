@@ -15,6 +15,9 @@ public class DebateDto {
 	private String writerNickName;
 	private int numOfReply;
 	private int hit;
+	private int cateIndex;
+	private String cateName;
+	private int foodIndex;
 	
 	public String getPrettyInserted() {
 		// 24시간 이내면 시간만
