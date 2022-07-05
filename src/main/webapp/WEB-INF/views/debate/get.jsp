@@ -293,7 +293,7 @@ $(document).ready(function() {
 <my:navBar2></my:navBar2>
 	<my:navBar current="debate" />
 	<c:url value="/debate/list" var="listUrl"></c:url>
-	<c:url value="/foodBoard/foodPage?foodIndex=1" var="foodUrl"></c:url>
+	<c:url value="/foodBoard/foodList?cateIndex=${debate.cateIndex }" var="foodUrl"></c:url>
 
 	<div class="container">
 		<div class="row">
@@ -329,6 +329,8 @@ $(document).ready(function() {
 
  				    <div>	
  				    	<a href="${foodUrl }" style="text-decoration-line: none; font-size: 25px;" id="title-a">${debate.title }</a>
+ 				    	<a href="${foodUrl }" style="text-decoration-line: none; font-size: 25px;" id="title-a">${debate.cateName }</a>
+ 				    	
 						<input style= "border: none; background: transparent; font-size:25px;"
 							type="text" name="title" required class="d-none"
 							id="input1" value="${debate.title }"readonly ><a href="${listUrl }" style="text-decoration-line: none;">(토론)</a></input>

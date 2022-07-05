@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.team1.food.domain.BigReplyDto;
 import com.team1.food.domain.DebateDto;
+import com.team1.food.domain.FoodCateDto;
 import com.team1.food.domain.PageInfoDto;
 import com.team1.food.service.BigReplyService;
 import com.team1.food.service.DebateService;
@@ -100,17 +101,21 @@ public class DebateController {
 	}
 	
 	@GetMapping("write")
-	public void insert() {
-		
+	public void insert(Model model) {
+		List<FoodCateDto> list = service.selectCateNameList();
+		System.out.println(list.toString());
+		model.addAttribute("cateList", list);
 	}
 	
 	@PostMapping("write")
-	public String writeBoardProcess(DebateDto debate,
+	public String writeBoardProcess(@RequestParam("cateIndex") int cateIndex, DebateDto debate,
 			Principal principal,
 			RedirectAttributes rttr
 			) {
 		
 		debate.setMemberId(principal.getName());
+		debate.setCateIndex(cateIndex);
+		System.out.println(cateIndex);
 		boolean success = service.addDebate(debate);
 		
 			if(success) {

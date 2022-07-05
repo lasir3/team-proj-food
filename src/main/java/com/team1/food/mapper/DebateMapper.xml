@@ -19,9 +19,9 @@
 	 -->
 	<insert id="writeDebate" useGeneratedKeys="true" keyColumn="id"
 		keyProperty="id">
-		INSERT INTO Debate (title,body, memberId)
+		INSERT INTO Debate (title, body, memberId, cateIndex)
 		VALUES (#{title},
-		#{body}, #{memberId})
+		#{body}, #{memberId}, #{cateIndex})
 	</insert>
 
 	<select id="selectDebateById"
@@ -32,9 +32,14 @@
 		b.inserted,
 		b.memberId,
 		m.nickName writerNickName,
-		COUNT(r.id) numOfReply
+		COUNT(r.id) numOfReply,
+		c.cateName cateName,
+		b.cateIndex cateIndex,
+		f.foodIndex foodIndex
 		FROM Debate b LEFT JOIN BigReply r ON b.id = r.debateId
 		JOIN Member m ON b.memberId = m.id
+		JOIN FoodCateTable c On b.cateIndex = c.cateIndex
+		JOIN FoodTable f On b.cateIndex = f.cateIndex
 		WHERE b.id = #{id}
 	</select>
 
@@ -257,6 +262,11 @@
 	SET hit = hit + 1
 	WHERE id = #{id }
 	</update>
+	
+	<select id="selectCateName" resultType="com.team1.food.domain.FoodCateDto">
+		SELECT cateName, cateIndex
+		FROM FoodCateTable
+	</select>
 	
 </mapper>
 
