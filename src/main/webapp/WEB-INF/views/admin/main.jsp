@@ -195,7 +195,7 @@
 	</div> <!-- end of .container  -->
 	
 	<!-- 스크롤 맨위 버튼 -->
-	<a id="back-to-top" href="#" class="btn btn-primary btn-sm back-to-top-css" role="button" title="맨위로" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"><i class="fa-solid fa-angles-up"></i></span></a>
+	<a id="back-to-top" href="#" class="btn btn-primary btn-sm back-to-top-css" role="button" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"><i class="fa-solid fa-angles-up"></i></span></a>
 	
 </body>
 </html>
