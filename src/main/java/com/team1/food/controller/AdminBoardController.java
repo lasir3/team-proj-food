@@ -10,6 +10,9 @@ import javax.servlet.jsp.tagext.PageData;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -17,10 +20,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.team1.food.domain.AdminBoardDto;
 import com.team1.food.domain.AdminBoardPageDto;
+import com.team1.food.domain.AdminLeaveDto;
+import com.team1.food.domain.AdminWarningDto;
+import com.team1.food.domain.MemberDto;
 import com.team1.food.service.AdminBoardService;
 import com.team1.food.service.AdminReplyService;
 
@@ -167,10 +174,16 @@ public class AdminBoardController {
 		List<AdminBoardDto> list = service.restAreaList(type, keyword, page, rowPerPage, state);
 		// 고정 공지 글 가져오기
 		List<AdminBoardDto> pinnedList = service.pinnedNoticeList();
+		// 휴가 현황 가져오기
+		List<AdminLeaveDto> LeaveList = service.LeaveList();
+		// 경고 정보 가져오기
+		List<AdminWarningDto> WarningList = service.WarningList();
 		
 		model.addAttribute("pinnedBoardList", pinnedList);
 		model.addAttribute("pageInfo", pageDto);
 		model.addAttribute("boardList", list);
+		model.addAttribute("LeaveList", LeaveList);
+		model.addAttribute("WarningList", WarningList);
 	}
 	
 	// 쉼터 글 작성 시작
@@ -187,11 +200,14 @@ public class AdminBoardController {
 			RedirectAttributes rttr,
 			Principal principal,
 			String datepicker1,
-			String datepicker2
+			String datepicker2,
+			String userId,
+			String reason
 			) {
-		System.out.println(datepicker1);
-		System.out.println(datepicker2);
+	
+		/*** 글 등록 ***/
 		
+		System.out.println(dto.getContent());
 		dto.setMemberId(principal.getName());
 		
 		boolean success = service.insertRestAreaBoard(dto);
@@ -202,6 +218,25 @@ public class AdminBoardController {
 			rttr.addFlashAttribute("createMessage", "글이 등록되지 않았습니다.");
 		}
 		
+		// 로그인한 멤버의 가장 최근 글 데이터(id, title 등) 구해오기
+		AdminBoardDto dto2 = service.selectLastRestArea(principal.getName());
+		
+		/*** 휴가 기간 값이 있을 때에만 휴가자 테이블에 등록 ***/
+		if(datepicker1 != "" && datepicker2 != "") {
+			AdminLeaveDto leave = getLeaveDto(principal.getName(), datepicker1, datepicker2);
+			leave.setBoardId(dto2.getId());
+			service.insertLeave(leave);
+		}
+		
+		/*** 경고 대상 유저ID와 사유가 있을 때에만 경고 테이블에 등록***/
+		if(userId != "" && reason != "") {
+			AdminWarningDto warning = new AdminWarningDto();
+			warning.setUserId(userId);
+			warning.setReason(reason);
+			warning.setBoardId(dto2.getId());
+			service.insertWarning(warning);
+		}
+		
 		return "redirect:/admin/restArea";
 	}
 	
@@ -210,13 +245,41 @@ public class AdminBoardController {
 	@GetMapping("getRestArea")
 	public void getRestArea(int id, Model model) {
 		AdminBoardDto dto = service.getRestAreaBoardById(id);
+		AdminLeaveDto leaveDto = service.selectLeaveByBoardId(id);
+		AdminWarningDto warningDto = service.selectWarningByBoardId(id);
 		
 		model.addAttribute("board", dto);
+		model.addAttribute("leave", leaveDto);
+		model.addAttribute("warning", warningDto);
+		
 	}
 	
 	@PostMapping("updateRestArea")
 	public String updateRestArea(AdminBoardDto dto,
-			RedirectAttributes rttr) {
+			String leaveId,
+			RedirectAttributes rttr,
+			Principal principal,
+			String datepicker1,
+			String datepicker2,
+			String userId,
+			String reason
+			) {
+		
+		// 휴가 기간 값이 있을 경우 휴가자 테이블 정보 수정
+		if(dto.getState() == 1 && datepicker1 != "" && datepicker2 != "") {
+			AdminLeaveDto leave = getLeaveDto(principal.getName(), datepicker1, datepicker2);
+			leave.setId(Integer.parseInt(leaveId));
+			service.updateLeave(leave);
+		}
+		
+		// 유저ID와 사유가 있을 경우 경고 테이블 정보 수정
+		if(dto.getState() == 3 && userId != "" && reason != "") {
+			AdminWarningDto warning = new AdminWarningDto();
+			warning.setBoardId(dto.getId());
+			warning.setUserId(userId);
+			warning.setReason(reason);
+			service.updateWarning(warning);
+		}
 		
 		boolean success = service.updateRestAreaBoard(dto);
 		
@@ -234,9 +297,29 @@ public class AdminBoardController {
 	@Transactional
 	@PostMapping("deleteRestArea")
 	public String deleteRestArea(AdminBoardDto dto,
-			RedirectAttributes rttr) {
+			RedirectAttributes rttr,
+			String leaveId,
+			String userId,
+			String reason) {
 		
+		System.out.println(dto.getState());
+		System.out.println(userId);
+		System.out.println(reason);
+		
+		// 휴가 글 삭제 할 때 휴가정보도 삭제
+		if(dto.getState() == 1 && leaveId != "") {
+			service.deleteLeave(Integer.parseInt(leaveId));
+		}
+		
+		// 경고 글 삭제 할 때 경고정보도 삭제
+		if(dto.getState() == 3 && userId != "" && reason != "") {
+			System.out.println("실행됨");
+			service.deleteWarning(dto.getId());
+		}
+		
+		// 댓글 삭제
 		replyService.deleteReplyByBoardId(dto.getId(), "restAreaId");
+		// 글 삭제
 		boolean success = service.deleteRestAreaBoardById(dto.getId());
 		
 		if(success) {
@@ -246,6 +329,20 @@ public class AdminBoardController {
 		}
 		
 		return "redirect:/admin/restArea";
+	}
+	
+	//쉼터 경고 글 작성시 아이디 검색
+	@PostMapping("userSearch")
+	@ResponseBody
+	public List<MemberDto> userSearch(
+			@RequestParam(name = "userId", defaultValue = "") String userId,
+			Model model
+			) {
+		
+				
+		List<MemberDto> memberList = service.selectMemberById(userId);
+		System.out.println(memberList);
+		return memberList;
 	}
 	
 	/*** 문의 ***/

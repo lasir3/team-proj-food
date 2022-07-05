@@ -88,7 +88,10 @@
 				</table>
 				
 				<sec:authorize access="hasRole('ADMIN')">
-					<a href="${appRoot }/admin/insertNotice">글 쓰기</a>
+					<a href="${appRoot }/admin/insertNotice"
+					class="btn btn-primary">
+						글 쓰기
+					</a>
 				</sec:authorize>
 				
 			</div> <!-- end of .col -->

@@ -10,6 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.team1.food.domain.AdminBoardDto;
 import com.team1.food.domain.AdminBoardPageDto;
+import com.team1.food.domain.AdminLeaveDto;
+import com.team1.food.domain.AdminWarningDto;
+import com.team1.food.domain.MemberDto;
 import com.team1.food.mapper.AdminBoardMapper;
 
 @Service
@@ -193,6 +196,57 @@ public class AdminBoardService {
 		return cnt == 1;
 		
 	}
+
+	public void insertLeave(AdminLeaveDto leave) {
+		mapper.insertLeave(leave);
+	}
+
+	public void updateLeave(AdminLeaveDto leave) {
+		mapper.updateLeave(leave);
+	}
+
+	public AdminBoardDto selectLastRestArea(String memberId) {
+		return mapper.selectLastRestArea(memberId);
+	}
+
+
+	public AdminLeaveDto selectLeaveByBoardId(int boardId) {
+		return mapper.selectLeaveByBoardId(boardId);
+	}
+
+	public void deleteLeave(int id) {
+		mapper.deleteLeave(id);
+	}
+
+	public List<AdminLeaveDto> LeaveList() {
+		return mapper.selectLeaveAll();
+	}
+
+	public List<MemberDto> selectMemberById(String userId) {
+		return mapper.selectMemberById("%" + userId + "%");
+	}
+
+	public void insertWarning(AdminWarningDto warning) {
+		mapper.insertWarning(warning);
+	}
+
+	public AdminWarningDto selectWarningByBoardId(int boardId) {
+		return mapper.selectWarningByBoardId(boardId);
+	}
+
+	public void updateWarning(AdminWarningDto warning) {
+		mapper.updateWarning(warning);
+	}
+
+	public void deleteWarning(int boardId) {
+		mapper.deleteWarning(boardId);
+	}
+
+	public List<AdminWarningDto> WarningList() {
+		return mapper.selectWarningList();
+	}
+
+
 
 	
 		

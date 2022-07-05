@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,6 +60,8 @@
 	<my:navBar2></my:navBar2>
 	<my:navBar current="admin"></my:navBar>
 	
+	
+	
 	<div class="container">
 		<div class="row">
 			<div class="col">
@@ -77,28 +79,134 @@
 					</div>
 				</c:if>
 				
-				<!-- 글 종류 탭  -->
-				<ul class="list-group list-group-horizontal">
-					<c:url value="/admin/restArea" var="stateLink">
-						<c:param name="type" value="all"></c:param>
-						<c:param name="keyword" value="%%"></c:param>
-						<c:param name="page" value="1"></c:param>
-						<c:param name="state" value=""></c:param>
-					</c:url>
-					<li class="list-group-item state-li"  id="state0">
-						<a href="${stateLink }0" class="state-a">전체</a>
-					</li>
-					<li class="list-group-item state-li"  id="state1">
-						<a href="${stateLink }1" class="state-a">휴가</a>
-			  		</li>
-					<li class="list-group-item state-li"  id="state2">
-						<a href="${stateLink }2" class="state-a">사퇴</a>
-					</li>
-					<li class="list-group-item state-li"  id="state3">
-						<a href="${stateLink }3" class="state-a">경고</a>
-					</li>
-					<input type="hidden" id="currentState" value="${not empty param.state ? param.state : 0 }"/>
-				</ul>
+				<!-- 글 종류 탭  -->	
+				<div class="row">
+					<div class="col d-flex justify-content-start">
+						<ul class="list-group list-group-horizontal">
+							<c:url value="/admin/restArea" var="stateLink">
+								<c:param name="type" value="all"></c:param>
+								<c:param name="keyword" value="%%"></c:param>
+								<c:param name="page" value="1"></c:param>
+								<c:param name="state" value=""></c:param>
+							</c:url>
+							<li class="list-group-item state-li"  id="state0">
+								<a href="${stateLink }0" class="state-a">전체</a>
+							</li>
+							<li class="list-group-item state-li"  id="state1">
+								<a href="${stateLink }1" class="state-a">휴가</a>
+					  		</li>
+							<li class="list-group-item state-li"  id="state2">
+								<a href="${stateLink }2" class="state-a">사퇴</a>
+							</li>
+							<li class="list-group-item state-li"  id="state3">
+								<a href="${stateLink }3" class="state-a">경고</a>
+							</li>
+							<input type="hidden" id="currentState" value="${not empty param.state ? param.state : 0 }"/>
+						</ul>
+					</div>
+					
+					<!-- 내가 받은 경고 -->
+					<sec:authorize access="isAuthenticated()">
+						<sec:authentication property="principal" var="principal"/>
+							<div class="col d-flex justify-content-end">
+							<!-- Modal Button  -->
+							<button type="button" 
+							class="btn btn-danger" 
+							data-bs-toggle="modal" 
+							data-bs-target="#modal2">
+								내가 받은 경고
+							</button>
+							
+							<!-- Modal -->
+							<div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							  <div class="modal-dialog">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <h5 class="modal-title" id="exampleModalLabel">내가 받은 경고내역</h5>
+							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							      </div>
+							      <div class="modal-body">
+							      <table class="table">
+							      	<thead>
+							      		<tr>
+							      			<th>사유</th>
+							      		</tr>
+							      	</thead>
+							      	<tbody>
+										<c:forEach items="${WarningList }" var="warning">
+											<c:if test="${warning.userId == principal.username}">
+												<tr>
+													<td>${warning.reason }</td>
+												</tr>
+											</c:if>
+										</c:forEach>
+							      	</tbody>
+							      </table>
+							      </div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+						</div>
+					</sec:authorize>
+				
+					
+					<!-- 휴가 현황  -->
+					<sec:authorize access="hasRole('ADMIN')">
+						<div class="col d-flex justify-content-end">
+							<!-- Modal Button  -->
+							<button type="button" 
+							class="btn btn-secondary" 
+							data-bs-toggle="modal" 
+							data-bs-target="#modal1">
+								휴가 현황
+							</button>
+							
+							<!-- Modal -->
+							<div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							  <div class="modal-dialog">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <h5 class="modal-title" id="exampleModalLabel">현재 휴가중인 인원</h5>
+							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							      </div>
+							      <div class="modal-body">
+							      <table class="table">
+							      	<thead>
+							      		<tr>
+							      			<th>휴가자</th>
+							      			<th>기간</th>
+							      		</tr>
+							      	</thead>
+							      	<tbody>
+							      		<!-- 오늘 날짜 yyyy-MM-dd 형식으로 불러오기 -->
+							      		<c:set var="now" value="<%=new java.util.Date()%>" />
+							      		<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today"/> 
+										
+							      		<c:forEach items="${LeaveList }" var="leave">
+							      			<!-- 아직 복귀하지 않은 휴가자만 표시 -->
+							      			<c:if test="${leave.endDate > today }">
+								      			<tr>
+								      				<td>${leave.memberId }</td>
+								      				<td>${leave.startDate } - ${leave.endDate }</td>
+								      			</tr>
+							      			</c:if>
+							      		</c:forEach>
+							      	</tbody>
+							      </table>
+							      </div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+						</div>
+					</sec:authorize>
+				</div>
+				
 				
 				<!-- 테이블 시작 -->
 				
@@ -158,7 +266,10 @@
 				</table>
 				
 				<sec:authorize access="hasRole('ADMIN')">
-					<a href="${appRoot }/admin/insertRestArea">글 쓰기</a>
+					<a href="${appRoot }/admin/insertRestArea" 
+					class="btn btn-primary">
+						글 쓰기
+					</a>
 				</sec:authorize>
 				
 			</div>

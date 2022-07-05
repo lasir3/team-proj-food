@@ -309,4 +309,79 @@
 	SET state = #{state}
 	WHERE id = #{id}
 	</update>
+	
+	<insert id="insertLeave">
+	INSERT INTO OnLeave (memberId, start, end, boardId)
+	VALUES (#{memberId}, #{start}, #{end}, #{boardId})
+	</insert>
+	
+	<update id="updateLeave">
+	UPDATE OnLeave
+	SET start = #{start},
+		end = #{end}
+	WHERE id = #{id}
+	</update>
+	
+	<select id="selectLeaveByBoardId" resultType="com.team1.food.domain.AdminLeaveDto">
+	SELECT id, memberId, start, end, boardId
+	FROM OnLeave
+	WHERE boardId = #{boardId}
+	</select>
+	
+	<delete id="deleteLeave">
+	DELETE FROM OnLeave
+	WHERE id = #{id}
+	</delete>
+	
+	<select id="selectLeaveAll" resultType="com.team1.food.domain.AdminLeaveDto">
+	SELECT id,
+		memberId,
+		start,
+		end,
+		boardId
+	FROM OnLeave
+	</select>
+	
+	<select id="selectMemberById" resultType="com.team1.food.domain.MemberDto">
+	SELECT id,
+		email,
+		nickName,
+		inserted
+	FROM Member
+	WHERE id LIKE #{userId}
+	</select>
+	
+	<insert id="insertWarning">
+	INSERT INTO Warning(userId, reason, boardId)
+	VALUES (#{userId}, #{reason}, #{boardId})
+	</insert>
+	
+	<select id="selectWarningByBoardId" resultType="com.team1.food.domain.AdminWarningDto">
+	SELECT id,
+			userId,
+			reason,
+			boardId
+	FROM Warning
+	WHERE boardId = #{boardId}
+	</select>
+	
+	<update id="updateWarning">
+	UPDATE Warning
+	SET userId = #{userId},
+		reason = #{reason}
+	WHERE boardId = #{boardId}
+	</update>
+	
+	<delete id="deleteWarning">
+	DELETE FROM Warning
+	WHERE boardId = #{boardId}
+	</delete>
+	
+	<select id="selectWarningList" resultType="com.team1.food.domain.AdminWarningDto">
+	SELECT id,
+			userId,
+			reason,
+			boardId
+	FROM Warning
+	</select>
 </mapper>

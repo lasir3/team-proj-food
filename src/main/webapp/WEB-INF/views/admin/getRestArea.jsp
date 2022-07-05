@@ -21,6 +21,72 @@ $(document).ready(function(){
 		$("#input1").removeAttr("readonly");
 		$("#textarea1").removeAttr("readonly");
 		$("#modify-complete1").removeClass("d-none");
+		
+		
+		
+		/* 데이트 피커 한글화  */
+		$.datepicker.setDefaults({
+	        dateFormat: 'yy-mm-dd',
+	        prevText: '이전 달',
+	        nextText: '다음 달',
+	        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+	        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+	        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+	        showMonthAfterYear: true,
+	        yearSuffix: '년'
+	    });
+		
+		// 데이트 피커
+		$( "#datepicker1" ).datepicker();
+		$( "#datepicker2" ).datepicker();
+		
+		let break1, break2;
+		
+		$("#datepicker1").change(function(){
+			break1 = $( "#datepicker1" ).datepicker("getDate");
+			
+			if(break2 != null && break1 > break2){
+				$("#datepicker2").datepicker("setDate", break1);
+				break2 = $( "#datepicker2" ).datepicker("getDate");
+			}
+		});
+		
+		$("#datepicker2").change(function(){
+			break2 = $( "#datepicker2" ).datepicker("getDate");
+			if(break1 != null && break1 > break2){
+				$("#datepicker2").datepicker("setDate", break1);
+				break2 = $( "#datepicker2" ).datepicker("getDate");
+			}
+			
+		});
+		
+		/* 현재 state 값 1일때에만 '휴가 기간' 폼 보이기 */
+		$("#stateSelect1").removeClass('d-none');
+		let state = $("#stateSelect1").val();
+		console.log(state);
+		
+		// 휴가, 경고 폼의 값 비우기
+		$("#datepicker1").val("");
+		$("#datepicker2").val("");
+		$("#reportInput1").val("");
+		$("#reportInput2").val("");
+		
+		//휴가
+		if(state == 1){		
+			$("#leaveForm1").removeClass('d-none');
+			$("#datepicker1").val("${leave.startDate}");
+			$("#datepicker2").val("${leave.endDate}");
+		}
+		
+		//경고
+		if(state == 3){
+			$("#reportForm1").removeClass('d-none');
+			$("#reportInput1").val("${warning.userId}");
+			$("#reportInput2").val("${warning.reason}");
+		}	
+		
 	});
 	
 	/* 글 삭제 버튼 클릭*/
@@ -30,6 +96,8 @@ $(document).ready(function(){
 		if(confirm("삭제하시겠습니까?")){
 			let form1 = $("#form1");
 			let actionAttr = "${appRoot}/admin/deleteRestArea";
+			$("#reportInput1").val("${warning.userId}");
+			$("#reportInput2").val("${warning.reason}");
 			form1.attr("action", actionAttr);
 			form1.submit();
 		}
@@ -236,10 +304,73 @@ $(document).ready(function(){
 		});
 	});
 	
+	/* 경고 글 작성시 아이디 검색 버튼 클릭  */
+	$("#userSearchButton1").click(function(){
+		const data = {userId : $("#userSearchInput1").val()};
+		
+		$.ajax({
+			url: "${appRoot}/admin/userSearch",
+			type: "post",
+			data: data,
+			success: function(list){
+				// 테이블 비우기
+				console.log(list);
+				const userTable = $("#userSearchTable1");
+				userTable.empty();
+				
+				// 테이블 헤더 추가
+				const userTableHead = $("<thead/>");
+				userTableHead.html(`
+						<tr>
+							<th>아이디</th>
+							<th>닉네임</th>
+							<th>가입일</th>
+							<th></th>
+						</tr>
+						`);
+				userTable.append(userTableHead);
+				
+				// 테이블 바디 추가
+				const userTableBody = $("<tbody id = 'userTableBody1' />");
+				userTable.append(userTableBody);
+				
+				const userTableBodyElem = $("#userTableBody1");
+				
+				for(let i = 0; i < list.length; i++){
+					const userTableRowElem = $("<tr/>");
+					userTableRowElem.html(`
+							<td>\${list[i].id}</td>
+							<td>\${list[i].nickName}</td>
+							<td>\${list[i].inserted}</td>
+							<td>
+								<button id="userSelectButton1" class="userSelectButton" 
+								type="button" data-user-id="\${list[i].id}">
+									선택
+								</button>
+							</td>
+							`);
+					userTableBodyElem.append(userTableRowElem);
+					
+					$(".userSelectButton").click(function(){
+						const userId = $(this).attr("data-user-id");
+						console.log(userId);
+						$("#reportInput1").val(userId);
+						$("#searchModal1").modal('hide');
+						
+					});
+				} // end of for
+			},
+			error:function(){
+				console.log("아이디 검색 실패");	
+			}
+			
+		});
+	});
 	
 	
 });
 </script>
+
 </head>
 <body>
 <my:navBar2></my:navBar2>
@@ -260,17 +391,111 @@ $(document).ready(function(){
 				
 				<form id="form1" action="${appRoot }/admin/updateRestArea" method="post">
 					<input type="hidden" name="id" value="${board.id }"/>
+					<input type="hidden" name="leaveId" value="${leave.id }" />
+					<input type="hidden" name="state" value="${board.state }" />
+					<!-- 글 세분류  -->
+					<select id="stateSelect1" name="state" class="form-select d-none" disabled>
+						<c:if test="${board.state == 1 }">
+							<option value="1" ${param.state != 1 && param.state != 2 ? 'selected' : '' } >휴가</option>
+						</c:if>
+						<c:if test="${board.state == 2 }">						
+							<option value="2" ${param.state == 1 ? 'selected' : '' } >사퇴</option>
+						</c:if>
+						<c:if test="${board.state == 3 }">						
+							<option value="3" ${param.state == 2 ? 'selected' : '' } >경고</option>
+						</c:if>
+					</select>
 					
 					<div>
 						<label class="form-label" for="input1">제목</label>
 						<input class="form-control" id="input1" type="text" name="title" 
 							 value="${board.title }" readonly required/>
 					</div>
-			
+					
+					<!-- 휴가 기간 -->
+					<div class="row d-none" id="leaveForm1">
+						<label class="form-label" for="datepicker1" >기간</label>
+						<div class="col">
+							<%-- <input class="form-control" type="text" id="datepicker1" name="datepicker1" value="${leave.startDate}"/> --%>
+							<input class="form-control" type="text" id="datepicker1" name="datepicker1"/>
+						</div>
+						<div class="col col-lg-1 text-center">-</div>
+						<div class="col">
+							<%-- <input class="form-control" type="text" id="datepicker2" name="datepicker2" value="${leave.endDate}"/> --%>
+							<input class="form-control" type="text" id="datepicker2" name="datepicker2"/>
+						</div>
+					</div>	
+					
+					<!-- 경고 전용 폼-->
+					<div class="row d-none" id="reportForm1">
+						<div class="row">
+							<label for="reportInput1" class="form-label">경고 대상</label>
+							<div class="col">
+								<!-- 경고대상 아이디 인풋 -->
+								<input class="form-control" id="reportInput1" name="userId" type="text"  readonly/>
+							</div>
+	
+							<div class="col">
+								<!-- 검색 버튼  -->
+								<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#searchModal1">검색</button>
+							</div>
+							
+							<div class="col">
+								
+								<!-- 아이디 검색 Modal -->
+								<div class="modal fade" id="searchModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								  <div class="modal-dialog">
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <h5 class="modal-title" id="exampleModalLabel">ID 검색</h5>
+								        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								      </div>
+								      <!-- 아이디 검색 Modal body  -->
+								      <div class="modal-body" id="modal-body1">
+								      	<nav class="navbar navbar-light bg-light">
+										 	<div class="container-fluid">
+												<form class="d-flex">
+										    		<span>
+										    			<input class="form-control me-2" id="userSearchInput1" type="search" placeholder="아이디 입력" aria-label="Search">
+										    		</span>
+										    		<span>
+											    		<button class="btn btn-outline-success" id="userSearchButton1" type="button">검색</button>
+										    		</span>
+												</form>
+											</div>
+										</nav>
+										<!-- 유저 검색 결과 -->
+										<div id="userSearchResultContainer1">
+											<table class="table" id="userSearchTable1">
+	
+											</table>
+										</div>
+								      </div>
+								      <div class="modal-footer">
+								        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+								        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+								      </div>
+								    </div>
+								  </div>
+								</div>
+							</div>
+						</div>
+						
+						<!-- 사유  -->
+						<div class="row">
+							<label for="reportInput2" class="form-label">사유</label>
+							<div class="col">
+								<input class="form-control" id="reportInput2" name="reason" type="text" />
+							</div>
+						</div>
+						
+					</div>
+					
+					<!-- 본문  -->
 					<div>
 						<label class="form-label" for="textarea1">본문</label>
 						<textarea class="form-control" id="textarea1" name="content" 
-							cols="30" rows="10" readonly>${board.content }</textarea>
+							cols="30" rows="10" form="form1" readonly>${board.content }</textarea>
 					</div>
 					
 					<div>
@@ -282,8 +507,8 @@ $(document).ready(function(){
 						<sec:authentication property="principal" var="principal"/>	
 						<c:if test="${principal.username == board.memberId }"> 
 							<button id="modify-start1" class="btn btn-primary" >수정</button>
-							<button id="modify-complete1" class="btn btn-success d-none" >완료</button>
-							<button id="delete-submit1" class="btn btn-danger" >삭제</button>
+							<button id="modify-complete1" class="btn btn-success d-none" form="form1" >완료</button>
+							<button id="delete-submit1" class="btn btn-danger">삭제</button>
 						</c:if>				
 					</sec:authorize>
 				</form>
@@ -321,4 +546,5 @@ $(document).ready(function(){
 	</div>
 	
 </body>
+
 </html>

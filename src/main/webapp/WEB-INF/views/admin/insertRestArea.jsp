@@ -56,6 +56,99 @@ $(document).ready(function(){
 		
 	});
 
+	/* state 값에 따라 폼 보이기/숨기기 */
+	let state = $("#stateSelect1").val();
+	if(state == 1){		
+		$("#leaveForm1").removeClass('d-none');
+	}
+	
+	$("#stateSelect1").change(function(){
+		
+		//다른 폼의 값 비워주기
+		$("#datepicker1").val("");
+		$("#datepicker2").val("");
+		$("#reportInput1").val("");
+		$("#reportInput2").val("");
+		
+		state = $("#stateSelect1").val();
+		// 휴가
+		if(state == 1){		
+			$("#leaveForm1").removeClass('d-none');
+		} else{
+			$("#leaveForm1").addClass('d-none');
+		}
+		
+		// 경고
+		if(state == 3){
+			$("#reportForm1").removeClass('d-none');
+		} else{
+			$("#reportForm1").addClass('d-none');
+		}
+	});
+	
+	/* 경고 글 작성시 아이디 검색 버튼 클릭  */
+	$("#userSearchButton1").click(function(){
+		const data = {userId : $("#userSearchInput1").val()};
+		
+		$.ajax({
+			url: "${appRoot}/admin/userSearch",
+			type: "post",
+			data: data,
+			success: function(list){
+				// 테이블 비우기
+				console.log(list);
+				const userTable = $("#userSearchTable1");
+				userTable.empty();
+				
+				// 테이블 헤더 추가
+				const userTableHead = $("<thead/>");
+				userTableHead.html(`
+						<tr>
+							<th>아이디</th>
+							<th>닉네임</th>
+							<th>가입일</th>
+							<th></th>
+						</tr>
+						`);
+				userTable.append(userTableHead);
+				
+				// 테이블 바디 추가
+				const userTableBody = $("<tbody id = 'userTableBody1' />");
+				userTable.append(userTableBody);
+				
+				const userTableBodyElem = $("#userTableBody1");
+				
+				for(let i = 0; i < list.length; i++){
+					const userTableRowElem = $("<tr/>");
+					userTableRowElem.html(`
+							<td>\${list[i].id}</td>
+							<td>\${list[i].nickName}</td>
+							<td>\${list[i].inserted}</td>
+							<td>
+								<button id="userSelectButton1" class="userSelectButton" 
+								type="button" data-user-id="\${list[i].id}">
+									선택
+								</button>
+							</td>
+							`);
+					userTableBodyElem.append(userTableRowElem);
+					
+					$(".userSelectButton").click(function(){
+						const userId = $(this).attr("data-user-id");
+						console.log(userId);
+						$("#reportInput1").val(userId);
+						$("#searchModal1").modal('hide');
+						
+					});
+				} // end of for
+			},
+			error:function(){
+				console.log("아이디 검색 실패");	
+			}
+			
+		});
+	});
+	
 }); 
 </script>			
 </head>
@@ -68,8 +161,9 @@ $(document).ready(function(){
 			<div class="col">
 			
 				<h1>쉼터 글 작성</h1>
-				<form action="${appRoot }/admin/insertRestArea" method="post">
-					<select name="state" class="form-select">
+				<form action="${appRoot }/admin/insertRestArea" method="post" id="insertRestAreaForm1">
+					<!-- 글 세분류  -->
+					<select id="stateSelect1" name="state" class="form-select">
 						<option value="1" ${param.state != 1 && param.state != 2 ? 'selected' : '' }>휴가</option>
 						<option value="2" ${param.state == 1 ? 'selected' : '' }>사퇴</option>
 						<option value="3" ${param.state == 2 ? 'selected' : '' }>경고</option>
@@ -81,8 +175,9 @@ $(document).ready(function(){
 						<input class="form-control" id="input1" name="title" type="text" required/>
 					</div>
 					
-					<!-- 기간 -->
-					<div class="row">
+					
+					<!-- 휴가 기간 전용 폼 -->
+					<div class="row d-none" id="leaveForm1">
 						<label class="form-label" for="datepicker1" >기간</label>
 						<div class="col">
 							<input class="form-control" type="text" id="datepicker1" name="datepicker1"/>
@@ -91,16 +186,81 @@ $(document).ready(function(){
 						<div class="col">
 							<input class="form-control" type="text" id="datepicker2" name="datepicker2"/>
 						</div>
-						<!-- <input class="d-none" type="date" id="break" name="break" /> -->		
-					</div>				
-					<button id="testButton">테스트버튼</button>
-					<!-- 본문 -->
-					<div>
-						<label class="form-label" for="textarea1" >본문</label>
-						<textarea  class="form-control" id="textarea1" name="content" cols="30" rows="10"></textarea>
+					</div>	
+					
+					<!-- 경고 전용 폼-->
+					<div class="row d-none" id="reportForm1">
+						<div class="row">
+							<label for="reportInput1" class="form-label">경고 대상</label>
+							<div class="col">
+								<!-- 경고대상 아이디 인풋 -->
+								<input class="form-control" id="reportInput1" name="userId" type="text"  readonly/>
+							</div>
+	
+							<div class="col">
+								<!-- 검색 버튼  -->
+								<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#searchModal1">검색</button>
+							</div>
+							
+							<div class="col">
+								
+								<!-- 아이디 검색 Modal -->
+								<div class="modal fade" id="searchModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								  <div class="modal-dialog">
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <h5 class="modal-title" id="exampleModalLabel">ID 검색</h5>
+								        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								      </div>
+								      <!-- 아이디 검색 Modal body  -->
+								      <div class="modal-body" id="modal-body1">
+								      	<nav class="navbar navbar-light bg-light">
+										 	<div class="container-fluid">
+												<form class="d-flex">
+										    		<span>
+										    			<input class="form-control me-2" id="userSearchInput1" type="search" placeholder="아이디 입력" aria-label="Search">
+										    		</span>
+										    		<span>
+											    		<button class="btn btn-outline-success" id="userSearchButton1" type="button">검색</button>
+										    		</span>
+												</form>
+											</div>
+										</nav>
+										<!-- 유저 검색 결과 -->
+										<div id="userSearchResultContainer1">
+											<table class="table" id="userSearchTable1">
+	
+											</table>
+										</div>
+								      </div>
+								      <div class="modal-footer">
+								        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+								        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+								      </div>
+								    </div>
+								  </div>
+								</div>
+							</div>
+						</div>
+						
+						<!-- 사유  -->
+						<div class="row">
+							<label for="reportInput2" class="form-label">사유</label>
+							<div class="col">
+								<input class="form-control" id="reportInput2" name="reason" type="text"  />
+							</div>
+						</div>
+						
 					</div>
 					
-					<button class="btn btn-primary">작성</button>
+					<!-- 본문  -->
+					<div>
+						<label class="form-label" for="textarea1" >본문</label>
+						<textarea class="form-control" id="textarea1" name="content" cols="30" rows="10"
+						placeholder="휴가 고지 글을 작성할 때에는 본문에도 기간을 작성해주세요." form="insertRestAreaForm1"></textarea>
+					</div>
+					
+					<button class="btn btn-primary" form="insertRestAreaForm1">작성</button>
 				</form>
 				
 			</div>

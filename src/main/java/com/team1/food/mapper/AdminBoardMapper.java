@@ -6,6 +6,9 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import com.team1.food.domain.AdminBoardDto;
+import com.team1.food.domain.AdminLeaveDto;
+import com.team1.food.domain.AdminWarningDto;
+import com.team1.food.domain.MemberDto;
 
 public interface AdminBoardMapper {
 
@@ -96,6 +99,30 @@ public interface AdminBoardMapper {
 			@Param("id")int id, 
 			@Param("state")int state, 
 			@Param("tableName")String tableName);
+
+	void insertLeave(AdminLeaveDto leave);
+
+	void updateLeave(AdminLeaveDto leave);
+
+	AdminLeaveDto selectLeaveByBoardId(int boardId);
+
+	void deleteLeave(int id);
+
+	List<AdminLeaveDto> selectLeaveAll();
+
+	List<MemberDto> selectMemberById(String userId);
+
+	void insertWarning(AdminWarningDto warning);
+
+	AdminWarningDto selectWarningByBoardId(int boardId);
+
+	void updateWarning(AdminWarningDto warning);
+
+	void deleteWarning(int boardId);
+
+	List<AdminWarningDto> selectWarningList();
+
+	
 
 
 }
