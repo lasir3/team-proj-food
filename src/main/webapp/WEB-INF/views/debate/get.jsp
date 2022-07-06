@@ -311,8 +311,6 @@ $(document).ready(function() {
 					</sec:authorize>
 
 				</h5>
-				
-				
 					
 				<c:if test="${not empty message }">
 					<div class="alert alert-primary">${message }</div>
