@@ -130,8 +130,8 @@ public class DebateController {
 	@GetMapping("get")
 	public void get(int id, Model model) {
 		DebateDto dto = service.getDebateById(id);
-		List<BigReplyDto> replyList = replyService.getBigReplyByDebateId(id);
-		model.addAttribute("debate", dto);
+		/*		List<BigReplyDto> replyList = replyService.getBigReplyByDebateId(id);
+		*/		model.addAttribute("debate", dto);
 		
 
 		/* ajax로 처리하기 위해 삭제 */

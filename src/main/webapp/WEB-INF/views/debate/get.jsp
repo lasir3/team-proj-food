@@ -35,6 +35,7 @@ $(document).ready(function() {
 		$("#close-submit1").removeClass("d-none");
 		$("#input1").removeClass("d-none");
 		$("#title-a").addClass("d-none");
+		$("#addReplySubmitButton1").removeClass("d-none");
 	});
 	
 	$("#delete-submit1").click(function(e) {
@@ -328,17 +329,15 @@ $(document).ready(function() {
 					<input type="hidden" name="id" value="${debate.id }" />
 
  				    <div>	
- 				    	<a href="${foodUrl }" style="text-decoration-line: none; font-size: 25px;" id="title-a">${debate.title }</a>
- 				    	<a href="${foodUrl }" style="text-decoration-line: none; font-size: 25px;" id="title-a">${debate.cateName }</a>
+ 				    	<h2 id="title-a">${debate.title }</h2>
+ 				    	<a href="${foodUrl }" style="text-decoration-line: none; font-size: 25px;">${debate.cateName }</a>
  				    	
 						<input style= "border: none; background: transparent; font-size:25px;"
 							type="text" name="title" required class="d-none"
 							id="input1" value="${debate.title }"readonly ><a href="${listUrl }" style="text-decoration-line: none;">(토론)</a></input>
 					</div>		
 					<button id="modify-submit1" class="btn btn-primary d-none">수정</button>
-					<button id="delete-submit1" class="btn btn-danger d-none">삭제</button>
-					<!-- <button id="close-submit1" class="btn btn-secondary d-none">토론 닫기</button> -->
- 			
+					<button id="delete-submit1" class="btn btn-danger d-none">삭제</button> 			
 					<div class="wrap">
 					<div>
 						<label class="form-label" for="textarea1"><!-- <div class="card"> --></label>
@@ -355,40 +354,9 @@ $(document).ready(function() {
 						 	
 					</div>
 					
-					<!-- 삭제
-					style="text-overflow:clip;"
-					<!--  onInput="this.parentNode.dataset.replicatedValue = this.value" -->
-						 
-				
-				<%-- 	<div>
-						<label for="input3" class="form-label">작성자</label>
-						<input id="input3" class="form-control mb-3" type="text"
-							value="${debate.writerNickName }" readonly />
-					</div> --%>
-
-					
-					<%-- <div>
-						
-						<label for="textarea1">본문</label>			
-						<textarea  name="body" id="textarea1" readonly>${debate.body }</textarea>
-					</div> --%> 
-					<%-- <div>
-						<label for="input2" class="form-label">작성일시</label>
-						<input class="form-control mb-3" type="datetime-local"
-							value="${debate.inserted }" readonly />
-							${debate.writerNickName }/${debate.inserted }
-					</div>
-					 --%>
-					
 					<div class="container mt-3">
 						<div class="row">
 							<div class="col">
-								<!-- <p>
-									댓글
-									<span id="numOfReply1"></span>
-									개
-								</p> -->
-
 								<ul id="replyList1" class="list-group" style="list-style: none">
 								</ul>
 							</div>
