@@ -170,9 +170,14 @@
 		b.inserted,
 		b.memberId,
 		m.nickName writerNickName,
-		COUNT(r.id) numOfReply
+		COUNT(r.id) numOfReply,
+		c.cateName cateName,
+		b.cateIndex cateIndex,
+		f.foodIndex foodIndex
 		FROM Debate b LEFT JOIN BigReply r ON b.id = r.debateId
 		JOIN Member m ON b.memberId = m.id
+		JOIN FoodCateTable c On b.cateIndex = c.cateIndex
+		JOIN FoodTable f On b.cateIndex = f.cateIndex
 		WHERE b.id = #{id}
 	</select>
 	

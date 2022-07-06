@@ -29,6 +29,7 @@
 	$("#edit-button1").click(function() {
 		$("#input1").removeAttr("readonly");
 		$("#textarea1").removeAttr("readonly");
+		$("#textarea1").removeAttr("d-none");
 		$("#modify-submit1").removeClass("d-none");
 		$("#delete-submit1").removeClass("d-none");
 		$("#close-submit1").removeClass("d-none");
@@ -293,7 +294,8 @@
 <my:navBar2></my:navBar2>
 	<my:navBar current="close" />
 	<c:url value="/debate/close" var="listUrl"></c:url>
-
+	<c:url value="/foodBoard/foodList?cateIndex=${debate.cateIndex }" var="foodUrl"></c:url>
+	
 	<div class="container">
 		<div class="row">
 			<div class="col">
@@ -326,62 +328,29 @@
 					<input type="hidden" name="id" value="${debate.id }" />
 
  				    <div>	
- 				    	<a href="stringVal" style="text-decoration-line: none; font-size: 25px;" id="title-a">${debate.title }</a>
+ 				    	<h3>${debate.title }</h3>
+ 				    	<a href="${foodUrl }" style="text-decoration-line: none; font-size: 25px;">${debate.cateName }</a>
 						<input style= "border: none; background: transparent; font-size:25px;"
 							type="text" name="title" required class="d-none"
 						 value="${debate.title }"readonly ><a href="${listUrl }" style="text-decoration-line: none;">(닫힌토론)</a></input>
 					</div>		
-				<!-- 	<button id="close-submit1" class="btn btn-primary d-none">토론 닫기</button> -->
-					<!-- <button id="modify-submit1" class="btn btn-primary d-none">수정</button> -->
-					<button id="delete-submit1" class="btn btn-danger d-none">삭제</button>
-					<!-- <button id="close-submit1" class="btn btn-secondary d-none">토론 닫기</button> -->
- 			
+					<button id="delete-submit1" class="btn btn-danger d-none">삭제</button> 			
 					
 					<div class="wrap">
 					<div>
-						<label class="form-label" for="textarea1"><!-- <div class="card"> --></label>
+						<label class="form-label" for="textarea1"></label>
 
 						<div class="card-header" style="background-color: skyblue" >
 							${debate.writerNickName }
-							
-						<!-- 	<label for="input2" class="form-label">작성일시</label> -->
 							<span>${debate.prettyInserted }</span>
 						</div>
 					</div>
 						<textarea class="form-control mb-3" name="body" id="textarea1"
 						 readonly>${debate.body }</textarea>
 					</div>
-					
-				
-				<%-- 	<div>
-						<label for="input3" class="form-label">작성자</label>
-						<input id="input3" class="form-control mb-3" type="text"
-							value="${debate.writerNickName }" readonly />
-					</div> --%>
-
-					
-					<%-- <div>
-						
-						<label for="textarea1">본문</label>			
-						<textarea  name="body" id="textarea1" readonly>${debate.body }</textarea>
-					</div> --%> 
-					<%-- <div>
-						<label for="input2" class="form-label">작성일시</label>
-						<input class="form-control mb-3" type="datetime-local"
-							value="${debate.inserted }" readonly />
-							${debate.writerNickName }/${debate.inserted }
-					</div>
-					 --%>
-					
 					<div class="container mt-3">
 						<div class="row">
 							<div class="col">
-								<!-- <p>
-									댓글
-									<span id="numOfReply1"></span>
-									개
-								</p> -->
-
 								<ul id="replyList1" class="list-group" style="list-style: none">
 								</ul>
 							</div>
