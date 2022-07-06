@@ -50,21 +50,22 @@
 					</div>
 					<div>
 						<label class="form-label" for="input1">카테고리 :</label>
-						<select name="cateIndex" class="form-select mb-3" aria-label="Default select example">
-						<option selected> 선택해주세요
+						<select name="cateIndex" class="form-select mb-3" 
+						aria-label="Default select example" required>
+								<option value="" selected>선택해주세요.</option>
 							<c:forEach items="${cateList }" var="cate">
 								<option value="${cate.cateIndex }">${cate.cateName }</option>
 								<script>console.log("${cate.cateIndex}")</script>
-							</c:forEach>
-						</option>
+							</c:forEach>	
 						</select>
+						
 					</div>
 					<div>
 						<label class="form-label" for="textarea1">내용 :</label>
 						<textarea style="resize: none;" placeholder="내용을 입력해 주세요." class="form-control mb-3" name="body" id="textarea1" cols="30" rows="10"></textarea>
 					</div>
 					
-					<button class="btn btn-primary">작성</button>
+					<button class="btn btn-primary" >작성</button>
 				</form>
 			</div>
 		</div>

@@ -115,7 +115,6 @@ public class DebateController {
 		
 		debate.setMemberId(principal.getName());
 		debate.setCateIndex(cateIndex);
-		System.out.println(cateIndex);
 		boolean success = service.addDebate(debate);
 		
 			if(success) {
