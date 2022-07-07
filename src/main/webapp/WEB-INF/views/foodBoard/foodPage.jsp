@@ -13,9 +13,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
+<title>${foodDto.foodName}</title>
+
 <style>
    .foodname {
-       font-size: 48px;
+	   font-size: 48px;
    }
    .catename {
        font-size: 15px;
@@ -27,6 +29,19 @@
 	.arrow {
 		font-size:xx-large;
 		text-align: center;
+	}
+	
+   .btn-info {
+	background-color: #78E150;
+	border-color: #78E150;
+	color: black;
+	hover-color: black;
+	
+	}
+	.btn-info:hover {
+		background-color: #66b349;
+		border-color: #66b349;
+		color: black;
 	}
 </style>
 
@@ -214,7 +229,6 @@
 	
 </script>
     
-<title>Insert title here</title>
 
 </head>
 <body>
@@ -239,7 +253,7 @@
 					
 					<!-- 토론 검색 버튼 -->
 					<button type="button" onclick="location.href='/wiki/debate/list?type=all&keyword=${foodDto.foodName }' "
-					class="btn btn-success">${foodDto.foodName } 토론검색</button>
+					class="btn btn-success">&#39;${foodDto.foodName }&#39; 키워드로 토론검색</button>
 				</div>
 				
 				<div class="mt-5 container-disable">
@@ -282,7 +296,7 @@
 		</div>
 	</div>
 	<a id="back-to-top" href="#"
-		class="btn btn-primary btn-sm back-to-top-css" role="button"
+		class="btn btn-info btn-sm back-to-top-css" role="button"
 		data-toggle="tooltip" data-placement="left">
 		<span class="glyphicon glyphicon-chevron-up">
 			<i class="fa-solid fa-angles-up"></i>

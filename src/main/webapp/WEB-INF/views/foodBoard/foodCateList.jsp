@@ -26,7 +26,8 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 	crossorigin="anonymous"></script>
-<title>Insert title here</title>
+<title>요리위키에 오신것을 환영합니다!!</title>
+
 <style>
 .back-to-top-css {
     cursor: pointer;
@@ -35,7 +36,41 @@
     right: 30px;
     display: none;
 }
+
+.btn-info {
+	background-color: #78E150;
+	border-color: #78E150;
+	color: black;
+	hover-color: black;
+}
+.btn-info:hover {
+	background-color: #66b349;
+	border-color: #66b349;
+	color: black;
+}
+
+.imageContainer {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+/* Centered text */
+.centered {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.centered2 {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 </style>
+
 <script>
 	$(document).ready(function() {
 		$("#add-submit1").click(function(e) {
@@ -71,15 +106,19 @@
     });
 
 </script>
-
 </head>
 <body>
 <my:navBar2></my:navBar2>
 <my:navBar current="foodCateList"></my:navBar>
 	<div class="container mt-5">
 		<div class="row">
-			<h1 class="mb-4">요리위키에 오신것을 환영합니다!!</h1>
-			<div class="mb-5">이 위키는 요리에 관한 위키입니다.</div>
+			<div class="imageContainer mb-4">
+				<img src="${imageUrl }/foodWikiFile/FoodCateTable/mainPic.png" class="img-fluid" alt="...">
+				<h1 class="centered mb-5">요리위키에 오신것을 환영합니다!!</h1>
+				<div class="centered2 mb-5">요리위키는 누구나 레시피를 작성하고 공유할 수 있는 위키입니다.</div>
+			</div>
+		
+			<div class="mt-4"></div>
 			<h2 class="mb-4">카테고리 목록</h2>
 			
 			<sec:authorize access="hasRole('ADMIN')">
@@ -126,7 +165,6 @@
 				</div>
 			</form>
 
-
 			<c:forEach items="${foodCateList }" var="cateList"
 				varStatus="indexNum">
 				<div class="col-sm-4">
@@ -135,9 +173,8 @@
 							src="${imageUrl }/foodWikiFile/FoodCateTable/${cateList.cateIndex }/${cateList.fileName }"
 							class="card-img-top embed-responsive-item" alt="...">
 						<div class="card-body">
-							<h5 class="card-title">${cateList.cateName }</h5>
-							<a href="foodList?cateIndex=${cateList.cateIndex }"
-								class="btn btn-primary">카테고리로 이동</a>	
+							<h5 class="card-title" style="color:black" >${cateList.cateName }</h5>
+							<a href="foodList?cateIndex=${cateList.cateIndex }"	class="btn btn-info">카테고리로 이동</a>	
 						</div>
 					</div>
 				</div>
@@ -174,8 +211,10 @@
 			m.show();
 		</script>
 	</c:if>
+	
+	<!-- 페이지 상단으로 이동 -->
 	<a id="back-to-top" href="#"
-		class="btn btn-primary btn-sm back-to-top-css" role="button"
+		class="btn btn-info btn-sm back-to-top-css" role="button"
 		data-toggle="tooltip" data-placement="left">
 		<span class="glyphicon glyphicon-chevron-up">
 			<i class="fa-solid fa-angles-up"></i>

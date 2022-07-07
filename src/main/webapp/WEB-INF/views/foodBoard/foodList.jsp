@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" integrity="sha512-GQGU0fMMi238uA+a/bdWJfpUGKUkBdgfFdgBm72SUQ6BeyWjoY/ton0tEjH+OSH9iP4Dfh+7HM0I9f5eR0L/4w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-<title>Insert title here</title>
+<title>${cateDto.cateName }</title>
 
 <style>
    .catetext {
@@ -22,6 +22,19 @@
    .maintext {
        font-size: 15px;
    }
+   
+   .btn-info {
+	background-color: #78E150;
+	border-color: #78E150;
+	color: black;
+	hover-color: black;
+	
+	}
+	.btn-info:hover {
+		background-color: #66b349;
+		border-color: #66b349;
+		color: black;
+	}
 </style>
 
 <script>
@@ -52,8 +65,12 @@
 	<my:navBar></my:navBar>
 	<div class="container mt-5">
 		<div class="row">
+			<div class="maintext">
+			<button type="button" onclick="location.href='foodCateList' "
+			class="btn-sm btn-secondary">메인 페이지로</button>
+			</div>
+			<!-- <div class="maintext">&nbsp;<a href="foodCateList">메인 페이지로</a></div> -->
 			<div class="catetext" >${cateDto.cateName }</div>
-			<div class="maintext">&nbsp;<a href="foodCateList">메인 페이지로</a></div>
 			
 			<div class="mb-5"> - 이 위키는 ${cateDto.cateName }에 해당하는 요리에 관한 페이지입니다.</div>
 			
@@ -166,7 +183,7 @@
 				<c:forEach items="${foodListPage }" var="list">
 				<c:if test="${not empty list.foodName }">
 					<div class="card-body">
-						<a href="foodPage?foodIndex=${list.foodIndex }" class="btn btn-primary">${list.foodName }</a>
+						<a href="foodPage?foodIndex=${list.foodIndex }" class="btn btn-info">${list.foodName }</a>
 					</div>
 				</c:if>
 				</c:forEach>
@@ -203,7 +220,7 @@
 		</script>
 	</c:if>
 	<a id="back-to-top" href="#"
-		class="btn btn-primary btn-sm back-to-top-css" role="button"
+		class="btn btn-info btn-sm back-to-top-css" role="button"
 		data-toggle="tooltip" data-placement="left">
 		<span class="glyphicon glyphicon-chevron-up">
 			<i class="fa-solid fa-angles-up"></i>
