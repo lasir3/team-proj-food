@@ -11,13 +11,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.team1.food.domain.FoodCateDto;
 import com.team1.food.domain.MemberDto;
+import com.team1.food.service.CategoryService;
 import com.team1.food.service.MailSendService;
 import com.team1.food.service.MemberService;
 
 @Controller
 @RequestMapping("member")
 public class MemberController {
+	
+	@Autowired
+	private CategoryService cateService;
+
 	@Autowired
 	private MemberService service;
 	
@@ -25,8 +31,11 @@ public class MemberController {
 	private MailSendService mailService;
 
 	@GetMapping("signup")
-	public void signupForm() {
-		
+	public void signupForm(Model model) {
+    	//Navbar용 cateDto 정보
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
+
 	}
 
     
@@ -102,6 +111,10 @@ public class MemberController {
     public void list(Model model) {
         List<MemberDto> list = service.listMember();
         model.addAttribute("memberList", list);
+        
+    	//Navbar용 cateDto 정보
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
 
     }
     
@@ -109,6 +122,10 @@ public class MemberController {
     public void getMember(String id, Model model) {
         MemberDto member = service.getMemberById(id);
         model.addAttribute("member", member);       
+        
+    	//Navbar용 cateDto 정보
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
     }
     
 
@@ -144,8 +161,10 @@ public class MemberController {
     }
     
 	@GetMapping("login")
-	public void loginPage() {
-		
+	public void loginPage(Model model) {
+    	//Navbar용 cateDto 정보
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
 	}
 
 

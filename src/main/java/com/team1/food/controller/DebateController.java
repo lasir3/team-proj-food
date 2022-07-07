@@ -17,12 +17,16 @@ import com.team1.food.domain.DebateDto;
 import com.team1.food.domain.FoodCateDto;
 import com.team1.food.domain.PageInfoDto;
 import com.team1.food.service.BigReplyService;
+import com.team1.food.service.CategoryService;
 import com.team1.food.service.DebateService;
 
 @Controller
 @RequestMapping("debate")
 public class DebateController {
-
+	
+	@Autowired
+	private CategoryService cateService;
+	
 	@Autowired
 	private DebateService service;
 
@@ -36,6 +40,9 @@ public class DebateController {
 			@RequestParam(name = "keyword", defaultValue = "") String keyword){
 
 		int rowPerPage = 10;
+		
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
 
 		int totalRecords = service.countDebate(type, keyword);
 		int end = (totalRecords - 1) / rowPerPage + 1;
@@ -61,6 +68,7 @@ public class DebateController {
 		
 		int rowPerPage = 10;
 		
+		
 		int totalRecords = service.countClose(type, keyword);
 		int end = (totalRecords -1) / rowPerPage + 1;
 		
@@ -69,6 +77,9 @@ public class DebateController {
 		pageInfo.setEnd(end);
 				
 		List<DebateDto> close = service.closeDebate(type, page, keyword, rowPerPage);
+
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
 	 
 		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("closeDebate", close);

@@ -30,9 +30,11 @@ import com.team1.food.domain.AdminBoardDto;
 import com.team1.food.domain.AdminBoardPageDto;
 import com.team1.food.domain.AdminLeaveDto;
 import com.team1.food.domain.AdminWarningDto;
+import com.team1.food.domain.FoodCateDto;
 import com.team1.food.domain.MemberDto;
 import com.team1.food.service.AdminBoardService;
 import com.team1.food.service.AdminReplyService;
+import com.team1.food.service.CategoryService;
 
 @Controller
 @RequestMapping("admin")
@@ -43,6 +45,9 @@ public class AdminBoardController {
 	
 	@Autowired
 	private AdminReplyService replyService;
+	
+	@Autowired
+	private CategoryService cateService;
 	
 	// 한 화면에 보여줄 게시글 개수
 	int rowPerPage = 10;
@@ -65,6 +70,9 @@ public class AdminBoardController {
 		List<AdminBoardDto> reportList = service.reportList("", "", 1, row);
 		model.addAttribute("reportBoardList", reportList);
 		
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
+		
 	}
 	
 	/*** 공지 ***/
@@ -84,6 +92,9 @@ public class AdminBoardController {
 				type, keyword, page, rowPerPage);
 		// 고정 공지 글 가져오기
 		List<AdminBoardDto> pinnedList = service.pinnedNoticeList();
+		
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
 		
 		model.addAttribute("pinnedBoardList", pinnedList);
 		model.addAttribute("pageInfo", pageDto);
@@ -121,6 +132,9 @@ public class AdminBoardController {
 	@GetMapping("getNotice")
 	public void getNotice(int id, Model model) {
 		AdminBoardDto dto = service.getNoticeBoardById(id);
+		
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
 		
 		model.addAttribute("board", dto);
 	}
@@ -182,11 +196,15 @@ public class AdminBoardController {
 		// 경고 정보 가져오기
 		List<AdminWarningDto> WarningList = service.WarningList();
 		
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
+		
 		model.addAttribute("pinnedBoardList", pinnedList);
 		model.addAttribute("pageInfo", pageDto);
 		model.addAttribute("boardList", list);
 		model.addAttribute("LeaveList", LeaveList);
 		model.addAttribute("WarningList", WarningList);
+		
 	}
 	
 	// 쉼터 글 작성 시작
@@ -250,6 +268,9 @@ public class AdminBoardController {
 		AdminBoardDto dto = service.getRestAreaBoardById(id);
 		AdminLeaveDto leaveDto = service.selectLeaveByBoardId(id);
 		AdminWarningDto warningDto = service.selectWarningByBoardId(id);
+		
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
 		
 		model.addAttribute("board", dto);
 		model.addAttribute("leave", leaveDto);
@@ -366,6 +387,9 @@ public class AdminBoardController {
 		// 고정 공지 글 가져오기
 		List<AdminBoardDto> pinnedList = service.pinnedNoticeList();
 		
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
+		
 		model.addAttribute("pinnedBoardList", pinnedList);
 		model.addAttribute("pageInfo", pageDto);
 		model.addAttribute("boardList", list);
@@ -403,6 +427,9 @@ public class AdminBoardController {
 	@GetMapping("getAsk")
 	public void getAsk(int id, Model model) {
 		AdminBoardDto dto = service.getAskBoardById(id);
+		
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
 		
 		model.addAttribute("board", dto);
 	}
@@ -475,6 +502,9 @@ public class AdminBoardController {
 		// 고정 공지 글 가져오기
 		List<AdminBoardDto> pinnedList = service.pinnedNoticeList();
 		
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
+		
 		model.addAttribute("pinnedBoardList", pinnedList);
 		model.addAttribute("pageInfo", pageDto);
 		model.addAttribute("boardList", list);
@@ -512,6 +542,9 @@ public class AdminBoardController {
 	@GetMapping("getReport")
 	public void getReport(int id, Model model) {
 		AdminBoardDto dto = service.getReportBoardById(id);
+		
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
 		
 		model.addAttribute("board", dto);
 	}
