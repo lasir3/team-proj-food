@@ -44,7 +44,7 @@
 	border-color: #78E150;
 	color: black;
 }
-.btn-info:hover {
+.btn-info:hover, .btn-info:active, .btn-info:focus {
 	background-color: #66b349;
 	border-color: #66b349;
 	color: black;

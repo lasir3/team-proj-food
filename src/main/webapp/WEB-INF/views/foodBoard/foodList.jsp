@@ -24,11 +24,10 @@
    }
    
    .btn-info {
-	background-color: #78E150;
-	border-color: #78E150;
-	color: black;
-	hover-color: black;
-	
+		background-color: #78E150;
+		border-color: #78E150;
+		color: black;
+		hover-color: black;
 	}
 	.btn-info:hover {
 		background-color: #66b349;

@@ -214,4 +214,27 @@
 		INSERT INTO SubRecipeTable (foodIndex, subRecipeName, memberId) 
 		VALUES (#{foodIndex}, #{subRecipeName}, #{memberId})
 	</insert>
+	
+	<select id="selectSubIndexBySubName" resultType="int">
+		SELECT subRecipeIndex
+		FROM SubRecipeTable
+		WHERE subRecipeName = #{subRecipeName}
+	</select>
+	
+	<insert id="insertVote">
+		INSERT INTO VoteRecipeTable (subRecipeIndex, memberId, voteCount)
+		VALUES (#{subRecipeIndex}, #{memberId}, 0)
+	</insert>
+	
+	<select id="selectMemberIdOnVote" resultType="String">
+		SELECT memberId
+		FROM VoteRecipeTable
+		WHERE memberId = #{memberId} AND subRecipeIndex = #{subRecipeIndex}
+		GROUP BY memberId
+	</select>
+	
+	<insert id="insertVoteByMemberId">
+		INSERT INTO VoteRecipeTable (subRecipeIndex, memberId, voteCount)
+		VALUES (#{subRecipeIndex}, #{memberId}, #{voteCount})
+	</insert>
 </mapper>

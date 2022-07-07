@@ -1,7 +1,6 @@
 package com.team1.food.service;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -214,13 +213,13 @@ public class CategoryService {
 	}
 	
 	// subRecipeIndex에 해당하는 memberId의 추천수 가져오기 
-	public int getVoteNum(VoteDto dto, Principal principal) {
-		return mapper.selectVoteNum(dto.getSubRecipeIndex(), principal.getName());
+	public int getVoteNum(VoteDto dto) {
+		return mapper.selectVoteNum(dto);
 	}
 
 	// 추천 버튼 누를때 서비스
-	public boolean setVoteNum(VoteDto dto, int voteNum, Principal principal) {
-		return mapper.updateVoteNum(dto.getSubRecipeIndex(), voteNum, principal.getName()) == 1;
+	public boolean setVoteNum(VoteDto dto, int voteNum) {
+		return mapper.updateVoteNum(dto.getSubRecipeIndex(), voteNum, dto.getMemberId()) == 1;
 	}
 
 	// 음식 테이블 수정 서비스
@@ -262,9 +261,31 @@ public class CategoryService {
 		int cnt = mapper.deleteRecipe(dto);
 		return cnt == 1;
 	}
-
+	
+	// 레시피 추가 서비스
+	@Transactional
 	public boolean addRecipe(SubFoodDto dto) {
 		int cnt = mapper.insertRecipe(dto);
+		return cnt == 1;
+	}
+
+	// 레시피 생성후 레시피의 이름으로 인덱스 번호 가져오는 서비스
+	public int getSubIndex(String subRecipeName) {
+		return mapper.selectSubIndexBySubName(subRecipeName);
+	}
+
+	// 레시피 index번호로 vote Record 생성 서비스
+	public boolean addVote(SubFoodDto dto) {
+		int cnt = mapper.insertVote(dto);
+		return cnt == 1;
+	}
+
+	public String searchMemberIdOnVote(VoteDto dto) {
+		return mapper.selectMemberIdOnVote(dto);
+	}
+
+	public boolean addVoteByMemberId(VoteDto dto, int voteNum) {
+		int cnt = mapper.insertVoteByMemberId(dto.getSubRecipeIndex(), voteNum, dto.getMemberId());
 		return cnt == 1;
 	}
 

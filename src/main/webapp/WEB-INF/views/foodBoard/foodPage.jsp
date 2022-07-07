@@ -61,6 +61,8 @@
 					console.log('sublist', subList);
 					
 					const subListElement = $("#subRecipeList1"); 
+					subListElement.sort();
+					
 					// list 표시를 위해 초기화 필요
 					subListElement.empty();
 					// 하위리스트의 갯수 표시
@@ -72,6 +74,7 @@
 						var subIndex = subList[i].subRecipeIndex;
 						// subRecipeIndex로 추천수 ajax 실행
 						const voteData = {subRecipeIndex : subIndex};
+						console.log(voteData);
 						
 						// for 문으로 subList List를 가려오고 아래 ajax요청으로 해당 List에 해당하는 subRecipeIndex값을 참조하여 추천수를 카운트하는 service가 작동
 						$.ajax({
@@ -84,6 +87,7 @@
 								subElement.html(`
 										<div id="voteDisplayContainer" class="row">
 											<!-- 가져올 subRecipeIndex와 voteCount 정보 -->
+											<input type="hidden" name="subIndex1" value="\${subList[i].subRecipeIndex }" /> 
 											<input type="hidden" name="voteCountNumber1" value="\${voteCount }" /> 
 											<div class="col-1">
 												<div class="row">
@@ -104,7 +108,7 @@
 													</sec:authorize>
 												</div>
 												<h1>\${subList[i].subRecipeName }</h1>
-												<h3>\${subList[i].content }</h3>
+												<textarea class="form-control" readonly>\${subList[i].content }</textarea>
 											</div>
 										</div>
 										
@@ -136,7 +140,6 @@
 										const voteNumData = {
 											subRecipeIndex : elem.find("[name=subIndex1]").val(),
 											voteCount : elem.find("[name=voteCountNumber1]").val(),
-											// 여기서 
 										};
 										$.ajax({
 											url : "${appRoot }/foodBoard/voteUp",
@@ -162,7 +165,7 @@
 									}
 									
 								})(subElement)); // click event handler
-								
+								// 추천 down 버튼 클릭시 추천수 감소
 								subElement.find(".vote-Down-Button1").click((function(subelem) {
 									const elem = subelem;
 									return function(e) {
@@ -172,7 +175,6 @@
 										const voteNumData = {
 											subRecipeIndex : elem.find("[name=subIndex1]").val(),
 											voteCount : elem.find("[name=voteCountNumber1]").val(),
-											// 여기서 
 										};
 										$.ajax({
 											url : "${appRoot }/foodBoard/voteDown",
@@ -224,8 +226,16 @@
 	    });
 
 	    $('#back-to-top').tooltip('show');
+	    
+		$("#add-submit1").click(function(e) {
+			e.preventDefault();
+
+			if (confirm("추가하시겠습니까?")) {
+				let form1 = $("#form1");
+				form1.submit();
+			}
+		});
 	});
-	
 </script>
 
 <style>
@@ -241,6 +251,7 @@
       /* 클릭 불가능 none */
       pointer-events : none;
     }
+    
 </style>
 
 <script>
@@ -251,7 +262,10 @@
 	    sTextarea.style.height = bsize+"px"; 
 	    sTextarea.style.height = csize;
 	}
-	
+	function resize(obj) {
+	    obj.style.height = '1px';
+	    obj.style.height = (12 + obj.scrollHeight) + 'px';
+	}
 </script>
     
 
@@ -363,7 +377,7 @@
 	
 	<!-- 레시피 등록 여부에 따른 메시지 띄우기 -->
 	<!-- 안내 메시지용 Modal -->
-	<c:if test="${not empty cateMessage }">
+	<c:if test="${not empty recipeMessage }">
 		<!-- Modal -->
 		<div class="modal fade" id="modalMessage1" tabindex="-1"
 			aria-hidden="true">
@@ -375,7 +389,7 @@
 							aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<p>${cateMessage }</p>
+						<p>레시피가 추가되었습니다.</p>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary"
@@ -385,10 +399,7 @@
 			</div>
 		</div>
 
-		<script>
-			let m = new bootstrap.Modal(document.getElementById('modalMessage1'), {});
-			m.show();
-		</script>
+
 	</c:if>
 	
 	<a id="back-to-top" href="#"

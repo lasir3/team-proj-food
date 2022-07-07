@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.team1.food.domain.FoodCateDto;
 import com.team1.food.domain.FoodDto;
 import com.team1.food.domain.SubFoodDto;
+import com.team1.food.domain.VoteDto;
 
 @Mapper
 public interface CategoryMapper {
@@ -58,7 +59,7 @@ public interface CategoryMapper {
 
 	int selectVoteSum(int subRecipeIndex);
 
-	int selectVoteNum(@Param("subRecipeIndex") int subRecipeIndex, @Param("memberId") String memberId);
+	int selectVoteNum(VoteDto dto);
 
 	int updateVoteNum(@Param("subRecipeIndex") int subRecipeIndex, @Param("voteCount") int voteNum, @Param("memberId") String memberId);
 
@@ -79,5 +80,15 @@ public interface CategoryMapper {
 	void deleteVote(SubFoodDto dto);
 
 	int insertRecipe(SubFoodDto dto);
+
+	int selectSubIndexBySubName(String subRecipeName);
+
+	int insertVote(SubFoodDto dto);
+
+	String selectMemberIdOnVote(VoteDto dto);
+
+	void insertVoteByMemberId(VoteDto dto);
+
+	int insertVoteByMemberId(@Param("subRecipeIndex") int subRecipeIndex, @Param("voteCount") int voteNum, @Param("memberId") String memberId);
 
 }

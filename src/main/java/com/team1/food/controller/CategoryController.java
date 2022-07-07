@@ -54,7 +54,6 @@ public class CategoryController {
 	// 검색시 카테고리, 음식, 레시피 리스트 응답 메소드
 	@RequestMapping("searchList")
 	public void searchList(@RequestParam(name = "keyword", defaultValue = "") String keyword, Model model) {
-		System.out.println(keyword);
 		List<FoodCateDto> cateList = cateService.getSearchCateList(keyword);
 		List<FoodDto> foodList = cateService.getSearchFoodList(keyword);
 		List<SubFoodDto> recipeList = cateService.getSearchRecipeList(keyword);
@@ -80,7 +79,7 @@ public class CategoryController {
 		model.addAttribute("foodCateList", cateNavList);
 	}
 	
-	// food Page 수정 메소드
+	// foodPage 수정 메소드
 	@PostMapping("modifyFoodPage")
 	public String modifyFood(FoodDto dto, RedirectAttributes rttr) {
 		int foodIndex = dto.getFoodIndex();
@@ -109,25 +108,26 @@ public class CategoryController {
 	// 레시피 추가 메소드
 	@PostMapping("addRecipe")
 	public String addRecipe(SubFoodDto dto, @RequestParam(name = "recipeName", defaultValue = "") String subRecipeName, Principal principal, RedirectAttributes rttr) {
-		System.out.println(subRecipeName);
 		int foodIndex = dto.getFoodIndex();
-		System.out.println(foodIndex);
 		if (subRecipeName != null) {
 			// 작성 맴버 추가
 			dto.setMemberId(principal.getName());
 			dto.setSubRecipeName(subRecipeName);
 			boolean success = cateService.addRecipe(dto);
-			if (success) {
-				rttr.addFlashAttribute("cateMessage", "레시피 등록 성공했습니다.");
+			int getSubIndex = cateService.getSubIndex(subRecipeName);
+			dto.setSubRecipeIndex(getSubIndex);
+			boolean success2 = cateService.addVote(dto);
+			if (success && success2) {
+				rttr.addFlashAttribute("recipeMessage", "레시피 등록 성공했습니다.");
 				System.out.println("추가성공");
 			} else {
-				rttr.addFlashAttribute("cateMessage", "레시피 등록 실패했습니다.");
+				rttr.addFlashAttribute("recipeMessage", "레시피 등록 실패했습니다.");
 			}
 		} else {
-			rttr.addFlashAttribute("cateMessage", "레시피 이름을 입력해주세요.");
+			rttr.addFlashAttribute("recipeMessage", "레시피 이름을 입력해주세요.");
 		}
 		rttr.addAttribute("foodIndex", foodIndex);
-		return "redirect:foodCateList";
+		return "redirect:foodPage";
 	}
 
 	
@@ -291,7 +291,7 @@ public class CategoryController {
 	@GetMapping("subList")
 	@ResponseBody
 	public List<SubFoodDto> subList(int foodIndex) {
-		System.out.println(cateService.getSubDtoList(foodIndex).size());
+		System.out.println(cateService.getSubDtoList(foodIndex).toString());
 		return cateService.getSubDtoList(foodIndex);
 	}
 
@@ -302,30 +302,47 @@ public class CategoryController {
 		return cateService.getVoteSum(subRecipeIndex);
 	}
 
+	
+	
 	// 추천 수 증가 클릭
 	@PutMapping(path = "voteUp", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> voteUp(@RequestBody VoteDto dto, Principal principal) {
+		// 로그인 검사
 		if (principal == null) {
 			return ResponseEntity.status(401).build();
 		} else {
-			int getVoteNum = cateService.getVoteNum(dto, principal);
 			boolean success = false;
-			if (getVoteNum == 1) {
-				// 투표 취소 (1 -> 0 으로 변경)
-				success = cateService.setVoteNum(dto, 0, principal);
-			} else {
-				// 투표수 증가 (-1, 0 -> 1)
-				success = cateService.setVoteNum(dto, 1, principal);
-			}
+			dto.setMemberId(principal.getName());
+			System.out.println(dto.getSubRecipeIndex());
+			String searchMember = cateService.searchMemberIdOnVote(dto);
+			System.out.println("테이블멤버:"+searchMember);
+			System.out.println("현재맴버:"+dto.getMemberId());
+			if (searchMember != null) {
+				// 추천수 가져오기
+				int getVoteNum = cateService.getVoteNum(dto);
+				if (getVoteNum == 1) {
+					// 추천 취소 (1 -> 0 으로 변경)
+					success = cateService.setVoteNum(dto, 0);
+				} else {
+					// 추천수 증가 (-1, 0 -> 1)
+					success = cateService.setVoteNum(dto, 1);
+				}
 
-			if (success) {
-				System.out.println("투표성공");
-				return ResponseEntity.ok("추천수가 변경되었습니다.");
+				if (success) {
+					System.out.println("투표성공");
+					return ResponseEntity.ok("추천수가 변경되었습니다.");
+				} else {
+					System.out.println("투표실패");
+					return ResponseEntity.status(500).body("");
+				}
 			} else {
-				System.out.println("투표실패");
-				return ResponseEntity.status(500).body("");
+				// 처음 추천시 추천테이블에 레코드 생성
+				success = cateService.addVoteByMemberId(dto, 1);
+				System.out.println("추천레코드 생성");
 			}
+			System.out.println("투표실패");
+			return ResponseEntity.status(500).body("");
 		}
 	}
 	
@@ -333,26 +350,41 @@ public class CategoryController {
 	@PutMapping(path = "voteDown", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> voteDown(@RequestBody VoteDto dto, Principal principal) {
+		// 로그인 검사
 		if (principal == null) {
 			return ResponseEntity.status(401).build();
 		} else {
-			int getVoteNum = cateService.getVoteNum(dto, principal);
 			boolean success = false;
-			if (getVoteNum == -1 ) {
-				// 투표 취소 (-1 -> 0 으로 변경)
-				success = cateService.setVoteNum(dto, 0, principal);
-			} else {
-				// 투표수 감소 (1, 0 -> -1)
-				success = cateService.setVoteNum(dto, -1, principal);
-			}
+			dto.setMemberId(principal.getName());
+			System.out.println(dto.getSubRecipeIndex());
+			String searchMember = cateService.searchMemberIdOnVote(dto);
+			System.out.println("테이블멤버:"+searchMember);
+			System.out.println("현재맴버:"+dto.getMemberId());
+			if (searchMember != null) {
+				// 추천수 가져오기
+				int getVoteNum = cateService.getVoteNum(dto);
+				if (getVoteNum == -1) {
+					// 추천 취소 (-1 -> 0 으로 변경)
+					success = cateService.setVoteNum(dto, 0);
+				} else {
+					// 추천수 증가 (1, 0 -> -1)
+					success = cateService.setVoteNum(dto, -1);
+				}
 
-			if (success) {
-				System.out.println("투표성공");
-				return ResponseEntity.ok("추천수가 변경되었습니다.");
+				if (success) {
+					System.out.println("투표성공");
+					return ResponseEntity.ok("추천수가 변경되었습니다.");
+				} else {
+					System.out.println("투표실패");
+					return ResponseEntity.status(500).body("");
+				}
 			} else {
-				System.out.println("투표실패");
-				return ResponseEntity.status(500).body("");
+				// 처음 추천시 추천테이블에 레코드 생성
+				success = cateService.addVoteByMemberId(dto, -1);
+				System.out.println("추천레코드 생성");
 			}
+			System.out.println("투표실패");
+			return ResponseEntity.status(500).body("");
 		}
 	}
 	
