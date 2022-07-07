@@ -257,7 +257,7 @@
 
 </head>
 <body>
-<my:navBar2></my:navBar2>
+	<my:navBar2></my:navBar2>
 	<my:navBar></my:navBar>
 	
 	
