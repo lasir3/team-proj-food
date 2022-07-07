@@ -45,6 +45,10 @@ public class CategoryController {
 		// 수정용 파일명 전송
 		model.addAttribute("foodListPage", list);
 		model.addAttribute("cateDto", dto);
+		
+		//Navbar용 cateDto 정보
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
 	}
 	
 	// 검색시 카테고리, 음식, 레시피 리스트 응답 메소드
@@ -61,6 +65,10 @@ public class CategoryController {
 		model.addAttribute("cateList", cateList);
 		model.addAttribute("foodList", foodList);
 		model.addAttribute("recipeList", recipeList);
+		
+		//Navbar용 cateDto 정보
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
 	}
 	
 	// 카테고리 수정 페이지 호출
@@ -69,6 +77,10 @@ public class CategoryController {
 		FoodDto dto = cateService.getPageByIndex(foodIndex);
 		// 수정용 파일명 전송
 		model.addAttribute("foodDto", dto);
+		
+		//Navbar용 cateDto 정보
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
 	}
 	
 	// food Page 수정 메소드
@@ -211,6 +223,10 @@ public class CategoryController {
 	public void getFoodPage(@RequestParam(name = "foodIndex", defaultValue = "") int foodIndex, Model model) {
 		FoodDto dto = cateService.getPageByIndex(foodIndex);
 		model.addAttribute("foodDto", dto);
+		
+		//Navbar용 cateDto 정보
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
 	}
 	
 	// subRecipeList ajax 요청

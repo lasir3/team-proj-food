@@ -173,7 +173,7 @@
 							src="${imageUrl }/foodWikiFile/FoodCateTable/${cateList.cateIndex }/${cateList.fileName }"
 							class="card-img-top embed-responsive-item" alt="...">
 						<div class="card-body">
-							<h5 class="card-title" style="color:black" >${cateList.cateName }</h5>
+							<h5 class="card-title" >${cateList.cateName }</h5>
 							<a href="foodList?cateIndex=${cateList.cateIndex }"	class="btn btn-info">카테고리로 이동</a>	
 						</div>
 					</div>

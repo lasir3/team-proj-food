@@ -21,11 +21,11 @@
 <c:url value="/admin/ask" var="adminAskUrl"></c:url>
 
 <!-- 수정 필요 -->
-<c:url value="/foodBoard/foodList?cateIndex=38" var="foodList1"></c:url>
+<%-- <c:url value="/foodBoard/foodList?cateIndex=38" var="foodList1"></c:url>
 <c:url value="/foodBoard/foodList?cateIndex=40" var="foodList2"></c:url>
 <c:url value="/foodBoard/foodList?cateIndex=41" var="foodList3"></c:url>
 <c:url value="/foodBoard/foodList?cateIndex=46" var="foodList4"></c:url>
-<c:url value="/foodBoard/foodList?cateIndex=47" var="foodList5"></c:url>
+<c:url value="/foodBoard/foodList?cateIndex=47" var="foodList5"></c:url> --%>
 
 
 <%-- 회원정보링크 --%>
@@ -47,7 +47,7 @@
                   id="navbarDropdownMenuLink" role="button"
                   data-bs-toggle="dropdown" aria-expanded="false"> 카테고리 </a>
                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li>
+<%--                   <li>
                      <a class="dropdown-item" href="${foodList1 }">한국음식</a>
                   </li>
                   <li>
@@ -61,7 +61,11 @@
                   </li>
                   <li>
                      <a class="dropdown-item" href="${foodList5 }">프랑스요리</a>
-                  </li>                  
+                  </li>   --%>              
+           		<c:forEach items="${foodCateList }" var="cateList" varStatus="indexNum">
+					<li><a class="dropdown-item" href="foodList?cateIndex=${cateList.cateIndex }">${cateList.cateName }</a></li>
+				</c:forEach>
+                    
                </ul>
             </li>
 
