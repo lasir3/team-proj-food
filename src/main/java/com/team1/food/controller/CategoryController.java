@@ -59,9 +59,6 @@ public class CategoryController {
 		List<FoodDto> foodList = cateService.getSearchFoodList(keyword);
 		List<SubFoodDto> recipeList = cateService.getSearchRecipeList(keyword);
 		System.out.println("검색 서비스 작동");
-		System.out.println(cateList.toString());
-		System.out.println(foodList.toString());
-		System.out.println(recipeList.toString());
 		model.addAttribute("cateList", cateList);
 		model.addAttribute("foodList", foodList);
 		model.addAttribute("recipeList", recipeList);
@@ -87,9 +84,6 @@ public class CategoryController {
 	@PostMapping("modifyFoodPage")
 	public String modifyFood(FoodDto dto, RedirectAttributes rttr) {
 		int foodIndex = dto.getFoodIndex();
-		System.out.println(dto.getFoodIndex());
-		System.out.println(dto.getFoodName());
-		System.out.println(dto.getContent());
 		boolean success = cateService.updateFoodTable(dto);
 		if (success) {
 			System.out.println("음식 수정 성공");
@@ -100,6 +94,70 @@ public class CategoryController {
 		return "redirect:foodPage";
 	}
 
+	// 레시피 수정 페이지 호출
+	@RequestMapping("recipeEdit")
+	public void recipeEditPage(@RequestParam(name = "subRecipeIndex", defaultValue = "") int subRecipeIndex, Model model) {
+		SubFoodDto dto = cateService.getRecipeByIndex(subRecipeIndex);
+		// 수정용 파일명 전송
+		model.addAttribute("recipeDto", dto);
+		
+		//Navbar용 cateDto 정보
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
+	}
+
+	// 레시피 추가 메소드
+	@PostMapping("addRecipe")
+	public String addRecipe(SubFoodDto dto, @RequestParam(name = "recipeName", defaultValue = "") String subRecipeName, Principal principal, RedirectAttributes rttr) {
+		System.out.println(subRecipeName);
+		int foodIndex = dto.getFoodIndex();
+		System.out.println(foodIndex);
+		if (subRecipeName != null) {
+			// 작성 맴버 추가
+			dto.setMemberId(principal.getName());
+			dto.setSubRecipeName(subRecipeName);
+			boolean success = cateService.addRecipe(dto);
+			if (success) {
+				rttr.addFlashAttribute("cateMessage", "레시피 등록 성공했습니다.");
+				System.out.println("추가성공");
+			} else {
+				rttr.addFlashAttribute("cateMessage", "레시피 등록 실패했습니다.");
+			}
+		} else {
+			rttr.addFlashAttribute("cateMessage", "레시피 이름을 입력해주세요.");
+		}
+		rttr.addAttribute("foodIndex", foodIndex);
+		return "redirect:foodCateList";
+	}
+
+	
+	// 레시피 수정 메소드
+	@PostMapping("modifyRecipePage")
+	public String modifyRecipe(SubFoodDto dto, RedirectAttributes rttr) {
+		int foodIndex = dto.getFoodIndex();
+		boolean success = cateService.updateRecipeTable(dto);
+		if (success) {
+			System.out.println("레시피 수정 성공");
+		} else {
+			System.out.println("레시피 수정 실패");
+		}
+		rttr.addAttribute("foodIndex", foodIndex);
+		return "redirect:foodPage";
+	}
+	
+	// 레시피 삭제 메소드
+	@PostMapping("deleteRecipePage")
+	public String deleteRecipe(SubFoodDto dto, RedirectAttributes rttr) {
+		int foodIndex = dto.getFoodIndex();
+		boolean success = cateService.deleteRecipeTable(dto);
+		if (success) {
+			System.out.println("레시피 수정 성공");
+		} else {
+			System.out.println("레시피 수정 실패");
+		}
+		rttr.addAttribute("foodIndex", foodIndex);
+		return "redirect:foodPage";
+	}
 
 	// 카테고리 추가
 	@PostMapping("addCate")
@@ -233,6 +291,7 @@ public class CategoryController {
 	@GetMapping("subList")
 	@ResponseBody
 	public List<SubFoodDto> subList(int foodIndex) {
+		System.out.println(cateService.getSubDtoList(foodIndex).size());
 		return cateService.getSubDtoList(foodIndex);
 	}
 

@@ -18,36 +18,64 @@
 	<div class="container mt-5">
 		<div class="col">
 			<div class="row">
-				<form action="${appRoot}/foodBoard/modifyFoodPage" method="post">
-	
-
+				<div class="mb-4">
+					 <button type="button" class="btn btn-secondary me-md-0 mb-1" 
+						id="back-Button1"  style="font-size:15px;"
+						onclick="location.href='foodPage?foodIndex=${recipeDto.foodIndex }'">뒤로</button>
+				</div>
+				<!-- 레시피 수정 여부에 따른 메시지 띄우기 -->
+				<form action="${appRoot}/foodBoard/modifyRecipePage" method="post">
 					<div>
-						<label class="form-label" for="input1">요리 이름 : </label>
-						<input class="form-control" type="text" name="foodName" required id="foodName" value="${foodDto.foodName}" />
+						<label style="font-size:20px" class="form-label" for="input1">레시피 제목 : </label>
+						<input class="form-control" type="text" name="subRecipeName" required id="subRecipeName" value="${recipeDto.subRecipeName}" />
 					</div>
-
 					<div>
-						<label class="form-label mt-3" for="textarea1">개요 : </label>
-						<textarea class="form-control" name="content" id="content"  cols="100" rows="10">${foodDto.content }</textarea>
+						<label style="font-size:20px" class="form-label mt-3" for="textarea1">조리법 : </label>
+						<textarea class="form-control" name="content" id="content"  cols="100" rows="10">${recipeDto.content }</textarea>
 					</div>
-
 					<div class="d-grid gap-2 d-md-flex justify-content-md-first mb-4" >
-						<!-- 요리 수정용 dto hidden 타입으로 입력 -->
-						<input type="hidden" name="foodIndex" value="${foodDto.foodIndex }" />
+						<!-- 레시피 수정용 dto hidden 타입으로 입력 -->
+						<input type="hidden" name="foodIndex" value="${recipeDto.foodIndex }" />
+						<input type="hidden" name="subRecipeIndex" value="${recipeDto.subRecipeIndex}" />
 						<div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">요리페이지 수정</h5>
+										<h5 class="modal-title" id="exampleModalLabel">레시피 수정</h5>
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
 									<div class="modal-body">
-										<p>요리페이지를 수정하시겠습니까?</p>
+										<p>레시피를 수정하시겠습니까?</p>
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary"	data-bs-dismiss="modal">취소</button>
 										<button type="submit" class="btn btn-primary" id="modify-submit1">수정</button>
 									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+				
+
+				<!-- 삭제버튼 클릭시 modal -->
+				<form id="form2" action="${appRoot }/foodBoard/deleteRecipePage" method="post" >
+					<!-- 카테고리 수정용 dto hidden 타입으로 입력 -->
+					<input type="hidden" name="foodIndex" value="${recipeDto.foodIndex }" />
+					<input type="hidden" name="subRecipeIndex" value="${recipeDto.subRecipeIndex}" />
+					<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title">레시피 삭제</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"	aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<p>레시피를 삭제하시겠습니까?</p>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"	data-bs-dismiss="modal">취소</button>
+									<button type="submit" class="btn btn-danger" id="remove-submit1">삭제</button>
 								</div>
 							</div>
 						</div>
@@ -71,6 +99,5 @@
 			</div>
 		</div>
 	</div>
-
 </body>
 </html>

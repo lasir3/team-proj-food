@@ -1,6 +1,6 @@
+<%@ page import="java.net.URLEncoder"%>
 <%@ page import="com.team1.food.domain.*"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
@@ -20,7 +20,7 @@
    }
    
    .maintext {
-       font-size: 15px;
+       font-size: 20px;
    }
    
    .btn-info {
@@ -57,6 +57,28 @@
 			}
 		});
 	});
+	
+	//화면 맨위로 이동
+    $(document).ready(function () {
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 50) {
+                $('#back-to-top').fadeIn();
+            } else {
+                $('#back-to-top').fadeOut();
+            }
+        });
+        // scroll body to 0px on click
+        $('#back-to-top').click(function () {
+            $('#back-to-top').tooltip('hide');
+            $('body,html').animate({
+                scrollTop: 0
+            }, 400);
+            return false;
+        });
+
+        $('#back-to-top').tooltip('show');
+
+    });
 </script>
 
 </head>
@@ -66,27 +88,27 @@
 	<div class="container mt-5">
 		<div class="row">
 			<div class="maintext">
-			<button type="button" onclick="location.href='foodCateList' "
-			class="btn-sm btn-secondary">메인 페이지로</button>
-			</div>
-			<!-- <div class="maintext">&nbsp;<a href="foodCateList">메인 페이지로</a></div> -->
-			<div class="catetext" >${cateDto.cateName }</div>
-			
-			<div class="mb-5"> - 이 위키는 ${cateDto.cateName }에 해당하는 요리에 관한 페이지입니다.</div>
-			
-			<!-- 카테고리 수정, 삭제 버튼 -->
+			<button type="button" onclick="location.href='foodCateList' " class="btn-sm btn-secondary">메인 페이지로</button>
 			<sec:authorize access="hasRole('ADMIN')">
 				<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
 					<button type="button" class="btn btn-warning me-md-0 mb-1"
-						id="CateAdd-Button1" data-bs-toggle="modal"
+						id="CateEdit-Button1" data-bs-toggle="modal"
 						data-bs-target="#modifyModal" 
 						data-bs-whatever="@mdo">카테고리 수정</button>
 					<button type="button" class="btn btn-danger me-md-0 mb-1" 
-						id="CateAdd-Button1"  
+						id="CateDelete-Button1"  
 						data-bs-toggle="modal" 
 						data-bs-target="#deleteModal">카테고리 삭제</button>
 				</div>
 			</sec:authorize>
+			</div>
+			<!-- <div class="maintext">&nbsp;<a href="foodCateList">메인 페이지로</a></div> -->
+			<div class="catetext mb-3" >${cateDto.cateName }</div>
+			<!-- 카테고리 수정, 삭제 버튼 -->
+			<div class="col">
+			<img src="${imageUrl }/foodWikiFile/FoodCateTable/${cateDto.cateIndex }/${cateDto.fileName }" class="img-fluid mb-4" alt="...">			
+			<div class="maintext mb-4"> - 이 위키는 ${cateDto.cateName }에 해당하는 요리에 관한 페이지입니다.  한국 요리에 관한 음식 리스트를 확인하세요!</div>
+			</div>
 			
 			<!-- 카테고리 수정 여부에 따른 메시지 띄우기 -->
 			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4" >
@@ -146,39 +168,39 @@
 				</div>
 			</form>
 
-			<h2 class="mb-4">요리 목록</h2>
 
 			<!-- 음식 추가 버튼 -->
 			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4" >
-				<sec:authorize access="hasRole('ADMIN')">
-					<button type="button" class="btn btn-primary me-md-0 mb-1"
-						id="CateAdd-Button1" data-bs-toggle="modal"
-						data-bs-target="#addFoodModal" data-bs-whatever="@mdo">음식 추가</button>
-				</sec:authorize>
-				<form id="form3" action="${appRoot }/foodBoard/addFood" method="post">
-					<input type="hidden" name="cateIndex" value="${cateDto.cateIndex }" />
-					<div class="modal fade" id="addFoodModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLabel">음식 추가</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			<sec:authorize access="hasRole('ADMIN')">
+				<button type="button" class="btn btn-primary me-md-0 mb-1"
+					id="CateAdd-Button1" data-bs-toggle="modal"
+					data-bs-target="#addFoodModal" data-bs-whatever="@mdo">음식 추가</button>
+			</sec:authorize>
+			</div>
+			<h2 class="mb-4">요리 목록</h2>
+			<form id="form3" action="${appRoot }/foodBoard/addFood" method="post">
+				<input type="hidden" name="cateIndex" value="${cateDto.cateIndex }" />
+				<div class="modal fade" id="addFoodModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">음식 추가</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<div class="mb-3">
+									<label for="category-name" class="col-form-label">음식명:</label>
+									<input type="text" class="form-control" id="food-name" name="foodName"/>
 								</div>
-								<div class="modal-body">
-									<div class="mb-3">
-										<label for="category-name" class="col-form-label">음식명:</label>
-										<input type="text" class="form-control" id="food-name" name="foodName"/>
-									</div>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary"	data-bs-dismiss="modal">취소</button>
-									<button type="submit" class="btn btn-primary" id="add-food-submit1">추가</button>
-								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"	data-bs-dismiss="modal">취소</button>
+								<button type="submit" class="btn btn-primary" id="add-food-submit1">추가</button>
 							</div>
 						</div>
 					</div>
-				</form>
-			</div>
+				</div>
+			</form>
 			<div class="col">
 				<c:forEach items="${foodListPage }" var="list">
 				<c:if test="${not empty list.foodName }">

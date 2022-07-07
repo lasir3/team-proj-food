@@ -1,11 +1,9 @@
 <%@ page import="java.net.URLEncoder"%>
 <%@ page import="com.team1.food.domain.*"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,11 +35,14 @@
     display: none;
 }
 
+.card-img-top {
+	aspect-ratio: 5 / 3;
+}
+
 .btn-info {
 	background-color: #78E150;
 	border-color: #78E150;
 	color: black;
-	hover-color: black;
 }
 .btn-info:hover {
 	background-color: #66b349;
@@ -118,9 +119,6 @@
 				<div class="centered2 mb-5">요리위키는 누구나 레시피를 작성하고 공유할 수 있는 위키입니다.</div>
 			</div>
 		
-			<div class="mt-4"></div>
-			<h2 class="mb-4">카테고리 목록</h2>
-			
 			<sec:authorize access="hasRole('ADMIN')">
 				<div class="col">
 					<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
@@ -130,6 +128,9 @@
 					</div>
 				</div>
 			</sec:authorize>
+			
+			<div class="mt-4"></div>
+			<h2 class="mb-4">카테고리 목록</h2>
 
 			<form id="form1" action="${appRoot }/foodBoard/addCate" method="post"
 				enctype="multipart/form-data">
@@ -171,7 +172,7 @@
 					<div class="card text-center mb-5 shadow bg-body rounded">
 						<img
 							src="${imageUrl }/foodWikiFile/FoodCateTable/${cateList.cateIndex }/${cateList.fileName }"
-							class="card-img-top embed-responsive-item" alt="...">
+							class="card-img-top embed-responsive-item " alt="...">
 						<div class="card-body">
 							<h5 class="card-title" >${cateList.cateName }</h5>
 							<a href="foodList?cateIndex=${cateList.cateIndex }"	class="btn btn-info">카테고리로 이동</a>	

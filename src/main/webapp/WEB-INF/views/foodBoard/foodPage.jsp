@@ -46,6 +46,8 @@
 </style>
 
 <script>
+//화면 맨위로 이동
+
 	$(document).ready(function() {
 		
 		const subRecipeList = function() {
@@ -82,7 +84,6 @@
 								subElement.html(`
 										<div id="voteDisplayContainer" class="row">
 											<!-- 가져올 subRecipeIndex와 voteCount 정보 -->
-											<input type="hidden" name="subIndex1" value="\${subList[i].subRecipeIndex }" /> 
 											<input type="hidden" name="voteCountNumber1" value="\${voteCount }" /> 
 											<div class="col-1">
 												<div class="row">
@@ -96,11 +97,17 @@
 													<button class="vote-Down-Button1 btn btn-link" type="button"><i class="arrow fa-solid fa-square-caret-down"></i></button>
 												</div>
 											</div>
-											<div class="col-11">
+											<div class="col-11 ">
+												<div class="col d-md-flex justify-content-md-end">
+													<sec:authorize access="hasRole('ADMIN')">
+														<button type="button" class="btn btn-warning" onclick="location.href='recipeEdit?subRecipeIndex=\${subList[i].subRecipeIndex }'">레시피 수정</button>
+													</sec:authorize>
+												</div>
 												<h1>\${subList[i].subRecipeName }</h1>
 												<h3>\${subList[i].content }</h3>
 											</div>
 										</div>
+										
 								`); // end of html
 								
 								/*
@@ -199,6 +206,24 @@
 			}); //end of ajax
 		} // end of subRecipeList
 		subRecipeList();
+		
+	    $(window).scroll(function () {
+	        if ($(this).scrollTop() > 50) {
+	            $('#back-to-top').fadeIn();
+	        } else {
+	            $('#back-to-top').fadeOut();
+	        }
+	    });
+	    // scroll body to 0px on click
+	    $('#back-to-top').click(function () {
+	        $('#back-to-top').tooltip('hide');
+	        $('body,html').animate({
+	            scrollTop: 0
+	        }, 400);
+	        return false;
+	    });
+
+	    $('#back-to-top').tooltip('show');
 	});
 	
 </script>
@@ -234,6 +259,8 @@
 <body>
 <my:navBar2></my:navBar2>
 	<my:navBar></my:navBar>
+	
+	
 	<div class="container mt-5">
 		<div class="col">
 			<div class="row">
@@ -248,7 +275,7 @@
 				</div>
 				<div class="col d-md-flex justify-content-md-end btn-group">
 					<sec:authorize access="hasRole('ADMIN')">
-						<button type="button" class="btn btn-warning" onclick="location.href='foodEdit?foodIndex=${foodDto.foodIndex }'">카테고리 수정</button>
+						<button type="button" class="btn btn-warning" onclick="location.href='foodEdit?foodIndex=${foodDto.foodIndex }'">음식 페이지 수정</button>
 					</sec:authorize>
 					
 					<!-- 토론 검색 버튼 -->
@@ -257,22 +284,33 @@
 				</div>
 				
 				<div class="mt-5 container-disable">
+				<h2>개요 : </h2>
+				<hr />
 					<!-- 본문 내용 -->
 					<textarea name="cma_test1" id="cma_test1" class="textarea_size"
 					onchange="cmaTextareaSize('cma_test1', 30);" onkeyup="cmaTextareaSize('cma_test1', 30);">${foodDto.content }</textarea>
 					<script>cmaTextareaSize('cma_test1', 30);</script>
 				</div>
-
 				
-				<hr />
-				<h1 class="mt-5">
+				
+				<h2 class="mt-5">
+				<sec:authorize access="hasRole('ADMIN')">
+					<div class="col">
+						<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
+							<button type="button" class="btn btn-primary me-md-0 mt-3"
+								id="recipeAdd-Button1" data-bs-toggle="modal"
+								data-bs-target="#addModal" data-bs-whatever="@mdo">레시피 추가</button>
+						</div>
+					</div>
+				</sec:authorize>
 					하위 레시피 목록
 					<span id="numOfRecipe1"></span>
 					개
-				</h1>
+				</h2>
 				<!-- <div class="alert alert-primary" style="display: none;" id="voteMessage1"></div> -->
-				<div class="container mt-5">
-					<div id="subRecipeList1" class="list-group"></div>
+				<div class="container mt-3">
+					<!-- 레시피 리스트 -->
+					<div id="subRecipeList1" class="list-group list-group-flush"></div>
 				</div>
 			
 				<!-- 안내 메시지용 Modal -->
@@ -295,6 +333,64 @@
 			</div>
 		</div>
 	</div>
+	<!-- 레시피 등록 modal -->
+	<form id="form1" action="${appRoot }/foodBoard/addRecipe" method="post"	>
+		<input type="hidden" name="foodIndex" value="${foodDto.foodIndex }" />
+		<div class="modal fade" id="addModal" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">카테고리 추가</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"	aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="mb-3">
+							<label for="recipe-name" class="col-form-label">레시피 이름:</label>
+							<input type="text" class="form-control" id="recipe-name" name="recipeName" />
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">취소</button>
+						<button type="submit" class="btn btn-primary" id="add-submit1"
+							data-dismiss="modal">추가</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	
+	<!-- 레시피 등록 여부에 따른 메시지 띄우기 -->
+	<!-- 안내 메시지용 Modal -->
+	<c:if test="${not empty cateMessage }">
+		<!-- Modal -->
+		<div class="modal fade" id="modalMessage1" tabindex="-1"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modalMessage1Label">알림</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p>${cateMessage }</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">닫기</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			let m = new bootstrap.Modal(document.getElementById('modalMessage1'), {});
+			m.show();
+		</script>
+	</c:if>
+	
 	<a id="back-to-top" href="#"
 		class="btn btn-info btn-sm back-to-top-css" role="button"
 		data-toggle="tooltip" data-placement="left">

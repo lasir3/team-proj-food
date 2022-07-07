@@ -229,6 +229,17 @@ public class CategoryService {
 		return cnt == 1;
 	}
 
+	// 레시피 DTO 요청 서비스
+	public SubFoodDto getRecipeByIndex(int subRecipeIndex) {
+		return mapper.selectSubFoodDto(subRecipeIndex);
+	}
+
+	// 레시피 테이블 수정 서비스
+	public boolean updateRecipeTable(SubFoodDto dto) {
+		int cnt = mapper.updateRecipe(dto);
+		return cnt == 1;
+	}
+
 	// 카테고리 이름 검색 서비스
 	public List<FoodCateDto> getSearchCateList(String keyword) {
 		return mapper.selectSearchCateList("%"+keyword+"%");
@@ -242,6 +253,19 @@ public class CategoryService {
 	// 레시피 검색 서비스
 	public List<SubFoodDto> getSearchRecipeList(String keyword) {
 		return mapper.selectSearchRecipeList("%"+keyword+"%");
+	}
+
+	// 레시피 삭제 서비스
+	@Transactional
+	public boolean deleteRecipeTable(SubFoodDto dto) {
+		mapper.deleteVote(dto);
+		int cnt = mapper.deleteRecipe(dto);
+		return cnt == 1;
+	}
+
+	public boolean addRecipe(SubFoodDto dto) {
+		int cnt = mapper.insertRecipe(dto);
+		return cnt == 1;
 	}
 
 }

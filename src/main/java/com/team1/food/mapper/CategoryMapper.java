@@ -70,4 +70,14 @@ public interface CategoryMapper {
 
 	List<SubFoodDto> selectSearchRecipeList(String keyword);
 
+    SubFoodDto selectSubFoodDto(int subRecipeIndex);
+
+	int updateRecipe(SubFoodDto dto);
+
+	int deleteRecipe(SubFoodDto dto);
+
+	void deleteVote(SubFoodDto dto);
+
+	int insertRecipe(SubFoodDto dto);
+
 }

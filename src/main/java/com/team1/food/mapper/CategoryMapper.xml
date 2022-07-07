@@ -155,32 +155,63 @@
 	
 	<!-- FoodCateTable 키워드 검색 후 DTO 정보 추출 -->
 	<select id="selectSearchCateList" resultType="com.team1.food.domain.FoodCateDto">
-	SELECT cateIndex,
-	 	   cateName
-	From FoodCateTable
-		<if test="keyword != '%%'">
-			WHERE cateName LIKE #{keyword }
-		</if>
+		SELECT cateIndex,
+		 	   cateName
+		From FoodCateTable
+			<if test="keyword != '%%'">
+				WHERE cateName LIKE #{keyword }
+			</if>
 	</select>
+	
+	<update id="updateRecipe">
+		UPDATE SubRecipeTable
+		SET subRecipeName = #{subRecipeName}, content = #{content}
+		WHERE subRecipeIndex = #{subRecipeIndex}
+	</update>
 	
 	<!-- FoodTable 키워드 검색 후 DTO 정보 추출 -->
 	<select id="selectSearchFoodList" resultType="com.team1.food.domain.FoodDto">
-	SELECT foodIndex,
-		   foodName
-	From FoodTable
-		<if test="keyword != '%%'">
-			WHERE foodName LIKE #{keyword }
-		</if>
+		SELECT foodIndex,
+			   foodName
+		From FoodTable
+			<if test="keyword != '%%'">
+				WHERE foodName LIKE #{keyword }
+			</if>
 	</select>
 	
 	<!-- SubRecipeTable 키워드 검색 후 DTO 정보 추출 -->
 	<select id="selectSearchRecipeList" resultType="com.team1.food.domain.SubFoodDto">
-	SELECT subRecipeIndex,
-	 	   subRecipeName,
-	 	   foodIndex
-	From SubRecipeTable
-		<if test="keyword != '%%'">
-			WHERE subRecipeName LIKE #{keyword }
-		</if>
+		SELECT subRecipeIndex,
+		 	   subRecipeName,
+		 	   foodIndex
+		From SubRecipeTable
+			<if test="keyword != '%%'">
+				WHERE subRecipeName LIKE #{keyword }
+			</if>
 	</select>
+
+	<!-- SubFoodDto 정보 추출-->
+	<select id="selectSubFoodDto" resultType="com.team1.food.domain.SubFoodDto">
+		SELECT subRecipeIndex,
+		subRecipeName,
+		foodIndex,
+		content
+		From SubRecipeTable
+		WHERE subRecipeIndex = #{subRecipeIndex}
+	</select>
+	
+	<delete id="deleteRecipe">
+		DELETE FROM SubRecipeTable
+		WHERE subRecipeIndex = #{subRecipeIndex} 
+	</delete>
+	
+	<delete id="deleteVote">
+		DELETE FROM VoteRecipeTable
+		WHERE subRecipeIndex = #{subRecipeIndex} 
+	</delete>
+	
+	<insert id="insertRecipe">
+		INSERT INTO SubRecipeTable (foodIndex, subRecipeName, memberId) 
+		VALUES (#{foodIndex}, #{subRecipeName}, #{memberId})
+	</insert>
 </mapper>
