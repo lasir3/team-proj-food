@@ -63,7 +63,7 @@
                      <a class="dropdown-item" href="${foodList5 }">프랑스요리</a>
                   </li>   --%>              
            		<c:forEach items="${foodCateList }" var="cateList" varStatus="indexNum">
-					<li><a class="dropdown-item" href="foodList?cateIndex=${cateList.cateIndex }">${cateList.cateName }</a></li>
+					<li><a class="dropdown-item" href="${appRoot }/foodBoard/foodList?cateIndex=${cateList.cateIndex }">${cateList.cateName }</a></li>
 				</c:forEach>
                     
                </ul>
