@@ -43,6 +43,10 @@
 		border-color: #66b349;
 		color: black;
 	}
+	
+	.textareaRecipe {
+		height: height:300px;
+	}
 </style>
 
 <script>
@@ -108,7 +112,7 @@
 													</sec:authorize>
 												</div>
 												<h1>\${subList[i].subRecipeName }</h1>
-												<textarea class="form-control" readonly>\${subList[i].content }</textarea>
+												<textarea class="form-control textareaRecipe" readonly>\${subList[i].content }</textarea>
 											</div>
 										</div>
 										
@@ -317,7 +321,7 @@
 						</div>
 					</div>
 				</sec:authorize>
-					하위 레시피 목록
+					레시피 목록
 					<span id="numOfRecipe1"></span>
 					개
 				</h2>
