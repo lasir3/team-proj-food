@@ -106,7 +106,7 @@
 			<!-- 카테고리 수정, 삭제 버튼 -->
 			<div class="col">
 			<img src="${imageUrl }/foodWikiFile/FoodCateTable/${cateDto.cateIndex }/${cateDto.fileName }" class="img-fluid mb-4" alt="...">			
-			<div class="maintext mb-4"> - 이 위키는 ${cateDto.cateName }에 해당하는 요리에 관한 페이지입니다.  한국 요리에 관한 음식 리스트를 확인하세요!</div>
+			<div class="maintext mb-4"> - 이 위키는 ${cateDto.cateName }에 해당하는 요리에 관한 페이지입니다.  ${cateDto.cateName }에 관한 음식 리스트를 확인하세요!</div>
 			</div>
 			
 			<!-- 카테고리 수정 여부에 따른 메시지 띄우기 -->
