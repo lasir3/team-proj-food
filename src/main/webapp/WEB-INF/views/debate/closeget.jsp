@@ -29,7 +29,7 @@
 	$("#edit-button1").click(function() {
 		$("#input1").removeAttr("readonly");
 		$("#textarea1").removeAttr("readonly");
-		$("#textarea1").removeAttr("d-none");
+	//	$("#textarea1").removeAttr("d-none");
 		$("#modify-submit1").removeClass("d-none");
 		$("#delete-submit1").removeClass("d-none");
 		$("#close-submit1").removeClass("d-none");
@@ -261,7 +261,7 @@
 
 <style>
     .wrap {
-      width: flex;
+      width: auto;
     }
     .wrap textarea {
       width: 100%;
@@ -281,9 +281,6 @@
       $('.wrap').find( 'textarea' ).keyup();
     });
     
-    var stringVal = "Hello world",
-     exp  /java/;
-    string.search(exp);
   </script>
 
 
