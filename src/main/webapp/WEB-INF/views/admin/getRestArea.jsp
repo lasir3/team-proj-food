@@ -379,7 +379,7 @@ $(document).ready(function(){
 
 </head>
 <body>
-
+	<my:navBar2></my:navBar2>
 	<my:navBar></my:navBar>
 	
 	<div class="container">
