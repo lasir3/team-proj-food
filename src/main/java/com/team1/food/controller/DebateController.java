@@ -41,6 +41,7 @@ public class DebateController {
 
 		int rowPerPage = 10;
 		
+		//Navbar용 cateDto 정보
 		List<FoodCateDto> cateNavList = cateService.foodCateList();
 		model.addAttribute("foodCateList", cateNavList);
 
@@ -78,6 +79,7 @@ public class DebateController {
 				
 		List<DebateDto> close = service.closeDebate(type, page, keyword, rowPerPage);
 
+		//Navbar용 cateDto 정보
 		List<FoodCateDto> cateNavList = cateService.foodCateList();
 		model.addAttribute("foodCateList", cateNavList);
 	 
@@ -90,6 +92,8 @@ public class DebateController {
 	public void getClose(int id, Model model) {
 		DebateDto dto = service.getCloseById(id);
 		List<BigReplyDto> replyList = replyService.getBigReplyByCloseId(id);
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
 		model.addAttribute("debate", dto);
 		
 
@@ -115,6 +119,10 @@ public class DebateController {
 	public void insert(Model model) {
 		List<FoodCateDto> list = service.selectCateNameList();
 		System.out.println(list.toString());
+		
+		//Navbar용 cateDto 정보
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
 		model.addAttribute("cateList", list);
 	}
 	
@@ -141,8 +149,12 @@ public class DebateController {
 	public void get(int id, Model model) {
 		DebateDto dto = service.getDebateById(id);
 		/*		List<BigReplyDto> replyList = replyService.getBigReplyByDebateId(id);
+		 * 
+		 * 
 		*/		model.addAttribute("debate", dto);
-		
+		//Navbar용 cateDto 정보
+		List<FoodCateDto> cateNavList = cateService.foodCateList();
+		model.addAttribute("foodCateList", cateNavList);
 
 		/* ajax로 처리하기 위해 삭제 */
 		// model.addAttribute("replyList", replyList);
@@ -222,18 +234,4 @@ public class DebateController {
 	
 			return "redirect:/debate/close";
 		}
-	
-
-		/*@RequestMapping("get")
-		public String viewCount(@ModelAttribute("DebateDto") DebateDto dto, Model model) {
-		
-			// 조회수 증가
-			service.viewCount(dto.getId());
-			
-		    List<DebateDto> list = service.detailProject(dto.getId());
-		
-		    model.addAttribute("list", list);
-		    
-			return "redirect:/debate/list";
-		}*/
 }
