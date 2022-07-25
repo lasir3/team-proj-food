@@ -112,7 +112,7 @@
 													</sec:authorize>
 												</div>
 												<h1>\${subList[i].subRecipeName }</h1>
-												<textarea class="form-control textareaRecipe" readonly>\${subList[i].content }</textarea>
+												<textarea class="form-control textareaRecipe" style="height:300px;" readonly>\${subList[i].content }</textarea>
 											</div>
 										</div>
 										
