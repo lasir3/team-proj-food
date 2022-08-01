@@ -87,34 +87,34 @@
 							data : voteData,
 							success : function(voteCount) {
 								const subElement = $("<li class='list-group-item' />");
-								
+								console.log(subList.);
 								subElement.html(`
-										<div id="voteDisplayContainer" class="row">
-											<!-- 가져올 subRecipeIndex와 voteCount 정보 -->
-											<input type="hidden" name="subIndex1" value="\${subList[i].subRecipeIndex }" /> 
-											<input type="hidden" name="voteCountNumber1" value="\${voteCount }" /> 
-											<div class="col-1">
-												<div class="row">
-													<button class="vote-Up-Button1 btn btn-link" type="button"><i class="arrow fa-solid fa-square-caret-up"></i></button>
-													<br />
-												</div>
-												<!-- 추천수 합계 표시 -->
-												<div class="row arrow"><h1 class="voteCountHeader">\${voteCount }</h1></div>
-												
-												<div class="row">
-													<button class="vote-Down-Button1 btn btn-link" type="button"><i class="arrow fa-solid fa-square-caret-down"></i></button>
-												</div>
+									<div id="voteDisplayContainer" class="row">
+										<!-- 가져올 subRecipeIndex와 voteCount 정보 -->
+										<input type="hidden" name="subIndex1" value="\${subList[i].subRecipeIndex }" /> 
+										<input type="hidden" name="voteCountNumber1" value="\${voteCount }" /> 
+										<div class="col-1">
+											<div class="row">
+												<button class="vote-Up-Button1 btn btn-link" type="button"><i class="arrow fa-solid fa-square-caret-up"></i></button>
+												<br />
 											</div>
-											<div class="col-11 ">
-												<div class="col d-md-flex justify-content-md-end">
-													<sec:authorize access="hasRole('ADMIN')">
-														<button type="button" class="btn btn-warning" onclick="location.href='recipeEdit?subRecipeIndex=\${subList[i].subRecipeIndex }'">레시피 수정</button>
-													</sec:authorize>
-												</div>
-												<h1>\${subList[i].subRecipeName }</h1>
-												<textarea class="form-control textareaRecipe" style="height:300px;" readonly>\${subList[i].content }</textarea>
+											<!-- 추천수 합계 표시 -->
+											<div class="row arrow"><h1 class="voteCountHeader">\${voteCount }</h1></div>
+											
+											<div class="row">
+												<button class="vote-Down-Button1 btn btn-link" type="button"><i class="arrow fa-solid fa-square-caret-down"></i></button>
 											</div>
 										</div>
+										<div class="col-11 ">
+											<div class="col d-md-flex justify-content-md-end">
+												<sec:authorize access="hasRole('ADMIN')">
+													<button type="button" class="btn btn-warning" onclick="location.href='recipeEdit?subRecipeIndex=\${subList[i].subRecipeIndex }'">레시피 수정</button>
+												</sec:authorize>
+											</div>
+											<h1>\${subList[i].subRecipeName }</h1>
+											<textarea class="form-control textareaRecipe" style="height:300px;" readonly>\${subList[i].content }</textarea>
+										</div>
+									</div>
 										
 								`); // end of html
 								

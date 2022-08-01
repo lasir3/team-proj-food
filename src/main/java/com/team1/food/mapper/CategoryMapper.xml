@@ -115,16 +115,19 @@
 		WHERE foodName = #{foodName}
 	</select>
 	
+	<!-- 레시피의  -->
 	<select id="selectSubFoodList" resultType="com.team1.food.domain.SubFoodDto">
-		SELECT subRecipeIndex, 
+		SELECT S.subRecipeIndex, 
 			   foodIndex, 
 			   subRecipeName, 
-			   memberId, 
+			   S.memberId, 
 			   content, 
-			   inserted
-		FROM SubRecipeTable 
+			   inserted,
+		       sum(voteCount) voteSum
+		FROM SubRecipeTable S LEFT JOIN VoteRecipeTable V ON S.subRecipeIndex = V.subRecipeIndex
 		WHERE foodIndex = #{foodIndex}
-		ORDER BY subRecipeIndex
+		GROUP BY subRecipeIndex
+		ORDER BY subRecipeIndex;
 	</select>
 	
 	<select id="selectVoteSum" resultType="int">

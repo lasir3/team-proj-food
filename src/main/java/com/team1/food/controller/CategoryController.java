@@ -291,7 +291,7 @@ public class CategoryController {
 	@GetMapping("subList")
 	@ResponseBody
 	public List<SubFoodDto> subList(int foodIndex) {
-		System.out.println(cateService.getSubDtoList(foodIndex).toString());
+//		System.out.println(cateService.getSubDtoList(foodIndex).toString());
 		return cateService.getSubDtoList(foodIndex);
 	}
 
@@ -310,14 +310,17 @@ public class CategoryController {
 	public ResponseEntity<String> voteUp(@RequestBody VoteDto dto, Principal principal) {
 		// 로그인 검사
 		if (principal == null) {
+			System.out.println("로그인 필요");
 			return ResponseEntity.status(401).build();
 		} else {
 			boolean success = false;
 			dto.setMemberId(principal.getName());
 			System.out.println(dto.getSubRecipeIndex());
+			// 현재 멤버명과 레시피 인덱스로 튜표테이블 레코드 검색
 			String searchMember = cateService.searchMemberIdOnVote(dto);
 			System.out.println("테이블멤버:"+searchMember);
 			System.out.println("현재맴버:"+dto.getMemberId());
+			// 현재 맴버명과 레시피인덱스번호가 존재할 시
 			if (searchMember != null) {
 				// 추천수 가져오기
 				int getVoteNum = cateService.getVoteNum(dto);
@@ -340,9 +343,8 @@ public class CategoryController {
 				// 처음 추천시 추천테이블에 레코드 생성
 				success = cateService.addVoteByMemberId(dto, 1);
 				System.out.println("추천레코드 생성");
+				return ResponseEntity.ok("추천수가 변경되었습니다.");
 			}
-			System.out.println("투표실패");
-			return ResponseEntity.status(500).body("");
 		}
 	}
 	
@@ -382,9 +384,8 @@ public class CategoryController {
 				// 처음 추천시 추천테이블에 레코드 생성
 				success = cateService.addVoteByMemberId(dto, -1);
 				System.out.println("추천레코드 생성");
+				return ResponseEntity.ok("추천수가 변경되었습니다.");
 			}
-			System.out.println("투표실패");
-			return ResponseEntity.status(500).body("");
 		}
 	}
 	
